@@ -12,7 +12,13 @@ export function MapOverview({ compact = false }: Props) {
   return (
     <div className="map-stage">
       <div className="map-frame">
-        <Image src="/gta-map.jpg" alt="Carte publique de San Andreas pour Last Survivors" fill sizes="(max-width: 900px) 100vw, 720px" />
+        <Image
+          src="/mapgta.png"
+          alt="Carte publique de San Andreas pour Last Survivors"
+          fill
+          sizes="(max-width: 900px) 100vw, 760px"
+          priority
+        />
         {zones.map((zone) => (
           <span
             key={zone.name}
