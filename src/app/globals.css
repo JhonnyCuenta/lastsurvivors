@@ -465,6 +465,11 @@ textarea {
 .lore-statement,
 .lore-coordinate,
 .lore-entry,
+.lore-status-card,
+.lore-dossier-card,
+.lore-omega-panel,
+.lore-survivor-card,
+.lore-threat-panel,
 .shop-warning,
 .shop-card,
 .photo-card,
@@ -706,10 +711,157 @@ textarea {
   max-width: 840px;
 }
 
+.lore-classified {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: 520px;
+  margin-top: 26px;
+  margin-bottom: 26px;
+  border: 1px solid rgb(240 162 75 / 0.18);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgb(8 4 2 / 0.92), rgb(15 8 5 / 0.74) 52%, rgb(77 24 12 / 0.42)),
+    linear-gradient(180deg, transparent, rgb(8 4 2 / 0.76)),
+    url('/gta-map.jpg') center / cover;
+  box-shadow: var(--shadow-panel);
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.56fr);
+  overflow: hidden;
+}
+
+.lore-classified::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(115deg, transparent 0 42%, rgb(240 162 75 / 0.12) 42.1% 42.4%, transparent 42.6% 100%),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.035) 0 1px, transparent 1px 5px);
+  pointer-events: none;
+}
+
+.lore-classified::after {
+  position: absolute;
+  right: 28px;
+  bottom: 22px;
+  width: min(48vw, 520px);
+  height: 2px;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgb(104 213 138 / 0.6), transparent);
+  box-shadow: 0 0 26px rgb(104 213 138 / 0.22);
+}
+
+.lore-hero-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  padding: clamp(32px, 6vw, 64px);
+}
+
+.lore-file-label {
+  display: inline-flex;
+  margin-bottom: 18px;
+  border-left: 3px solid var(--rust);
+  color: var(--ember);
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding-left: 12px;
+  text-transform: uppercase;
+}
+
+.lore-hero-copy h1 {
+  max-width: 760px;
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(3.25rem, 10vw, 8.4rem);
+  line-height: 0.84;
+  text-transform: uppercase;
+}
+
+.lore-hero-copy p {
+  max-width: 660px;
+  margin: 22px 0 0;
+  color: rgb(243 234 219 / 0.8);
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  line-height: 1.55;
+}
+
+.lore-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 26px;
+  gap: 10px;
+}
+
+.lore-hero-actions span,
+.lore-threat-list span,
+.lore-signal-row {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgb(240 162 75 / 0.16);
+  border-radius: 999px;
+  background: rgb(8 4 2 / 0.5);
+  color: rgb(243 234 219 / 0.82);
+  font-size: 0.84rem;
+  font-weight: 900;
+  gap: 8px;
+  padding: 9px 12px;
+  text-transform: uppercase;
+}
+
+.lore-hero-actions svg,
+.lore-signal-row svg {
+  color: var(--ember);
+}
+
+.lore-status-card {
+  position: relative;
+  z-index: 1;
+  align-self: stretch;
+  display: flex;
+  justify-content: flex-end;
+  min-height: 100%;
+  border-width: 0 0 0 1px;
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgb(29 13 8 / 0.7), rgb(8 4 2 / 0.92)),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.035) 0 1px, transparent 1px 8px);
+  flex-direction: column;
+  padding: 34px;
+}
+
+.lore-status-card strong {
+  color: var(--text);
+  font-size: clamp(1.3rem, 2.6vw, 2.2rem);
+  line-height: 1.08;
+  text-transform: uppercase;
+}
+
+.lore-status-card p {
+  margin: 12px 0 18px;
+  color: var(--rust);
+  font-family: var(--font-mono);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.lore-redline {
+  width: 70px;
+  height: 5px;
+  margin-bottom: 20px;
+  background: var(--blood);
+  box-shadow: 0 0 24px rgb(213 87 33 / 0.42);
+}
+
 .lore-brief {
   display: grid;
   gap: 16px;
   grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.62fr);
+}
+
+.lore-brief-wide {
+  margin-top: 18px;
 }
 
 .lore-statement,
@@ -757,6 +909,18 @@ textarea {
   color: var(--radiation);
 }
 
+.lore-origin {
+  border-color: rgb(240 162 75 / 0.18);
+}
+
+.lore-nexus {
+  border-color: rgb(213 87 33 / 0.24);
+}
+
+.lore-nexus svg {
+  color: var(--rust);
+}
+
 .lore-coordinate span {
   margin-top: 16px;
   color: var(--muted);
@@ -793,6 +957,193 @@ textarea {
 .lore-entry p {
   color: rgb(243 234 219 / 0.72);
   line-height: 1.55;
+}
+
+.lore-dossier-section {
+  margin-top: 54px;
+}
+
+.lore-dossier-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.lore-dossier-card {
+  display: flex;
+  min-height: 430px;
+  padding: 22px;
+  flex-direction: column;
+}
+
+.lore-dossier-card:nth-child(2),
+.lore-dossier-card:nth-child(3) {
+  border-color: rgb(104 213 138 / 0.18);
+}
+
+.lore-dossier-card:nth-child(4),
+.lore-dossier-card:nth-child(5) {
+  border-color: rgb(213 87 33 / 0.24);
+}
+
+.lore-dossier-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--ember);
+  font-family: var(--font-mono);
+  font-weight: 900;
+}
+
+.lore-dossier-topline svg {
+  color: var(--radiation);
+}
+
+.lore-dossier-card h3 {
+  margin: 18px 0 12px;
+  color: var(--text);
+  font-size: 1.25rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.lore-dossier-card p {
+  margin: 0;
+  color: rgb(243 234 219 / 0.75);
+  line-height: 1.55;
+}
+
+.lore-dual-lines {
+  display: grid;
+  margin: 18px 0;
+  gap: 9px;
+}
+
+.lore-dual-lines strong,
+.lore-dual-lines em {
+  display: block;
+  border-left: 2px solid rgb(240 162 75 / 0.36);
+  color: rgb(243 234 219 / 0.82);
+  font-size: 0.92rem;
+  font-style: normal;
+  line-height: 1.45;
+  padding-left: 10px;
+}
+
+.lore-dual-lines em {
+  border-color: rgb(213 87 33 / 0.45);
+  color: rgb(240 162 75 / 0.86);
+}
+
+.lore-dossier-card ul {
+  display: grid;
+  margin: auto 0 0;
+  color: rgb(243 234 219 / 0.68);
+  gap: 8px;
+  line-height: 1.38;
+  padding-left: 18px;
+}
+
+.lore-omega-panel {
+  display: grid;
+  align-items: center;
+  margin: 18px 0 54px;
+  border-color: rgb(104 213 138 / 0.18);
+  background:
+    linear-gradient(110deg, rgb(18 12 8 / 0.96), rgb(28 13 9 / 0.88)),
+    radial-gradient(circle at 88% 34%, rgb(104 213 138 / 0.14), transparent 30%);
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.8fr);
+  gap: 24px;
+  padding: clamp(24px, 4vw, 38px);
+}
+
+.lore-omega-panel h2,
+.lore-threat-panel h2 {
+  margin: 10px 0 12px;
+  color: var(--text);
+  font-size: clamp(2rem, 4vw, 4.2rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.lore-omega-panel p,
+.lore-threat-panel p {
+  max-width: 680px;
+  margin: 0;
+  color: rgb(243 234 219 / 0.76);
+  line-height: 1.65;
+}
+
+.lore-omega-metrics {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.lore-omega-metrics span {
+  border: 1px solid rgb(104 213 138 / 0.18);
+  border-radius: 8px;
+  background: rgb(104 213 138 / 0.07);
+  color: #c7f6d3;
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-weight: 900;
+  padding: 16px;
+  text-transform: uppercase;
+}
+
+.lore-survivor-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.lore-survivor-card {
+  min-height: 210px;
+  padding: 22px;
+}
+
+.lore-survivor-card h3 {
+  margin: 16px 0 10px;
+  color: var(--text);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.lore-survivor-card p {
+  margin: 0;
+  color: rgb(243 234 219 / 0.72);
+  line-height: 1.55;
+}
+
+.lore-threat-panel {
+  display: grid;
+  align-items: end;
+  margin-top: 18px;
+  border-color: rgb(213 87 33 / 0.26);
+  background:
+    linear-gradient(100deg, rgb(30 12 7 / 0.94), rgb(8 4 2 / 0.92)),
+    repeating-linear-gradient(135deg, rgb(213 87 33 / 0.06) 0 1px, transparent 1px 10px);
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.52fr);
+  gap: 24px;
+  padding: clamp(24px, 4vw, 38px);
+}
+
+.lore-threat-list {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.lore-threat-list span {
+  border-color: rgb(213 87 33 / 0.26);
+  background: rgb(123 31 22 / 0.18);
+}
+
+.lore-threat-list svg {
+  color: var(--rust);
 }
 
 .shop-warning {
@@ -1379,6 +1730,9 @@ textarea {
   }
 
   .hero,
+  .lore-classified,
+  .lore-omega-panel,
+  .lore-threat-panel,
   .map-stage,
   .two-grid,
   .guide-list,
@@ -1414,9 +1768,28 @@ textarea {
   .community-list,
   .account-benefits,
   .lore-timeline,
+  .lore-dossier-grid,
+  .lore-survivor-grid,
   .shop-grid,
   .photo-grid {
     grid-template-columns: 1fr;
+  }
+
+  .lore-classified {
+    min-height: auto;
+  }
+
+  .lore-status-card {
+    border-width: 1px 0 0;
+    min-height: 260px;
+  }
+
+  .lore-dossier-card {
+    min-height: auto;
+  }
+
+  .lore-threat-list {
+    justify-content: flex-start;
   }
 
   .section-header {
