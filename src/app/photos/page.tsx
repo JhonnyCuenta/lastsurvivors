@@ -16,6 +16,10 @@ function formatDate(value: string) {
 export default async function PhotosPage() {
   const feed = await getDiscordPhotos();
   const channelUrl = publicLinks.discordMediaChannelUrl || publicLinks.discordUrl;
+  const diagnostics = feed.diagnostics;
+  const checkedLabel = diagnostics
+    ? `${diagnostics.messagesChecked} messages lus, ${diagnostics.attachmentsChecked} fichiers trouves`
+    : null;
 
   return (
     <>
@@ -68,6 +72,7 @@ export default async function PhotosPage() {
               ? 'Le bot a repondu, mais aucun fichier image recent n a ete trouve dans le salon configure.'
               : 'Le salon photo Discord n est pas encore connecte au portail. Les captures RP apparaitront ici des que le flux sera actif.'}
           </p>
+          {feed.configured && checkedLabel ? <p className="gallery-diagnostic">{checkedLabel}</p> : null}
         </section>
       )}
     </>

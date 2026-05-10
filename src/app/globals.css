@@ -737,6 +737,15 @@ textarea {
   line-height: 1.6;
 }
 
+.empty-gallery .gallery-diagnostic {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
 .lore-coordinate {
   display: flex;
   flex-direction: column;
