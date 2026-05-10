@@ -17,6 +17,7 @@ import {
   Shield,
   Skull,
   Store,
+  Trophy,
   UserRound,
   Users,
   Vote,
@@ -35,6 +36,7 @@ export const siteConfig = {
     { href: '/evenements', label: 'Events' },
     { href: '/photos', label: 'Photos' },
     { href: '/boutique', label: 'Boutique' },
+    { href: '/top-vote', label: 'Votes' },
     { href: '/reglement', label: 'Regles' },
     { href: '/communaute', label: 'Commu' },
   ],
@@ -70,6 +72,12 @@ export const quickLinks = [
     title: 'Photos RP',
     text: 'Galerie publique reliee au salon Discord si le channel est configure.',
     icon: Images,
+  },
+  {
+    href: '/top-vote',
+    title: 'Top vote',
+    text: 'Vote Top-Serveurs, recompenses en jeu et classement des meilleurs soutiens.',
+    icon: Trophy,
   },
   {
     href: '/profil',
@@ -254,7 +262,7 @@ export const rules = [
 ];
 
 const discordUrl = process.env.NEXT_PUBLIC_DISCORD_URL || 'https://discord.gg/lastsurvivors';
-const voteUrl = process.env.NEXT_PUBLIC_VOTE_URL || '';
+const voteUrl = process.env.NEXT_PUBLIC_VOTE_URL || 'https://top-serveurs.net/gta/vote/last-survivors';
 const storeUrl = process.env.NEXT_PUBLIC_STORE_URL || '';
 const discordMediaChannelUrl = process.env.NEXT_PUBLIC_DISCORD_MEDIA_CHANNEL_URL || 'https://discord.gg/KaWEEehr';
 
