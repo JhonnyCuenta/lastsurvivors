@@ -1,0 +1,75 @@
+import { Camera, ExternalLink, Images, Radio } from 'lucide-react';
+import { publicLinks } from '@/config/site';
+import { getDiscordPhotos } from '@/lib/discord-photos';
+
+export const dynamic = 'force-dynamic';
+
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat('fr-FR', {
+    day: '2-digit',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(new Date(value));
+}
+
+export default async function PhotosPage() {
+  const feed = await getDiscordPhotos();
+  const channelUrl = publicLinks.discordMediaChannelUrl || publicLinks.discordUrl;
+
+  return (
+    <>
+      <header className="page-heading photos-heading">
+        <span className="hero-badge">
+          <span className="pulse-dot" />
+          Galerie Discord
+        </span>
+        <h1>Photos</h1>
+        <p>
+          Les images RP du salon Discord peuvent apparaitre ici automatiquement quand le channel photo est relie au bot
+          du portail.
+        </p>
+        <div className="photo-toolbar">
+          <span>
+            <Radio size={16} />
+            {feed.source === 'discord-channel' ? 'Flux Discord actif' : 'Flux Discord en attente'}
+          </span>
+          {channelUrl ? (
+            <a href={channelUrl} target="_blank" rel="noreferrer">
+              Ouvrir Discord <ExternalLink size={15} />
+            </a>
+          ) : null}
+        </div>
+      </header>
+
+      {feed.photos.length > 0 ? (
+        <section className="photo-grid">
+          {feed.photos.map((photo) => (
+            <article className="photo-card" key={photo.id}>
+              <a href={photo.messageUrl || photo.url} target="_blank" rel="noreferrer">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={photo.url} alt={photo.filename} loading="lazy" referrerPolicy="no-referrer" />
+              </a>
+              <div>
+                <strong>{photo.authorName}</strong>
+                <span>{formatDate(photo.postedAt)}</span>
+              </div>
+            </article>
+          ))}
+        </section>
+      ) : (
+        <section className="empty-gallery">
+          <span className="card-icon">
+            {feed.configured ? <Camera size={22} /> : <Images size={22} />}
+          </span>
+          <h2>{feed.configured ? 'Aucune photo trouvee' : 'Salon photo a relier'}</h2>
+          <p>
+            {feed.configured
+              ? 'Le bot a repondu, mais aucun fichier image recent n a ete trouve dans le salon configure.'
+              : 'Le salon photo Discord n est pas encore connecte au portail. Les captures RP apparaitront ici des que le flux sera actif.'}
+          </p>
+        </section>
+      )}
+    </>
+  );
+}

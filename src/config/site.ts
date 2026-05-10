@@ -11,6 +11,7 @@ import {
   ExternalLink,
   Hammer,
   HeartPulse,
+  Images,
   Map,
   Radio,
   Shield,
@@ -28,16 +29,24 @@ export const siteConfig = {
   connectCommand: process.env.NEXT_PUBLIC_CONNECT_COMMAND || 'connect 49.12.121.140:30175',
   nav: [
     { href: '/', label: 'Accueil' },
+    { href: '/lore', label: 'Lore' },
     { href: '/guide', label: 'Guide' },
     { href: '/carte', label: 'Carte' },
-    { href: '/evenements', label: 'Evenements' },
-    { href: '/reglement', label: 'Reglement' },
-    { href: '/communaute', label: 'Communaute' },
-    { href: '/candidature', label: 'Candidature' },
+    { href: '/evenements', label: 'Events' },
+    { href: '/photos', label: 'Photos' },
+    { href: '/boutique', label: 'Boutique' },
+    { href: '/reglement', label: 'Regles' },
+    { href: '/communaute', label: 'Commu' },
   ],
 };
 
 export const quickLinks = [
+  {
+    href: '/lore',
+    title: 'Lore serveur',
+    text: 'Comprendre la Chute, la Zone et les rumeurs qui guident les survivants.',
+    icon: Skull,
+  },
   {
     href: '/guide',
     title: 'Guide de survie',
@@ -55,6 +64,12 @@ export const quickLinks = [
     title: 'Evenements RP',
     text: 'Airdrops, blackouts, tempetes, missions et alertes communautaires.',
     icon: CalendarDays,
+  },
+  {
+    href: '/photos',
+    title: 'Photos RP',
+    text: 'Galerie publique reliee au salon Discord si le channel est configure.',
+    icon: Images,
   },
   {
     href: '/profil',
@@ -241,6 +256,14 @@ export const rules = [
 const discordUrl = process.env.NEXT_PUBLIC_DISCORD_URL || '';
 const voteUrl = process.env.NEXT_PUBLIC_VOTE_URL || '';
 const storeUrl = process.env.NEXT_PUBLIC_STORE_URL || '';
+const discordMediaChannelUrl = process.env.NEXT_PUBLIC_DISCORD_MEDIA_CHANNEL_URL || '';
+
+export const publicLinks = {
+  discordUrl,
+  voteUrl,
+  storeUrl,
+  discordMediaChannelUrl,
+};
 
 export const communityLinks = [
   {
@@ -298,4 +321,25 @@ export const healthSignals = [
   { label: 'Blessures', value: 'Soins avant depart', icon: HeartPulse },
   { label: 'Menaces', value: 'Zones rouges a eviter', icon: AlertTriangle },
   { label: 'Radio', value: 'Discord pour les annonces', icon: Radio },
+];
+
+export const shopCards = [
+  {
+    title: 'Soutien survivant',
+    price: 'Libre',
+    text: 'Aide au financement serveur, hebergement, scripts et evenements.',
+    items: ['Role Discord soutien', 'Remerciement communautaire', 'Aucun avantage pay-to-win'],
+  },
+  {
+    title: 'Cosmetiques RP',
+    price: 'Selon boutique',
+    text: 'Contenus visuels ou RP sans casser l equilibre de survie.',
+    items: ['Tenues autorisees', 'Accessoires RP', 'Validation staff si necessaire'],
+  },
+  {
+    title: 'Evenements',
+    price: 'Annonce Discord',
+    text: 'Participation ou soutien aux grosses operations communautaires.',
+    items: ['Operations RP', 'Lots non abusifs', 'Tracabilite staff'],
+  },
 ];
