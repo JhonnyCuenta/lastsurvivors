@@ -1,5 +1,6 @@
 import NextAuth, { type NextAuthConfig } from 'next-auth';
 import Discord from 'next-auth/providers/discord';
+import { getDiscordAuthStatus } from '@/lib/auth-config';
 
 type DiscordGuild = {
   id?: string;
@@ -55,6 +56,10 @@ const authConfig: NextAuthConfig = {
         return '/profil?error=discord-auth';
       }
 
+      if (!getDiscordAuthStatus().guildCheckReady) {
+        return true;
+      }
+
       const isGuildMember = await isMemberOfConfiguredGuild(account.access_token);
       return isGuildMember ? true : '/profil?error=discord-guild';
     },
@@ -62,7 +67,7 @@ const authConfig: NextAuthConfig = {
       if (account?.provider === 'discord') {
         const discordProfile = profile as DiscordProfile | undefined;
         token.discordId = discordProfile?.id ?? token.sub;
-        token.guildVerified = true;
+        token.guildVerified = getDiscordAuthStatus().guildCheckReady;
       }
 
       return token;

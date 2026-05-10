@@ -3,6 +3,7 @@ import { AlertTriangle, CheckCircle2, ClipboardList, Radio, ShieldCheck, UserRou
 import { auth } from '@/auth';
 import { DiscordLoginButton, DiscordLogoutButton } from '@/components/auth-actions';
 import { CopyConnectButton } from '@/components/copy-connect-button';
+import { getDiscordAuthStatus } from '@/lib/auth-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,13 +20,20 @@ function authErrorMessage(error?: string) {
     return 'Discord n a pas confirme ton identite. Reessaie dans quelques secondes.';
   }
 
+  if (error === 'Configuration') {
+    return 'Connexion Discord non configuree: il manque le client ID ou le secret Discord cote Vercel.';
+  }
+
   return null;
 }
 
 export default async function ProfilPage({ searchParams }: ProfilePageProps) {
   const session = await auth();
+  const authStatus = getDiscordAuthStatus();
   const params = await searchParams;
-  const errorMessage = authErrorMessage(params?.error);
+  const errorMessage =
+    authErrorMessage(params?.error) ||
+    (!authStatus.oauthReady ? 'Connexion Discord en preparation: AUTH_DISCORD_ID et AUTH_DISCORD_SECRET sont encore a ajouter dans Vercel.' : null);
 
   if (!session?.user) {
     return (
@@ -52,7 +60,7 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
               Tu peux lire le guide, la carte, les evenements et le reglement sans compte. Connecte Discord seulement si
               tu veux utiliser l espace joueur ou envoyer une candidature.
             </p>
-            <DiscordLoginButton className="button button-primary" />
+            <DiscordLoginButton className="button button-primary" disabled={!authStatus.oauthReady} />
           </article>
           <article className="profile-card muted-card">
             <span className="card-icon">
@@ -62,6 +70,7 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
             <p>
               Le portail demande le scope Discord <strong>identify guilds</strong> pour verifier ton appartenance au
               serveur. Le token ne part jamais dans le frontend.
+              {!authStatus.guildCheckReady ? ' Il manque encore le DISCORD_GUILD_ID pour valider les candidatures.' : ''}
             </p>
           </article>
         </section>
@@ -93,13 +102,20 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
               <p>{session.user.discordId ? `ID Discord: ${session.user.discordId}` : 'ID Discord masque.'}</p>
             </div>
           </div>
-          <span className="verified-line">
-            <CheckCircle2 size={18} />
-            Membre Discord Last Survivors verifie
-          </span>
+          {session.user.guildVerified ? (
+            <span className="verified-line">
+              <CheckCircle2 size={18} />
+              Membre Discord Last Survivors verifie
+            </span>
+          ) : (
+            <span className="alert-panel inline-alert">
+              <AlertTriangle size={18} />
+              Verification membre Discord en attente de configuration.
+            </span>
+          )}
           <div className="profile-actions">
             <CopyConnectButton />
-            <Link className="button button-secondary" href="/candidature">
+            <Link className={`button button-secondary${session.user.guildVerified ? '' : ' disabled-button'}`} href="/candidature">
               <ClipboardList size={17} />
               Candidature
             </Link>

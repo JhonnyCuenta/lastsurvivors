@@ -5,9 +5,11 @@ import { HeaderAuth } from '@/components/auth-actions';
 import { siteConfig } from '@/config/site';
 import { SiteNav } from '@/components/site-nav';
 import { CopyConnectButton } from '@/components/copy-connect-button';
+import { getDiscordAuthStatus } from '@/lib/auth-config';
 
 export async function SiteShell({ children }: { children: React.ReactNode }) {
   const session = await auth();
+  const authStatus = getDiscordAuthStatus();
 
   return (
     <div className="page-shell">
@@ -23,7 +25,7 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
           <SiteNav />
           <div className="header-actions">
             <CopyConnectButton className="button button-primary header-connect" compact />
-            <HeaderAuth session={session} />
+            <HeaderAuth session={session} authStatus={authStatus} />
           </div>
         </div>
       </header>

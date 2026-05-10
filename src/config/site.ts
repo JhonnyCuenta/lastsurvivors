@@ -253,10 +253,10 @@ export const rules = [
   },
 ];
 
-const discordUrl = process.env.NEXT_PUBLIC_DISCORD_URL || '';
+const discordUrl = process.env.NEXT_PUBLIC_DISCORD_URL || 'https://discord.gg/lastsurvivors';
 const voteUrl = process.env.NEXT_PUBLIC_VOTE_URL || '';
 const storeUrl = process.env.NEXT_PUBLIC_STORE_URL || '';
-const discordMediaChannelUrl = process.env.NEXT_PUBLIC_DISCORD_MEDIA_CHANNEL_URL || '';
+const discordMediaChannelUrl = process.env.NEXT_PUBLIC_DISCORD_MEDIA_CHANNEL_URL || 'https://discord.gg/KaWEEehr';
 
 export const publicLinks = {
   discordUrl,

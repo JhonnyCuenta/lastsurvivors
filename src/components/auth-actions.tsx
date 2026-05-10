@@ -1,15 +1,29 @@
 import Link from 'next/link';
 import { LogIn, LogOut, UserRound } from 'lucide-react';
 import { signIn, signOut } from '@/auth';
+import type { DiscordAuthStatus } from '@/lib/auth-config';
 import type { Session } from 'next-auth';
 
 export function DiscordLoginButton({
   label = 'Connexion Discord',
   className = 'button button-secondary',
+  disabled = false,
 }: {
   label?: string;
   className?: string;
+  disabled?: boolean;
 }) {
+  if (disabled) {
+    return (
+      <span className="auth-form">
+        <button type="button" className={`${className} disabled-button`} disabled>
+          <LogIn size={17} />
+          {label}
+        </button>
+      </span>
+    );
+  }
+
   return (
     <form
       action={async () => {
@@ -43,9 +57,15 @@ export function DiscordLogoutButton({ compact = false }: { compact?: boolean }) 
   );
 }
 
-export function HeaderAuth({ session }: { session: Session | null }) {
+export function HeaderAuth({ session, authStatus }: { session: Session | null; authStatus: DiscordAuthStatus }) {
   if (!session?.user) {
-    return <DiscordLoginButton label="Discord" className="button button-secondary header-auth-button" />;
+    return (
+      <DiscordLoginButton
+        label="Discord"
+        className="button button-secondary header-auth-button"
+        disabled={!authStatus.oauthReady}
+      />
+    );
   }
 
   return (

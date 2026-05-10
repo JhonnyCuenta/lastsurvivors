@@ -1182,6 +1182,11 @@ textarea {
   padding: 14px 16px;
 }
 
+.inline-alert {
+  width: fit-content;
+  margin-bottom: 0;
+}
+
 .profile-actions {
   display: flex;
   flex-wrap: wrap;
