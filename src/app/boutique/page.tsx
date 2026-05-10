@@ -28,7 +28,7 @@ const coinPacks = [
 ];
 
 const shopSignals = [
-  { label: 'Nom ressource', value: 'Boutique Z47', icon: Store },
+  { label: 'Nom public', value: 'LAST SURVIVORS', icon: Store },
   { label: 'Commande en jeu', value: '/boutique2', icon: Command },
   { label: 'Coins offerts', value: '500 a la premiere connexion', icon: Gift },
   { label: 'Categories actives', value: 'Vehicules, armes, gestion coins', icon: ShieldCheck },
@@ -102,8 +102,8 @@ export default function BoutiquePage() {
     <>
       <header className="shop-hero">
         <div className="shop-hero-copy">
-          <span className="shop-kicker">Catalogue public / BoutiqueV4</span>
-          <h1>Boutique Z47</h1>
+          <span className="shop-kicker">Catalogue public / Last Survivors</span>
+          <h1>Boutique Last Survivors</h1>
           <p>
             Page mise a jour depuis la ressource FiveM BoutiqueV4. Le site presente les packs coins, les vehicules et
             les armes actuellement configures pour Last Survivors, sans exposer la logique serveur.

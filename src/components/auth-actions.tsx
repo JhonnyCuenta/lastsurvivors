@@ -70,7 +70,7 @@ export function HeaderAuth({ session, authStatus }: { session: Session | null; a
 
   return (
     <div className="auth-menu" aria-label="Compte Discord">
-      <Link href="/profil" className="auth-profile">
+      <Link href="/profil" className="auth-profile" title={session.user.name ?? 'Survivant'}>
         {session.user.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={session.user.image} alt="" className="avatar" referrerPolicy="no-referrer" />

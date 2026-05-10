@@ -17,8 +17,8 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
         <div className="site-header-inner">
           <Link href="/" className="brand" aria-label="Accueil Last Survivors">
             <span className="brand-mark">LS</span>
-            <span>
-              {siteConfig.name}
+            <span className="brand-copy">
+              <span className="brand-title">{siteConfig.name}</span>
               <small>Portail survivants</small>
             </span>
           </Link>
