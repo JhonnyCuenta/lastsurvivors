@@ -2470,34 +2470,68 @@ textarea {
 
 .map-marker {
   position: absolute;
-  display: grid;
-  width: 18px;
-  height: 18px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  min-height: 30px;
+  gap: 6px;
   place-items: center;
-  border: 2px solid #070909;
-  border-radius: 99px;
-  color: #070909;
+  border: 1px solid rgb(255 238 209 / 0.18);
+  border-radius: 999px;
+  color: #fff7e8;
+  font-size: 0.68rem;
+  font-weight: 950;
+  line-height: 1;
+  padding: 0 9px;
+  text-transform: uppercase;
   transform: translate(-50%, -50%);
+  white-space: nowrap;
+  box-shadow:
+    0 0 0 3px rgb(0 0 0 / 0.28),
+    0 10px 26px rgb(0 0 0 / 0.54);
 }
 
-.map-marker.safe {
-  background: var(--radiation);
+.map-marker svg {
+  flex: 0 0 auto;
+}
+
+.map-marker-label {
+  display: block;
+}
+
+.map-marker.point {
+  border-radius: 8px;
+}
+
+.map-marker.zone {
+  min-height: 34px;
+  padding: 0 12px;
+  letter-spacing: 0;
+}
+
+.map-marker.strategic {
+  border-color: rgb(240 162 75 / 0.5);
+  background: linear-gradient(135deg, rgb(123 31 22 / 0.92), rgb(213 87 33 / 0.92));
 }
 
 .map-marker.danger {
-  background: var(--rust);
+  border-color: rgb(255 123 81 / 0.56);
+  background: linear-gradient(135deg, rgb(83 16 12 / 0.96), rgb(182 46 24 / 0.94));
+  color: #ffe7d6;
 }
 
-.map-marker.signal {
-  background: var(--signal);
+.map-marker.medical {
+  border-color: rgb(157 196 181 / 0.58);
+  background: linear-gradient(135deg, rgb(12 45 41 / 0.94), rgb(64 129 112 / 0.92));
+  color: #e3fff4;
 }
 
-.map-marker.radiation {
-  background: #d1d65a;
-}
-
-.map-marker.warning {
-  background: var(--ember);
+.map-marker.calm {
+  border-color: rgb(104 213 138 / 0.48);
+  background: linear-gradient(135deg, rgb(18 57 38 / 0.94), rgb(64 133 76 / 0.9));
+  color: #e7ffdf;
 }
 
 .zone-list {
@@ -2512,6 +2546,26 @@ textarea {
   padding: 14px;
 }
 
+.zone-item.strategic {
+  border-color: rgb(240 162 75 / 0.2);
+  background: linear-gradient(180deg, rgb(46 24 12 / 0.82), rgb(16 12 9 / 0.86));
+}
+
+.zone-item.medical {
+  border-color: rgb(157 196 181 / 0.2);
+  background: linear-gradient(180deg, rgb(12 35 33 / 0.82), rgb(11 16 15 / 0.88));
+}
+
+.zone-item.danger {
+  border-color: rgb(213 87 33 / 0.24);
+  background: linear-gradient(180deg, rgb(55 16 12 / 0.82), rgb(18 8 6 / 0.9));
+}
+
+.zone-item.calm {
+  border-color: rgb(104 213 138 / 0.18);
+  background: linear-gradient(180deg, rgb(15 37 26 / 0.82), rgb(11 16 13 / 0.9));
+}
+
 .zone-item strong {
   display: block;
 }
@@ -2522,6 +2576,18 @@ textarea {
   color: var(--ember);
   font-size: 0.86rem;
   font-weight: 900;
+}
+
+.zone-item.medical span {
+  color: var(--signal);
+}
+
+.zone-item.danger span {
+  color: #ff9a69;
+}
+
+.zone-item.calm span {
+  color: #a9ecae;
 }
 
 .zone-item p {

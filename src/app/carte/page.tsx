@@ -5,7 +5,10 @@ export default function CartePage() {
     <>
       <header className="page-heading">
         <h1>Carte utile</h1>
-        <p>Une vue publique pour te reperer avant une sortie. Elle n affiche aucune position joueur et aucun emplacement staff sensible.</p>
+        <p>
+          Une vue publique pour reperer les zones de danger, les points strategiques et les trajets plus calmes.
+          Aucune position joueur ni information staff sensible n est affichee.
+        </p>
       </header>
 
       <MapOverview />

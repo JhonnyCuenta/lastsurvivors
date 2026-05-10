@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { MapPin } from 'lucide-react';
+import { HeartPulse, MapPin, ShieldCheck, Skull } from 'lucide-react';
 import { mapZones } from '@/config/site';
 
 type Props = {
@@ -8,6 +8,12 @@ type Props = {
 
 export function MapOverview({ compact = false }: Props) {
   const zones = compact ? mapZones.slice(0, 4) : mapZones;
+  const markerIcons: Record<string, typeof MapPin> = {
+    calm: ShieldCheck,
+    danger: Skull,
+    medical: HeartPulse,
+    strategic: MapPin,
+  };
 
   return (
     <div className="map-stage">
@@ -19,20 +25,25 @@ export function MapOverview({ compact = false }: Props) {
           sizes="(max-width: 900px) 100vw, 760px"
           priority
         />
-        {zones.map((zone) => (
-          <span
-            key={zone.name}
-            className={`map-marker ${zone.tone}`}
-            style={{ left: `${zone.x}%`, top: `${zone.y}%` }}
-            title={zone.name}
-          >
-            <MapPin size={12} />
-          </span>
-        ))}
+        {zones.map((zone) => {
+          const MarkerIcon = markerIcons[zone.tone] ?? MapPin;
+
+          return (
+            <span
+              key={zone.name}
+              className={`map-marker ${zone.tone} ${zone.kind}`}
+              style={{ left: `${zone.x}%`, top: `${zone.y}%` }}
+              title={zone.name}
+            >
+              <MarkerIcon size={13} />
+              <span className="map-marker-label">{zone.shortLabel}</span>
+            </span>
+          );
+        })}
       </div>
       <div className="zone-list">
         {zones.map((zone) => (
-          <article className="zone-item" key={zone.name}>
+          <article className={`zone-item ${zone.tone}`} key={zone.name}>
             <strong>{zone.name}</strong>
             <span>{zone.type}</span>
             <p>{zone.detail}</p>
