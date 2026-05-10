@@ -27,13 +27,20 @@ function authErrorMessage(error?: string) {
   return null;
 }
 
+function oauthSetupMessage(missingOAuthEnv: string[]) {
+  if (missingOAuthEnv.length === 0) return null;
+  return `Connexion Discord en preparation: variable${missingOAuthEnv.length > 1 ? 's' : ''} ${missingOAuthEnv.join(
+    ', ',
+  )} a ajouter dans Vercel.`;
+}
+
 export default async function ProfilPage({ searchParams }: ProfilePageProps) {
   const session = await auth();
   const authStatus = getDiscordAuthStatus();
   const params = await searchParams;
   const errorMessage =
     authErrorMessage(params?.error) ||
-    (!authStatus.oauthReady ? 'Connexion Discord en preparation: AUTH_DISCORD_ID et AUTH_DISCORD_SECRET sont encore a ajouter dans Vercel.' : null);
+    oauthSetupMessage(authStatus.missingOAuthEnv);
 
   if (!session?.user) {
     return (

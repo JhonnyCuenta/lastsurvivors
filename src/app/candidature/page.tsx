@@ -7,9 +7,17 @@ import { getDiscordAuthStatus } from '@/lib/auth-config';
 
 export const dynamic = 'force-dynamic';
 
+function oauthSetupMessage(missingOAuthEnv: string[]) {
+  if (missingOAuthEnv.length === 0) return null;
+  return `La connexion Discord est en preparation. Variable${missingOAuthEnv.length > 1 ? 's' : ''} manquante${
+    missingOAuthEnv.length > 1 ? 's' : ''
+  }: ${missingOAuthEnv.join(', ')}.`;
+}
+
 export default async function CandidaturePage() {
   const session = await auth();
   const authStatus = getDiscordAuthStatus();
+  const setupMessage = oauthSetupMessage(authStatus.missingOAuthEnv);
 
   if (!session?.user) {
     return (
@@ -28,7 +36,7 @@ export default async function CandidaturePage() {
             <p>
               {authStatus.oauthReady
                 ? 'Le reste du portail reste public. Pour envoyer une candidature, connecte ton Discord membre Last Survivors.'
-                : 'La connexion Discord est en preparation. Il manque encore AUTH_DISCORD_ID et AUTH_DISCORD_SECRET dans Vercel.'}
+                : setupMessage}
             </p>
             <DiscordLoginButton className="button button-primary" disabled={!authStatus.oauthReady} />
           </article>

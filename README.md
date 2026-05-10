@@ -50,7 +50,7 @@ Redirect Discord a ajouter dans le portail developpeur Discord:
 
 ```txt
 http://localhost:30176/api/auth/callback/discord
-https://TON-DOMAINE-VERCEL/api/auth/callback/discord
+https://last-survivors-portal.vercel.app/api/auth/callback/discord
 ```
 
 ## API publique
