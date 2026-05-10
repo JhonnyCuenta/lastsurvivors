@@ -34,6 +34,7 @@ async function isMemberOfConfiguredGuild(accessToken: string) {
 
 const authConfig: NextAuthConfig = {
   trustHost: true,
+  secret: process.env.AUTH_SECRET || (process.env.NODE_ENV === 'development' ? 'last-survivors-local-dev-secret' : undefined),
   session: {
     strategy: 'jwt',
   },
