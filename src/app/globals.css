@@ -5,18 +5,19 @@
 :root {
   --font-interface: "Segoe UI", "Inter", system-ui, sans-serif;
   --font-mono: "Cascadia Mono", "Consolas", ui-monospace, monospace;
-  --bg: #070909;
-  --bg-soft: #0c1110;
-  --surface: #101615;
-  --surface-strong: #16201d;
-  --line: #28312d;
-  --text: #ece6d8;
-  --muted: #a8a092;
-  --rust: #c44b32;
-  --ember: #e19935;
-  --radiation: #9dbc48;
-  --signal: #5eb9ba;
-  --shadow-panel: 0 20px 60px rgb(0 0 0 / 0.32);
+  --bg: #080402;
+  --bg-soft: #120906;
+  --surface: #17100c;
+  --surface-strong: #24160f;
+  --line: #3a2b22;
+  --text: #f3eadb;
+  --muted: #a99683;
+  --rust: #d55721;
+  --ember: #f0a24b;
+  --blood: #7b1f16;
+  --radiation: #68d58a;
+  --signal: #9dc4b5;
+  --shadow-panel: 0 28px 80px rgb(0 0 0 / 0.46);
 }
 
 * {
@@ -34,7 +35,8 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    linear-gradient(180deg, rgb(7 9 9 / 0.82), #070909 44rem),
+    linear-gradient(180deg, rgb(8 4 2 / 0.58), #080402 49rem),
+    linear-gradient(90deg, rgb(8 4 2 / 0.97), rgb(26 10 3 / 0.8) 48%, rgb(8 4 2 / 0.97)),
     url('/gta-map.jpg') center top / cover fixed;
   color: var(--text);
   font-family: var(--font-interface);
@@ -48,8 +50,20 @@ body::before {
   z-index: -1;
   content: "";
   background:
-    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.018) 0 1px, transparent 1px 4px),
-    linear-gradient(90deg, rgb(7 9 9 / 0.96), rgb(7 9 9 / 0.76) 48%, rgb(7 9 9 / 0.92));
+    repeating-linear-gradient(0deg, rgb(255 208 145 / 0.026) 0 1px, transparent 1px 4px),
+    linear-gradient(180deg, rgb(14 7 4 / 0.88), rgb(8 4 2 / 0.96) 68%),
+    linear-gradient(90deg, rgb(0 0 0 / 0.82), transparent 48%, rgb(0 0 0 / 0.84));
+}
+
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background:
+    linear-gradient(115deg, transparent 0 18%, rgb(213 87 33 / 0.05) 18.2% 18.6%, transparent 18.8% 100%),
+    linear-gradient(72deg, transparent 0 64%, rgb(240 162 75 / 0.045) 64.2% 64.6%, transparent 64.8% 100%);
+  pointer-events: none;
 }
 
 a {
@@ -75,9 +89,9 @@ textarea {
   position: sticky;
   top: 0;
   z-index: 50;
-  border-bottom: 1px solid rgb(236 230 216 / 0.08);
-  background: rgb(7 9 9 / 0.86);
-  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgb(240 162 75 / 0.14);
+  background: rgb(13 7 4 / 0.9);
+  backdrop-filter: blur(18px);
 }
 
 .site-header-inner {
@@ -95,8 +109,10 @@ textarea {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-weight: 900;
+  font-weight: 950;
+  letter-spacing: 0;
   min-width: 0;
+  text-transform: uppercase;
 }
 
 .brand-mark {
@@ -104,11 +120,13 @@ textarea {
   width: 38px;
   height: 38px;
   place-items: center;
-  border: 1px solid rgb(225 153 53 / 0.55);
+  border: 1px solid rgb(240 162 75 / 0.7);
   border-radius: 8px;
-  background: linear-gradient(135deg, rgb(196 75 50 / 0.92), rgb(225 153 53 / 0.74));
+  background:
+    linear-gradient(135deg, rgb(123 31 22 / 0.92), rgb(213 87 33 / 0.9)),
+    repeating-linear-gradient(45deg, rgb(255 255 255 / 0.14) 0 1px, transparent 1px 5px);
   color: #fff8e6;
-  box-shadow: 0 12px 26px rgb(196 75 50 / 0.18);
+  box-shadow: 0 12px 26px rgb(213 87 33 / 0.22);
 }
 
 .brand small {
@@ -127,16 +145,21 @@ textarea {
 
 .nav-link {
   border-radius: 8px;
-  color: rgb(236 230 216 / 0.78);
-  font-size: 0.95rem;
+  color: rgb(243 234 219 / 0.62);
+  font-size: 0.82rem;
   font-weight: 800;
-  padding: 10px 12px;
+  padding: 10px 11px;
+  text-transform: uppercase;
 }
 
 .nav-link:hover,
 .nav-link.active {
-  background: rgb(236 230 216 / 0.07);
+  background: rgb(240 162 75 / 0.08);
   color: var(--text);
+}
+
+.nav-link.active {
+  box-shadow: inset 0 -2px 0 var(--rust);
 }
 
 .mobile-menu-button {
@@ -153,33 +176,130 @@ textarea {
   width: calc(100% - 32px);
   max-width: 1180px;
   margin: 0 auto;
-  padding: 54px 0 76px;
+  padding: 0 0 76px;
 }
 
 .hero {
   display: grid;
-  min-height: calc(100vh - 160px);
+  min-height: calc(100vh - 128px);
   align-items: center;
   gap: 34px;
-  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.74fr);
+  grid-template-columns: 1fr;
 }
 
 .hero > * {
   min-width: 0;
 }
 
+.survivor-logo h1,
 .hero h1,
 .page-heading h1 {
   max-width: 820px;
   margin: 0;
-  font-size: clamp(3.2rem, 9vw, 6.7rem);
+  font-size: clamp(3.5rem, 10vw, 8.2rem);
   font-weight: 950;
-  line-height: 0.92;
+  line-height: 0.82;
   text-wrap: balance;
+  text-transform: uppercase;
 }
 
 .hero h1 span {
   display: block;
+}
+
+.decay-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: calc(100vh - 190px);
+  padding: 86px 0 52px;
+}
+
+.decay-hero::before {
+  position: absolute;
+  inset: 4% 14% 0;
+  z-index: -1;
+  content: "";
+  background:
+    linear-gradient(180deg, rgb(213 87 33 / 0.12), transparent 34%),
+    radial-gradient(ellipse at center, rgb(213 87 33 / 0.16), transparent 62%);
+  filter: blur(2px);
+}
+
+.hero-center {
+  display: grid;
+  justify-items: center;
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgb(240 162 75 / 0.28);
+  border-radius: 999px;
+  background: rgb(23 16 12 / 0.62);
+  color: #f2ae68;
+  font-size: 0.78rem;
+  font-weight: 950;
+  gap: 9px;
+  padding: 9px 15px;
+  text-transform: uppercase;
+}
+
+.pulse-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 99px;
+  background: var(--rust);
+  box-shadow: 0 0 16px rgb(213 87 33 / 0.85);
+}
+
+.survivor-logo {
+  display: grid;
+  justify-items: center;
+  margin-top: 24px;
+  gap: 14px;
+}
+
+.survivor-logo-mark {
+  position: relative;
+  display: grid;
+  width: 104px;
+  height: 104px;
+  place-items: center;
+  overflow: hidden;
+  border: 2px solid rgb(255 219 166 / 0.78);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgb(93 22 13 / 0.92), rgb(232 87 25 / 0.96)),
+    repeating-linear-gradient(-35deg, transparent 0 8px, rgb(255 255 255 / 0.1) 8px 10px);
+  color: #fff1dd;
+  box-shadow: 0 22px 70px rgb(213 87 33 / 0.24);
+}
+
+.survivor-logo-mark::after {
+  position: absolute;
+  inset: 12px -24px auto;
+  height: 3px;
+  content: "";
+  background: rgb(255 241 221 / 0.72);
+  transform: rotate(-22deg);
+}
+
+.survivor-logo h1 {
+  color: #fff5e7;
+  text-shadow:
+    0 2px 0 rgb(0 0 0 / 0.38),
+    0 28px 80px rgb(0 0 0 / 0.8);
+}
+
+.hero-subtitle {
+  margin: 22px 0 0;
+  color: rgb(255 236 213 / 0.9);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 800;
 }
 
 .page-heading h1 {
@@ -189,8 +309,8 @@ textarea {
 .hero-copy,
 .page-heading p {
   max-width: 670px;
-  margin: 22px 0 0;
-  color: rgb(236 230 216 / 0.78);
+  margin: 14px 0 0;
+  color: rgb(243 234 219 / 0.64);
   font-size: clamp(1.05rem, 2vw, 1.28rem);
   line-height: 1.62;
   overflow-wrap: anywhere;
@@ -200,6 +320,7 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   margin-top: 30px;
+  justify-content: center;
   gap: 12px;
 }
 
@@ -214,6 +335,7 @@ textarea {
   font-weight: 900;
   gap: 10px;
   padding: 0 16px;
+  text-transform: uppercase;
   transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
 }
 
@@ -222,22 +344,23 @@ textarea {
 }
 
 .button-primary {
-  background: linear-gradient(135deg, var(--rust), var(--ember));
+  border-color: rgb(255 209 151 / 0.18);
+  background: linear-gradient(135deg, #b73918, var(--rust) 52%, var(--ember));
   color: #fffaf0;
-  box-shadow: 0 16px 36px rgb(196 75 50 / 0.24);
+  box-shadow: 0 16px 36px rgb(213 87 33 / 0.28);
 }
 
 .button-secondary {
-  border-color: rgb(236 230 216 / 0.16);
-  background: rgb(236 230 216 / 0.06);
+  border-color: rgb(240 162 75 / 0.26);
+  background: rgb(23 16 12 / 0.42);
   color: var(--text);
 }
 
 .button-ghost {
   min-height: 40px;
-  border-color: rgb(236 230 216 / 0.12);
-  background: rgb(7 9 9 / 0.28);
-  color: rgb(236 230 216 / 0.8);
+  border-color: rgb(240 162 75 / 0.2);
+  background: rgb(8 4 2 / 0.38);
+  color: rgb(243 234 219 / 0.8);
 }
 
 .header-connect {
@@ -328,12 +451,39 @@ textarea {
 .alert-panel {
   border: 1px solid rgb(236 230 216 / 0.12);
   border-radius: 8px;
-  background: linear-gradient(180deg, rgb(16 22 21 / 0.94), rgb(12 17 16 / 0.88));
+  background:
+    linear-gradient(180deg, rgb(23 16 12 / 0.94), rgb(12 7 5 / 0.92)),
+    repeating-linear-gradient(135deg, rgb(255 255 255 / 0.025) 0 1px, transparent 1px 7px);
   box-shadow: var(--shadow-panel);
 }
 
 .status-panel {
   padding: 24px;
+}
+
+.server-status-strip {
+  margin-top: -28px;
+}
+
+.server-status-strip .status-panel {
+  display: grid;
+  align-items: center;
+  gap: 18px;
+  grid-template-columns: minmax(230px, 0.9fr) minmax(0, 1.3fr) minmax(260px, 0.8fr);
+  border-color: rgb(240 162 75 / 0.2);
+  background: rgb(20 13 9 / 0.88);
+}
+
+.server-status-strip .status-top {
+  margin-bottom: 0;
+}
+
+.server-status-strip .status-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.server-status-strip .connect-line {
+  margin-top: 0;
 }
 
 .status-top {
@@ -347,10 +497,10 @@ textarea {
 .status-dot {
   display: inline-flex;
   align-items: center;
-  border: 1px solid rgb(236 230 216 / 0.12);
+  border: 1px solid rgb(240 162 75 / 0.18);
   border-radius: 999px;
-  background: rgb(236 230 216 / 0.06);
-  color: rgb(236 230 216 / 0.78);
+  background: rgb(8 4 2 / 0.34);
+  color: rgb(243 234 219 / 0.78);
   font-size: 0.85rem;
   font-weight: 900;
   gap: 8px;
@@ -368,7 +518,7 @@ textarea {
 
 .status-dot.online::before {
   background: var(--radiation);
-  box-shadow: 0 0 14px rgb(157 188 72 / 0.8);
+  box-shadow: 0 0 14px rgb(104 213 138 / 0.8);
 }
 
 .status-grid {
@@ -378,9 +528,9 @@ textarea {
 }
 
 .metric {
-  border: 1px solid rgb(236 230 216 / 0.08);
+  border: 1px solid rgb(240 162 75 / 0.09);
   border-radius: 8px;
-  background: rgb(7 9 9 / 0.38);
+  background: rgb(8 4 2 / 0.38);
   padding: 14px;
 }
 
@@ -407,16 +557,16 @@ textarea {
   justify-content: space-between;
   min-width: 0;
   margin-top: 16px;
-  border: 1px solid rgb(94 185 186 / 0.22);
+  border: 1px solid rgb(157 196 181 / 0.22);
   border-radius: 8px;
-  background: rgb(94 185 186 / 0.08);
+  background: rgb(157 196 181 / 0.08);
   gap: 12px;
   padding: 12px;
 }
 
 .connect-line code {
   overflow: hidden;
-  color: #dff9f8;
+  color: #e3fff4;
   font-family: var(--font-mono);
   font-size: 0.88rem;
   text-overflow: ellipsis;
@@ -424,7 +574,7 @@ textarea {
 }
 
 .section {
-  margin-top: 70px;
+  margin-top: 82px;
 }
 
 .section-header {
@@ -440,6 +590,7 @@ textarea {
   margin: 0;
   font-size: clamp(2rem, 4vw, 3.4rem);
   line-height: 1;
+  text-transform: uppercase;
 }
 
 .section-header p {
@@ -489,10 +640,31 @@ textarea {
   width: 42px;
   height: 42px;
   place-items: center;
-  border: 1px solid rgb(225 153 53 / 0.28);
+  border: 1px solid rgb(240 162 75 / 0.34);
   border-radius: 8px;
-  background: rgb(225 153 53 / 0.1);
+  background: rgb(240 162 75 / 0.1);
   color: var(--ember);
+}
+
+.decay-signal-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 18px;
+  color: rgb(243 234 219 / 0.66);
+  gap: 12px;
+}
+
+.decay-signal-row span {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgb(240 162 75 / 0.14);
+  border-radius: 999px;
+  background: rgb(8 4 2 / 0.26);
+  font-size: 0.86rem;
+  font-weight: 800;
+  gap: 7px;
+  padding: 8px 11px;
 }
 
 .info-card a {
@@ -503,6 +675,7 @@ textarea {
 
 .page-heading {
   margin-bottom: 34px;
+  padding-top: 54px;
 }
 
 .guide-list,
@@ -900,22 +1073,23 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   margin-top: 20px;
+  justify-content: center;
   gap: 10px;
 }
 
 .security-strip span {
-  border: 1px solid rgb(157 188 72 / 0.22);
+  border: 1px solid rgb(104 213 138 / 0.22);
   border-radius: 999px;
-  background: rgb(157 188 72 / 0.08);
-  color: #d9ed94;
+  background: rgb(104 213 138 / 0.08);
+  color: #bdf5cc;
   font-size: 0.88rem;
   font-weight: 900;
   padding: 8px 11px;
 }
 
 .footer {
-  border-top: 1px solid rgb(236 230 216 / 0.08);
-  background: rgb(7 9 9 / 0.86);
+  border-top: 1px solid rgb(240 162 75 / 0.12);
+  background: rgb(8 4 2 / 0.9);
 }
 
 .footer-inner {
@@ -967,6 +1141,22 @@ textarea {
     padding-top: 24px;
   }
 
+  .decay-hero {
+    padding-top: 58px;
+  }
+
+  .server-status-strip {
+    margin-top: 26px;
+  }
+
+  .server-status-strip .status-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .server-status-strip .status-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .card-grid,
   .community-list,
   .account-benefits {
@@ -997,14 +1187,30 @@ textarea {
   }
 
   .main-content {
-    padding-top: 34px;
+    padding-top: 0;
   }
 
+  .survivor-logo h1,
   .hero h1,
   .page-heading h1 {
-    font-size: clamp(2.55rem, 12vw, 3.3rem);
+    font-size: clamp(2.55rem, 13vw, 3.65rem);
     line-height: 1;
     overflow-wrap: anywhere;
+  }
+
+  .page-heading {
+    padding-top: 36px;
+  }
+
+  .hero-badge {
+    max-width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .survivor-logo-mark {
+    width: 82px;
+    height: 82px;
   }
 
   .hero > div,
@@ -1062,6 +1268,10 @@ textarea {
   }
 
   .status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .server-status-strip .status-grid {
     grid-template-columns: 1fr;
   }
 

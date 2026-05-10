@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, ShieldCheck, UserRound } from 'lucide-react';
+import { ArrowRight, Flame, Radio, ShieldCheck, Skull, UserRound } from 'lucide-react';
 import { auth } from '@/auth';
 import { DiscordLoginButton } from '@/components/auth-actions';
 import { CopyConnectButton } from '@/components/copy-connect-button';
@@ -12,19 +12,29 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="hero">
-        <div>
-          <h1>
-            <span>LAST</span>
-            <span>SURVIVORS</span>
-          </h1>
+      <section className="hero decay-hero">
+        <div className="hero-center">
+          <span className="hero-badge">
+            <span className="pulse-dot" />
+            Serveur FiveM post-apocalyptique
+          </span>
+          <div className="survivor-logo" aria-label="Last Survivors">
+            <span className="survivor-logo-mark">
+              <Skull size={58} />
+            </span>
+            <h1>
+              <span>LAST</span>
+              <span>SURVIVORS</span>
+            </h1>
+          </div>
+          <p className="hero-subtitle">Tenez la zone un jour de plus</p>
           <p className="hero-copy">
             Portail des survivants: connexion rapide, statut serveur, guide utile, carte publique et transmissions RP pour rester en vie dans la Zone.
           </p>
           <div className="hero-actions">
             <CopyConnectButton />
             <Link className="button button-secondary" href="/guide">
-              Lire le guide <ArrowRight size={18} />
+              Guide de survie <ArrowRight size={18} />
             </Link>
             {session?.user ? (
               <Link className="button button-secondary" href="/profil">
@@ -40,7 +50,20 @@ export default async function HomePage() {
               </span>
             ))}
           </div>
+          <div className="decay-signal-row" aria-label="Signaux RP">
+            <span>
+              <Radio size={15} />
+              Transmissions Discord
+            </span>
+            <span>
+              <Flame size={15} />
+              Tempetes, hordes, airdrops
+            </span>
+          </div>
         </div>
+      </section>
+
+      <section className="server-status-strip">
         <ServerStatusPanel />
       </section>
 
