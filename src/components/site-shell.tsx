@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ShieldCheck } from 'lucide-react';
+import { CalendarDays, MessageCircle } from 'lucide-react';
 import { auth } from '@/auth';
 import { HeaderAuth } from '@/components/auth-actions';
 import { siteConfig } from '@/config/site';
@@ -32,9 +32,14 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
       <main className="main-content">{children}</main>
       <footer className="footer">
         <div className="footer-inner">
-          <span>LAST SURVIVORS - Portail public joueurs</span>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-            <ShieldCheck size={16} /> Donnees sensibles masquees
+          <span>LAST SURVIVORS - Portail joueurs</span>
+          <span className="footer-links">
+            <Link href="/changelog">
+              <CalendarDays size={16} /> Roadmap
+            </Link>
+            <Link href="/communaute">
+              <MessageCircle size={16} /> Communaute
+            </Link>
           </span>
         </div>
       </footer>

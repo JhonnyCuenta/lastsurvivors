@@ -39,8 +39,8 @@ const authConfig: NextAuthConfig = {
     strategy: 'jwt',
   },
   pages: {
-    signIn: '/profil',
-    error: '/profil',
+    signIn: '/dashboard',
+    error: '/dashboard',
   },
   providers: [
     Discord({
@@ -54,7 +54,7 @@ const authConfig: NextAuthConfig = {
   callbacks: {
     async signIn({ account }) {
       if (account?.provider !== 'discord' || !account.access_token) {
-        return '/profil?error=discord-auth';
+        return '/dashboard?error=discord-auth';
       }
 
       if (!getDiscordAuthStatus().guildCheckReady) {
@@ -62,7 +62,7 @@ const authConfig: NextAuthConfig = {
       }
 
       const isGuildMember = await isMemberOfConfiguredGuild(account.access_token);
-      return isGuildMember ? true : '/profil?error=discord-guild';
+      return isGuildMember ? true : '/dashboard?error=discord-guild';
     },
     async jwt({ token, account, profile }) {
       if (account?.provider === 'discord') {

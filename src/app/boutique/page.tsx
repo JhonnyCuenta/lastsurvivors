@@ -105,8 +105,8 @@ export default function BoutiquePage() {
           <span className="shop-kicker">Catalogue public / Last Survivors</span>
           <h1>Boutique Last Survivors</h1>
           <p>
-            Page mise a jour depuis la ressource FiveM BoutiqueV4. Le site presente les packs coins, les vehicules et
-            les armes actuellement configures pour Last Survivors, sans exposer la logique serveur.
+            Une boutique claire pour soutenir le serveur: coins, vehicules et armes de survie visibles avant de passer
+            en jeu.
           </p>
           <div className="shop-hero-actions">
             <a className="button button-primary" href={storeUrl} target="_blank" rel="noreferrer">
@@ -140,8 +140,8 @@ export default function BoutiquePage() {
       <section className="shop-warning">
         <ShieldCheck size={22} />
         <p>
-          Les achats restent lies aux coins boutique et aux validations serveur. Les packs argent et caisses sont
-          visibles dans le script, mais desactives dans la configuration actuelle pour garder l economie sous controle.
+          Les offres doivent rester lisibles et coherentes avec le RP. La boutique aide le serveur, elle ne remplace pas
+          la progression en jeu.
         </p>
       </section>
 
@@ -160,8 +160,7 @@ export default function BoutiquePage() {
           <span className="section-kicker">Gestion active</span>
           <h2 id="coin-packs-title">Packs coins</h2>
           <p>
-            Les liens de la ressource BoutiqueV4 pointent vers le salon Discord boutique. Les prix ci-dessous viennent
-            de la configuration actuelle.
+            Choisis un pack, ouvre la boutique et garde le meme pseudo pour retrouver ton achat plus facilement.
           </p>
         </div>
 

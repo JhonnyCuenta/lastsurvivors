@@ -1,4 +1,4 @@
-import { AlertTriangle, CloudLightning, PackageOpen, Radio, Skull, Zap } from 'lucide-react';
+import { CloudLightning, PackageOpen, Radio, Skull, Zap } from 'lucide-react';
 import { LiveEventsPanel } from '@/components/live-events-panel';
 import { getLiveEvents } from '@/lib/live-events';
 
@@ -9,25 +9,25 @@ const eventTypes = [
     title: 'Airdrops',
     icon: PackageOpen,
     tone: 'high',
-    text: 'Caisses publiques signalees par le script airdrop. Le site affiche la zone, jamais les joueurs.',
+    text: 'Caisses signalees en zone ouverte. Arrive equipe, reste mobile et repars avant que la situation se ferme.',
   },
   {
     title: 'Hordes',
     icon: Skull,
     tone: 'critical',
-    text: 'Vagues zombies suivies en direct: annonce, debut, vague active et fin de l evenement.',
+    text: 'Vagues de morts-vivants, appels radio et zones a eviter si tu n es pas pret.',
   },
   {
     title: 'Blackouts',
     icon: Zap,
     tone: 'medium',
-    text: 'Pret pour les coupures et phases de tension. Le flux accepte deja ce type de signal public.',
+    text: 'Coupures, rues plus sombres et trajets plus tendus pour les scenes nocturnes.',
   },
   {
     title: 'Tempetes',
     icon: CloudLightning,
     tone: 'medium',
-    text: 'Alertes meteo ou environnementales affichables sans modifier les donnees staff.',
+    text: 'Conditions difficiles, visibilite reduite et bonnes raisons de se mettre a couvert.',
   },
 ];
 
@@ -40,19 +40,19 @@ export default async function EvenementsPage() {
         <div className="events-hero-copy">
           <h1>Events live</h1>
           <p>
-            Airdrops, hordes et alertes terrain en temps reel. Le portail reste public: il affiche les signaux utiles
-            aux survivants, sans noms de joueurs, positions sensibles ni outils staff.
+            Airdrops, hordes et alertes terrain en temps reel. Consulte les signaux avant de sortir, rejoindre un convoi
+            ou prendre une route trop calme pour etre honnete.
           </p>
         </div>
         <aside className="events-signal-card">
           <span className="section-kicker">Radio Last Survivors</span>
           <strong>{initialFeed.active.length > 0 ? `${initialFeed.active.length} event(s) actif(s)` : 'Canal en veille'}</strong>
           <p>
-            Le site interroge <code>/api/live-events</code>, qui lit la ressource FiveM <code>lsv_live_events</code>.
+            Les prochains mouvements importants apparaitront ici pendant les sessions.
           </p>
           <div>
             <Radio size={18} />
-            <span>Lecture seule publique</span>
+            <span>Transmission terrain</span>
           </div>
         </aside>
       </section>
@@ -66,8 +66,7 @@ export default async function EvenementsPage() {
             <h2>Ce que les joueurs peuvent suivre</h2>
           </div>
           <p>
-            Les airdrops et hordes sont branches. Les blackouts, tempetes ou annonces RP pourront utiliser le meme
-            flux plus tard.
+            Les signaux restent courts et pratiques: assez d informations pour reagir, pas assez pour casser le RP.
           </p>
         </div>
 
@@ -85,14 +84,11 @@ export default async function EvenementsPage() {
       </section>
 
       <section className="event-safety-panel section">
-        <span className="card-icon">
-          <AlertTriangle size={22} />
-        </span>
         <div>
-          <h2>Infos publiques uniquement</h2>
+          <h2>Conseil de survivant</h2>
           <p>
-            Le flux ne donne pas les coordonnees exactes, ne liste pas les joueurs, ne montre pas les inventaires et ne
-            lance aucun event depuis le site. Tout reste controle cote serveur FiveM.
+            Un event n est pas juste un point sur une carte. Prends de l eau, un soin, du carburant, un plan de sortie
+            et quelqu un capable de parler si les choses tournent mal.
           </p>
         </div>
       </section>

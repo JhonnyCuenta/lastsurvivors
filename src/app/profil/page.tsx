@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { AlertTriangle, CheckCircle2, ClipboardList, Radio, ShieldCheck, UserRound } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, ClipboardList, MessageCircle, Radio, UserRound } from 'lucide-react';
 import { auth } from '@/auth';
 import { DiscordLoginButton, DiscordLogoutButton } from '@/components/auth-actions';
 import { CopyConnectButton } from '@/components/copy-connect-button';
@@ -71,13 +71,12 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
           </article>
           <article className="profile-card muted-card">
             <span className="card-icon">
-              <ShieldCheck size={22} />
+              <MessageCircle size={22} />
             </span>
-            <h2>Verification membre</h2>
+            <h2>Discord Last Survivors</h2>
             <p>
-              Le portail demande le scope Discord <strong>identify guilds</strong> pour verifier ton appartenance au
-              serveur. Le token ne part jamais dans le frontend.
-              {!authStatus.guildCheckReady ? ' Il manque encore le DISCORD_GUILD_ID pour valider les candidatures.' : ''}
+              La connexion sert a retrouver ton pseudo Discord et a garder les candidatures au bon endroit.
+              {!authStatus.guildCheckReady ? ' Si la candidature ne passe pas, ouvre un ticket Discord.' : ''}
             </p>
           </article>
         </section>
@@ -117,7 +116,7 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
           ) : (
             <span className="alert-panel inline-alert">
               <AlertTriangle size={18} />
-              Verification membre Discord en attente de configuration.
+              Discord connecte. Candidature a verifier depuis le dashboard.
             </span>
           )}
           <div className="profile-actions">

@@ -1,112 +1,155 @@
 import Link from 'next/link';
-import { ArrowRight, Flame, Radio, ShieldCheck, Skull, UserRound } from 'lucide-react';
+import {
+  ArrowRight,
+  CalendarDays,
+  Camera,
+  CheckCircle2,
+  Flame,
+  Map,
+  MessageCircle,
+  Radio,
+  Skull,
+  UserRound,
+} from 'lucide-react';
 import { auth } from '@/auth';
 import { DiscordLoginButton } from '@/components/auth-actions';
 import { CopyConnectButton } from '@/components/copy-connect-button';
-import { MapOverview } from '@/components/map-overview';
 import { ServerStatusPanel } from '@/components/server-status-panel';
-import { accountBenefits, healthSignals, quickLinks, staffSignals } from '@/config/site';
+import {
+  factionPreviews,
+  homeHighlights,
+  playerQuotes,
+  premiumStats,
+  publicLinks,
+  quickLinks,
+} from '@/config/site';
+import { getLiveEvents } from '@/lib/live-events';
+
+export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
-  const session = await auth();
+  const [session, eventsFeed] = await Promise.all([auth(), getLiveEvents()]);
+  const activeEvent = eventsFeed.active[0];
 
   return (
     <>
-      <section className="hero decay-hero">
-        <div className="hero-center">
-          <span className="hero-badge">
+      <section className="premium-hero">
+        <div className="premium-hero-copy">
+          <span className="premium-overline">
             <span className="pulse-dot" />
-            Serveur FiveM post-apocalyptique
+            Serveur FiveM RP post-apocalyptique
           </span>
-          <div className="survivor-logo" aria-label="Last Survivors">
-            <span className="survivor-logo-mark">
-              <Skull size={58} />
-            </span>
-            <h1>
-              <span>LAST</span>
-              <span>SURVIVORS</span>
-            </h1>
-          </div>
-          <p className="hero-subtitle">Tenez la zone un jour de plus</p>
-          <p className="hero-copy">
-            Portail des survivants: connexion rapide, statut serveur, guide utile, carte publique et transmissions RP pour rester en vie dans la Zone.
+          <h1>Last Survivors</h1>
+          <p className="premium-lead">
+            Un serveur sombre, lisible et humain: survivre, negocier, reconstruire, perdre parfois, et repartir avec
+            une histoire qui vaut le detour.
           </p>
-          <div className="hero-actions">
+
+          <div className="premium-actions">
             <CopyConnectButton />
-            <Link className="button button-secondary" href="/guide">
-              Guide de survie <ArrowRight size={18} />
+            <a className="button button-secondary" href={publicLinks.discordUrl} target="_blank" rel="noreferrer">
+              Discord <MessageCircle size={18} />
+            </a>
+            <Link className="button button-ghost" href={session?.user ? '/dashboard' : '/jouer'}>
+              {session?.user ? 'Mon espace' : 'Commencer'} <ArrowRight size={18} />
             </Link>
-            {session?.user ? (
-              <Link className="button button-secondary" href="/profil">
-                Mon profil <UserRound size={18} />
-              </Link>
-            ) : null}
           </div>
-          <div className="security-strip" aria-label="Donnees protegees">
-            {staffSignals.map((signal) => (
-              <span key={signal}>
-                <ShieldCheck size={14} style={{ display: 'inline', marginRight: 6 }} />
-                {signal}
+
+          <div className="premium-stat-row">
+            {premiumStats.map((stat) => (
+              <span key={stat.label}>
+                <small>{stat.label}</small>
+                <strong>{stat.value}</strong>
               </span>
             ))}
           </div>
-          <div className="decay-signal-row" aria-label="Signaux RP">
-            <span>
-              <Radio size={15} />
-              Transmissions Discord
-            </span>
-            <span>
-              <Flame size={15} />
-              Tempetes, hordes, airdrops
-            </span>
-          </div>
         </div>
+
+        <aside className="premium-hero-panel" aria-label="Signal serveur">
+          <div className="premium-panel-top">
+            <span>
+              <Radio size={17} />
+              Transmission
+            </span>
+            <strong>{activeEvent ? activeEvent.title : 'Canal calme'}</strong>
+            <p>{activeEvent ? `${activeEvent.zone} - ${activeEvent.message}` : 'Aucun event critique pour le moment.'}</p>
+          </div>
+          <div className="premium-panel-links">
+            <Link href="/evenements">
+              Events live <ArrowRight size={15} />
+            </Link>
+            <Link href="/guide">
+              Guide depart <ArrowRight size={15} />
+            </Link>
+          </div>
+        </aside>
       </section>
 
-      <section className="server-status-strip">
+      <section className="home-status-band">
         <ServerStatusPanel />
       </section>
 
-      <section className="section account-section">
+      <section className="section premium-section">
         <div className="section-header">
           <div>
-            <span className="section-kicker">Compte optionnel</span>
-            <h2>Public pour tous, profil pour les membres Discord</h2>
+            <span className="section-kicker">Entrer dans la Zone</span>
+            <h2>Le plus court chemin vers le jeu</h2>
           </div>
-          <p>Le site ne force pas de compte. La connexion Discord sert seulement aux fonctions joueur qui ont besoin d eviter le spam.</p>
+          <p>Tout ce qu il faut avant de lancer FiveM: connexion, Discord, regles, guide et premiers reperes.</p>
         </div>
-        <div className="account-panel">
-          <div className="account-benefits">
-            {accountBenefits.map((item) => (
-              <article key={item.title}>
-                <span className="card-icon">
-                  <item.icon size={21} />
-                </span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            ))}
+
+        <div className="premium-card-grid">
+          <Link className="premium-feature-card primary-card" href="/jouer">
+            <span className="card-icon">
+              <Flame size={22} />
+            </span>
+            <h3>Jouer maintenant</h3>
+            <p>Copie la commande, rejoins le Discord, verifie les infos importantes et arrive avec un personnage simple.</p>
+            <strong>
+              Ouvrir <ArrowRight size={15} />
+            </strong>
+          </Link>
+          {homeHighlights.map((item) => (
+            <Link className="premium-feature-card" href={item.href} key={item.title}>
+              <span className="card-icon">
+                <item.icon size={22} />
+              </span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+              <strong>
+                Voir <ArrowRight size={15} />
+              </strong>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="section split-showcase">
+        <div>
+          <span className="section-kicker">Serveur vivant</span>
+          <h2>Factions, routes, risques et choix</h2>
+          <p>
+            Last Survivors fonctionne mieux quand chaque joueur laisse une trace: un commerce qui tient, une alliance qui
+            craque, une escorte qui tourne mal, un medecin qui arrive trop tard.
+          </p>
+          <div className="showcase-actions">
+            <Link className="button button-primary" href="/serveur">
+              Decouvrir le serveur <ArrowRight size={18} />
+            </Link>
+            <Link className="button button-secondary" href="/carte">
+              Carte utile <Map size={18} />
+            </Link>
           </div>
-          <div className="account-cta">
-            <h3>{session?.user ? `Connecte: ${session.user.name ?? 'survivant'}` : 'Envie de candidater ?'}</h3>
-            <p>
-              {session?.user
-                ? 'Ton Discord est verifie. Tu peux ouvrir ton espace joueur ou envoyer une candidature.'
-                : 'Connecte Discord si tu veux acceder a ton espace joueur et au formulaire candidature.'}
-            </p>
-            <div className="hero-actions">
-              {session?.user ? (
-                <Link className="button button-primary" href="/profil">
-                  Ouvrir mon profil <ArrowRight size={18} />
-                </Link>
-              ) : (
-                <DiscordLoginButton className="button button-primary" />
-              )}
-              <Link className="button button-secondary" href="/candidature">
-                Candidature <ArrowRight size={18} />
-              </Link>
-            </div>
-          </div>
+        </div>
+
+        <div className="faction-mini-grid">
+          {factionPreviews.map((faction) => (
+            <article key={faction.name}>
+              <span>{faction.role}</span>
+              <h3>{faction.name}</h3>
+              <p>{faction.text}</p>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -114,48 +157,81 @@ export default async function HomePage() {
         <div className="section-header">
           <div>
             <span className="section-kicker">Acces rapide</span>
-            <h2>Ce qui sert vraiment en jeu</h2>
+            <h2>Les pages utiles aux joueurs</h2>
           </div>
-          <p>Le site est fait pour les joueurs: moins de blabla, plus de reperes utiles avant de se connecter.</p>
+          <p>Une navigation simple: preparer une session, suivre les events, voter, candidater ou retrouver une info.</p>
         </div>
-        <div className="card-grid">
+        <div className="quicklink-grid">
           {quickLinks.map((item) => (
-            <article className="info-card" key={item.href}>
-              <span className="card-icon">
-                <item.icon size={22} />
-              </span>
-              <h3>{item.title}</h3>
+            <Link className="quicklink-card" href={item.href} key={item.href}>
+              <item.icon size={21} />
+              <span>{item.title}</span>
               <p>{item.text}</p>
-              <Link href={item.href}>
-                Ouvrir <ArrowRight size={15} style={{ display: 'inline', marginLeft: 6 }} />
-              </Link>
-            </article>
+            </Link>
           ))}
         </div>
       </section>
 
-      <section className="section">
+      <section className="section community-proof">
+        <div className="proof-copy">
+          <span className="section-kicker">Communaute</span>
+          <h2>Un portail fait pour ramener les joueurs en jeu</h2>
+          <p>
+            Screenshots, votes, candidatures, Discord et calendrier RP doivent servir la meme chose: donner envie de se
+            connecter et de creer une scene propre.
+          </p>
+          <div className="showcase-actions">
+            <Link className="button button-primary" href="/communaute">
+              Communaute <Camera size={18} />
+            </Link>
+            <Link className="button button-secondary" href="/evenements">
+              Events <CalendarDays size={18} />
+            </Link>
+          </div>
+        </div>
+
+        <div className="quote-stack">
+          {playerQuotes.map((quote) => (
+            <blockquote key={quote.author}>
+              <Skull size={18} />
+              <p>{quote.quote}</p>
+              <cite>{quote.author}</cite>
+            </blockquote>
+          ))}
+        </div>
+      </section>
+
+      <section className="section account-section refined-account">
         <div className="section-header">
           <div>
-            <span className="section-kicker">Carte publique</span>
-            <h2>Reperes sans fuite sensible</h2>
+            <span className="section-kicker">Compte optionnel</span>
+            <h2>{session?.user ? `Content de te revoir, ${session.user.name ?? 'survivant'}` : 'Discord seulement quand c est utile'}</h2>
           </div>
-          <p>Les marqueurs donnent une orientation RP. Les positions des joueurs, inventaires et actions staff ne sont jamais exposees.</p>
+          <p>Le site reste ouvert. Le compte sert aux candidatures, au profil joueur et aux futurs outils communautaires.</p>
         </div>
-        <MapOverview compact />
-      </section>
 
-      <section className="section">
-        <div className="card-grid">
-          {healthSignals.map((item) => (
-            <article className="info-card" key={item.label} style={{ minHeight: 150 }}>
-              <span className="card-icon">
-                <item.icon size={22} />
-              </span>
-              <h3>{item.label}</h3>
-              <p>{item.value}</p>
-            </article>
-          ))}
+        <div className="account-cta premium-account-cta">
+          <div>
+            <CheckCircle2 size={24} />
+            <h3>{session?.user ? 'Espace joueur actif' : 'Pas besoin de compte pour lire le site'}</h3>
+            <p>
+              {session?.user
+                ? 'Ton espace rassemble les raccourcis utiles, la candidature et les prochaines fonctions joueur.'
+                : 'Connecte Discord uniquement si tu veux candidater ou suivre ton profil joueur.'}
+            </p>
+          </div>
+          <div className="hero-actions">
+            {session?.user ? (
+              <Link className="button button-primary" href="/dashboard">
+                Dashboard <UserRound size={18} />
+              </Link>
+            ) : (
+              <DiscordLoginButton className="button button-primary" />
+            )}
+            <Link className="button button-secondary" href="/candidature">
+              Candidature <ArrowRight size={18} />
+            </Link>
+          </div>
         </div>
       </section>
     </>

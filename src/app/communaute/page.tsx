@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { ClipboardList, ExternalLink } from 'lucide-react';
-import { communityLinks, defaultCommunityAction } from '@/config/site';
+import { ClipboardList, ExternalLink, MessageCircle, Quote, Radio } from 'lucide-react';
+import { communityLinks, defaultCommunityAction, faqItems, playerQuotes } from '@/config/site';
 
 export default function CommunautePage() {
   const EmptyIcon = defaultCommunityAction.icon;
@@ -9,7 +9,7 @@ export default function CommunautePage() {
     <>
       <header className="page-heading">
         <h1>Communaute</h1>
-        <p>Les liens publics apparaissent ici des qu ils sont configures. Discord reste le point central pour support, annonces et candidatures.</p>
+        <p>Discord, votes, photos, support et prochains rendez-vous. C est ici que le serveur continue entre deux sessions.</p>
       </header>
 
       {communityLinks.length > 0 ? (
@@ -19,7 +19,7 @@ export default function CommunautePage() {
               <ClipboardList size={22} />
             </span>
             <h3>Candidature</h3>
-            <p>Envoie une candidature au staff avec verification Discord membre.</p>
+            <p>Presente ton personnage ou ton projet de groupe avec quelques lignes propres.</p>
             <span className="community-action">
               Ouvrir <ExternalLink size={15} />
             </span>
@@ -44,7 +44,7 @@ export default function CommunautePage() {
               <ClipboardList size={22} />
             </span>
             <h3>Candidature</h3>
-            <p>Connexion Discord membre requise, sans compte obligatoire pour lire le portail.</p>
+            <p>Connecte Discord uniquement si tu veux envoyer une demande.</p>
           </Link>
           <article className="community-card">
             <span className="card-icon">
@@ -55,6 +55,50 @@ export default function CommunautePage() {
           </article>
         </section>
       )}
+
+      <section className="premium-section community-proof">
+        <div className="proof-copy">
+          <span className="premium-overline">
+            <MessageCircle size={16} />
+            Vie du serveur
+          </span>
+          <h2>Une communaute qui joue le RP.</h2>
+          <p>
+            Last Survivors marche quand les joueurs prennent le temps de construire des scenes, des alliances,
+            des tensions et des vraies consequences en jeu.
+          </p>
+        </div>
+        <div className="quote-stack">
+          {playerQuotes.map((quote) => (
+            <blockquote key={quote.author}>
+              <Quote size={18} />
+              <p>{quote.quote}</p>
+              <cite>{quote.author}</cite>
+            </blockquote>
+          ))}
+        </div>
+      </section>
+
+      <section className="premium-section split-showcase">
+        <div>
+          <span className="premium-overline">
+            <Radio size={16} />
+            Questions rapides
+          </span>
+          <h2>FAQ joueur</h2>
+          <p>
+            Les reponses simples avant de rejoindre le serveur. Pour un cas precis, passe par le Discord.
+          </p>
+        </div>
+        <div className="faq-list">
+          {faqItems.map((item) => (
+            <details className="faq-item" key={item.question}>
+              <summary>{item.question}</summary>
+              <p>{item.answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
     </>
   );
 }

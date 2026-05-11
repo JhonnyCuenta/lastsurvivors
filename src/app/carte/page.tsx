@@ -6,8 +6,8 @@ export default function CartePage() {
       <header className="page-heading">
         <h1>Carte utile</h1>
         <p>
-          Une vue publique pour reperer les zones de danger, les points strategiques et les trajets plus calmes.
-          Aucune position joueur ni information staff sensible n est affichee.
+          Les grands reperes pour preparer une sortie: point de depart, observatoire, nord dangereux et sud plus calme.
+          Prends la carte comme une aide de route, pas comme une garantie de survie.
         </p>
       </header>
 

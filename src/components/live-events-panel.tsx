@@ -168,7 +168,7 @@ export function LiveEventsPanel({ initialFeed }: Props) {
               <span className="section-kicker">Terrain</span>
               <h2>Events actifs</h2>
             </div>
-            <p>{feed.active.length} signal(s) public(s), sans position joueur ni inventaire.</p>
+            <p>{feed.active.length} signal(s) a surveiller pendant ta session.</p>
           </div>
 
           {feed.active.length > 0 ? (
@@ -184,8 +184,8 @@ export function LiveEventsPanel({ initialFeed }: Props) {
               </span>
               <h3>Aucun event actif</h3>
               <p>
-                Le site attend le prochain airdrop ou la prochaine horde. Si tu viens d installer le flux, redemarre
-                <code> lsv_live_events</code>, <code>airdrop_apoc</code> et <code>hrs_zombies_horde</code>.
+                Aucun signal important pour le moment. Reviens avant de partir en expedition ou garde un oeil sur le
+                Discord pendant les grosses soirees.
               </p>
             </article>
           )}

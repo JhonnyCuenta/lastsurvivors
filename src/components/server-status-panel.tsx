@@ -75,11 +75,11 @@ export function ServerStatusPanel() {
           </strong>
         </div>
         <div className="metric">
-          <span>Source</span>
-          <strong style={{ fontSize: '1rem' }}>{status.source === 'fivem-dynamic' ? 'FiveM public' : 'Fallback'}</strong>
+          <span>Signal</span>
+          <strong style={{ fontSize: '1rem' }}>{status.source === 'fivem-dynamic' ? 'Live' : 'En attente'}</strong>
         </div>
         <div className="metric">
-          <span>Dernier check</span>
+          <span>Actualise a</span>
           <strong style={{ fontSize: '1rem' }}>{formatTime(status.lastCheckedAt)}</strong>
         </div>
       </div>

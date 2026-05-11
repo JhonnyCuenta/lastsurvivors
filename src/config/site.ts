@@ -30,23 +30,30 @@ export const siteConfig = {
   connectCommand: process.env.NEXT_PUBLIC_CONNECT_COMMAND || 'connect 49.12.121.140:30175',
   nav: [
     { href: '/', label: 'Accueil' },
+    { href: '/jouer', label: 'Jouer' },
     { href: '/lore', label: 'Lore' },
     { href: '/guide', label: 'Guide' },
     { href: '/carte', label: 'Carte' },
     { href: '/evenements', label: 'Events' },
     { href: '/photos', label: 'Photos' },
     { href: '/boutique', label: 'Boutique' },
-    { href: '/top-vote', label: 'Votes' },
+    { href: '/top-vote', label: 'Vote' },
     { href: '/reglement', label: 'Regles' },
-    { href: '/communaute', label: 'Commu' },
+    { href: '/communaute', label: 'Communaute' },
   ],
 };
 
 export const quickLinks = [
   {
-    href: '/lore',
-    title: 'Lore serveur',
-    text: 'Comprendre la Chute, la Zone et les rumeurs qui guident les survivants.',
+    href: '/jouer',
+    title: 'Rejoindre le serveur',
+    text: 'Connexion, Discord, whitelist et premiers reflexes avant ton arrivee.',
+    icon: Radio,
+  },
+  {
+    href: '/serveur',
+    title: 'Univers & factions',
+    text: 'Les groupes, les metiers et les tensions qui font vivre la Zone.',
     icon: Skull,
   },
   {
@@ -58,32 +65,146 @@ export const quickLinks = [
   {
     href: '/carte',
     title: 'Carte utile',
-    text: 'Zones publiques, lieux de repere et secteurs a risque sans fuite de position joueur.',
+    text: 'Les grands reperes pour preparer une sortie sans partir au hasard.',
     icon: Map,
   },
   {
     href: '/evenements',
-    title: 'Evenements RP',
-    text: 'Airdrops, blackouts, tempetes, missions et alertes communautaires.',
+    title: 'Events live',
+    text: 'Airdrops, hordes, alertes terrain et rendez-vous RP a surveiller.',
     icon: CalendarDays,
   },
   {
     href: '/photos',
-    title: 'Photos RP',
-    text: 'Galerie publique reliee au salon Discord si le channel est configure.',
+    title: 'Galerie RP',
+    text: 'Screenshots et moments de serveur postes par la communaute.',
     icon: Images,
   },
   {
     href: '/top-vote',
     title: 'Top vote',
-    text: 'Vote Top-Serveurs, recompenses en jeu et classement des meilleurs soutiens.',
+    text: 'Soutiens le serveur et suis les meilleurs voteurs.',
     icon: Trophy,
   },
   {
-    href: '/profil',
-    title: 'Compte optionnel',
-    text: 'Connecte Discord seulement pour le profil et la candidature.',
+    href: '/dashboard',
+    title: 'Compte joueur',
+    text: 'Discord, candidature, support et raccourcis utiles au meme endroit.',
     icon: UserRound,
+  },
+];
+
+export const premiumStats = [
+  { label: 'Style', value: 'RP post-apo' },
+  { label: 'Connexion', value: 'FiveM PC' },
+  { label: 'Compte', value: 'Optionnel' },
+];
+
+export const homeHighlights = [
+  {
+    href: '/serveur',
+    title: 'Un monde qui tient debout',
+    text: 'Factions, medecins, groupes de route, commerce, conflits et survie lente. Rien n oblige a jouer le chaos permanent.',
+    icon: Users,
+  },
+  {
+    href: '/evenements',
+    title: 'Des signaux qui bougent',
+    text: 'Airdrops, hordes et rendez-vous RP donnent des raisons de sortir, negocier ou prendre des risques.',
+    icon: Radio,
+  },
+  {
+    href: '/boutique',
+    title: 'Boutique lisible',
+    text: 'Coins, vehicules et objets presentes clairement, avec un acces propre aux offres disponibles.',
+    icon: Store,
+  },
+];
+
+export const factionPreviews = [
+  {
+    name: 'Merryweather',
+    role: 'Point de depart',
+    text: 'Zone d arrivee et de regroupement pour les survivants qui cherchent une route, un contact ou un plan.',
+  },
+  {
+    name: 'EMS Observatoire',
+    role: 'Medical',
+    text: 'Repere de soins et d informations, ideal pour les scenes de secours, escorte et evacuation.',
+  },
+  {
+    name: 'Nomades',
+    role: 'Transport & troc',
+    text: 'Groupes mobiles, convois, carburant, pieces et routes secondaires. Pratique, mais jamais gratuit.',
+  },
+  {
+    name: 'Independants',
+    role: 'Survie libre',
+    text: 'Joueurs solo ou petits groupes qui construisent leur reputation par leurs choix en jeu.',
+  },
+];
+
+export const whitelistSteps = [
+  'Rejoins le Discord Last Survivors.',
+  'Lis le reglement et le guide de depart.',
+  'Connecte ton Discord si tu veux envoyer une candidature.',
+  'Prepare un personnage simple, credible et jouable.',
+];
+
+export const roadmapItems = [
+  {
+    status: 'En ligne',
+    title: 'Portail joueur',
+    text: 'Statut serveur, guide, carte, boutique, photos, votes et events live.',
+  },
+  {
+    status: 'En cours',
+    title: 'Dashboard joueur',
+    text: 'Compte Discord, candidature, support, whitelist et raccourcis personnels.',
+  },
+  {
+    status: 'Prochaine etape',
+    title: 'Calendrier RP',
+    text: 'Planning clair pour soirees faction, operations, hordes et evenements staff.',
+  },
+  {
+    status: 'A venir',
+    title: 'Support & tickets',
+    text: 'Un acces plus simple aux demandes joueur, relie au Discord ou a un systeme dedie.',
+  },
+];
+
+export const playerQuotes = [
+  {
+    quote: 'On vient pour survivre, pas juste pour tirer. Les meilleures scenes arrivent souvent quand tout part mal.',
+    author: 'Survivant nomade',
+  },
+  {
+    quote: 'Le serveur est meilleur quand les groupes prennent le temps de discuter avant de sortir les armes.',
+    author: 'Joueur faction',
+  },
+  {
+    quote: 'La carte, les events et le guide aident vraiment les nouveaux a comprendre ou ils mettent les pieds.',
+    author: 'Nouveau arrivant',
+  },
+];
+
+export const faqItems = [
+  {
+    question: 'Faut-il un compte sur le site ?',
+    answer: 'Non. Le site reste lisible par tous. La connexion Discord sert seulement aux candidatures et a l espace joueur.',
+  },
+  {
+    question: 'Comment rejoindre rapidement ?',
+    answer: 'Copie la commande connect depuis l accueil ou la page Jouer, puis colle-la dans F8 sur FiveM.',
+  },
+  {
+    question: 'La boutique est-elle obligatoire ?',
+    answer: 'Non. Elle sert a soutenir le serveur et a acheter des offres visibles, sans remplacer le RP en jeu.',
+  },
+  {
+    question: 'Ou demander de l aide ?',
+    answer: 'Le Discord reste le meilleur endroit pour les tickets, questions, signalements et annonces importantes.',
   },
 ];
 
@@ -289,7 +410,7 @@ export const communityLinks = [
 export const defaultCommunityAction = {
   icon: ExternalLink,
   title: 'Liens en preparation',
-  text: 'Configure les URLs publiques dans Vercel ou dans `.env.local` pour afficher Discord, vote et boutique.',
+  text: 'Discord, vote et boutique apparaitront ici des que les liens seront prets.',
 };
 
 export const accountBenefits = [
@@ -300,21 +421,21 @@ export const accountBenefits = [
   },
   {
     title: 'Candidature propre',
-    text: 'Formulaire reserve aux membres Discord et transmis au staff.',
+    text: 'Un formulaire simple pour presenter ton personnage ou ton projet.',
     icon: ClipboardList,
   },
   {
-    title: 'Verification serveur',
-    text: 'Le portail verifie seulement ton appartenance Discord, pas tes donnees en jeu.',
-    icon: Shield,
+    title: 'Discord utile',
+    text: 'Un seul compte pour retrouver candidature, support et prochains outils joueur.',
+    icon: Radio,
   },
 ];
 
 export const staffSignals = [
-  'Aucun nom de joueur public',
-  'Aucune position joueur',
-  'Aucun inventaire expose',
-  'Aucune route admin ouverte',
+  'Connexion rapide',
+  'Guide clair',
+  'Events visibles',
+  'Discord central',
 ];
 
 export const healthSignals = [

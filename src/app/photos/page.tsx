@@ -30,8 +30,8 @@ export default async function PhotosPage() {
         </span>
         <h1>Photos</h1>
         <p>
-          Les images RP du salon Discord peuvent apparaitre ici automatiquement quand le channel photo est relie au bot
-          du portail.
+          Les meilleurs moments RP postes sur Discord peuvent apparaitre ici: convois, rencontres, scenes tendues et
+          souvenirs de survivants.
         </p>
         <div className="photo-toolbar">
           <span>
@@ -66,11 +66,11 @@ export default async function PhotosPage() {
           <span className="card-icon">
             {feed.configured ? <Camera size={22} /> : <Images size={22} />}
           </span>
-          <h2>{feed.configured ? 'Aucune photo trouvee' : 'Salon photo a relier'}</h2>
+          <h2>{feed.configured ? 'Aucune photo recente' : 'Galerie en preparation'}</h2>
           <p>
             {feed.configured
-              ? 'Le bot a repondu, mais aucun fichier image recent n a ete trouve dans le salon configure.'
-              : 'Le salon photo Discord n est pas encore connecte au portail. Les captures RP apparaitront ici des que le flux sera actif.'}
+              ? 'Aucun screenshot recent n a ete trouve pour le moment. Poste tes scenes sur le salon photo Discord.'
+              : 'Les captures RP apparaitront ici des que la galerie Discord sera active.'}
           </p>
           {feed.configured && checkedLabel ? <p className="gallery-diagnostic">{checkedLabel}</p> : null}
         </section>
