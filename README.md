@@ -1,7 +1,7 @@
 # Portail Joueurs Last Survivors
 
 Site public separe de FiveMetrics pour les joueurs du serveur FiveM `LAST SURVIVORS`.
-Les pages publiques restent accessibles sans compte. La connexion Discord est optionnelle et sert uniquement au profil joueur et a la candidature.
+Les pages publiques restent accessibles sans compte. La connexion Discord est optionnelle et sert au profil joueur, au support et a la candidature staff.
 
 ## Installation
 
@@ -27,6 +27,8 @@ AUTH_DISCORD_ID=""
 AUTH_DISCORD_SECRET=""
 DISCORD_GUILD_ID=""
 DISCORD_APPLICATION_WEBHOOK_URL=""
+DISCORD_SUPPORT_WEBHOOK_URL=""
+DISCORD_EVENTS_BOT_TOKEN=""
 DISCORD_MEDIA_BOT_TOKEN=""
 DISCORD_MEDIA_CHANNEL_ID=""
 DISCORD_MEDIA_LIMIT="30"
@@ -40,7 +42,7 @@ NEXT_PUBLIC_VOTE_URL="https://top-serveurs.net/gta/vote/last-survivors"
 NEXT_PUBLIC_STORE_URL=""
 ```
 
-`AUTH_SECRET`, `AUTH_DISCORD_SECRET`, `DISCORD_GUILD_ID`, `DISCORD_APPLICATION_WEBHOOK_URL`, `DISCORD_MEDIA_BOT_TOKEN`, `DISCORD_MEDIA_CHANNEL_ID`, `FIVEM_SERVER_ENDPOINT`, `VOTE_TOP_ENDPOINT` et `LIVE_EVENTS_ENDPOINT` restent cote serveur. Les liens `NEXT_PUBLIC_*` sont publics et peuvent rester vides: le site masque automatiquement les boutons non configures.
+`AUTH_SECRET`, `AUTH_DISCORD_SECRET`, `DISCORD_GUILD_ID`, `DISCORD_APPLICATION_WEBHOOK_URL`, `DISCORD_SUPPORT_WEBHOOK_URL`, `DISCORD_EVENTS_BOT_TOKEN`, `DISCORD_MEDIA_BOT_TOKEN`, `DISCORD_MEDIA_CHANNEL_ID`, `FIVEM_SERVER_ENDPOINT`, `VOTE_TOP_ENDPOINT` et `LIVE_EVENTS_ENDPOINT` restent cote serveur. Les liens `NEXT_PUBLIC_*` sont publics et peuvent rester vides: le site masque automatiquement les boutons non configures.
 
 Generer `AUTH_SECRET`:
 
@@ -60,20 +62,26 @@ https://last-survivors-portal.vercel.app/api/auth/callback/discord
 ```txt
 GET /api/server-status
 POST /api/candidature
+POST /api/support-ticket
 GET /api/discord-photos
 GET /api/top-voters
 GET /api/live-events
+GET /api/scheduled-events
 ```
 
 Retourne uniquement des donnees publiques: statut, nombre total de joueurs connectes, capacite, nom serveur, commande de connexion et date de verification.
 
-`POST /api/candidature` exige une session Discord membre du serveur configure dans `DISCORD_GUILD_ID`. La candidature est envoyee au staff via `DISCORD_APPLICATION_WEBHOOK_URL`, sans base de donnees en v1.
+`POST /api/candidature` exige une session Discord membre du serveur configure dans `DISCORD_GUILD_ID`. La candidature est uniquement une candidature staff et elle est envoyee via `DISCORD_APPLICATION_WEBHOOK_URL`, sans base de donnees en v1.
+
+`POST /api/support-ticket` envoie un ticket support via `DISCORD_SUPPORT_WEBHOOK_URL`. Si ce webhook est vide, le portail utilise `DISCORD_APPLICATION_WEBHOOK_URL` en fallback. La connexion Discord est conseillee mais pas obligatoire pour ouvrir un ticket.
 
 `GET /api/discord-photos` lit les derniers messages du salon `DISCORD_MEDIA_CHANNEL_ID` via un bot Discord. Le bot doit avoir acces au salon avec les permissions `View Channel` et `Read Message History`. Seules les images jointes ou embeds image sont retournees au frontend; le token bot reste serveur.
 
 `GET /api/top-voters` lit le classement public expose par la ressource FiveM `voterecompense`. Il retourne seulement le pseudo public, le rang, le total de votes et la date du dernier vote. Il ne donne pas d item et n ouvre aucune route admin.
 
 `GET /api/live-events` lit le flux public expose par la ressource FiveM `lsv_live_events`. Il retourne seulement les events actifs/recents, le type, la zone publique, le statut et l heure de verification. Il ne retourne pas de noms joueurs, positions exactes, inventaires ni commandes staff.
+
+`GET /api/scheduled-events` lit les events planifies Discord du serveur avec `DISCORD_EVENTS_BOT_TOKEN` ou `DISCORD_MEDIA_BOT_TOKEN`. Si Discord ne renvoie rien, le site affiche les events de fallback configures dans `src/config/site.ts`.
 
 ## Events live FiveM
 

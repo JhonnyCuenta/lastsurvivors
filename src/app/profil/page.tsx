@@ -47,7 +47,7 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
       <>
         <header className="page-heading">
           <h1>Espace survivant</h1>
-          <p>Le compte est optionnel. Il sert uniquement a verifier ton Discord pour ton profil et les candidatures.</p>
+          <p>Le compte est optionnel. Il sert a verifier ton Discord pour le profil, le support et la candidature staff.</p>
         </header>
 
         {errorMessage ? (
@@ -65,7 +65,7 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
             <h2>Connexion Discord optionnelle</h2>
             <p>
               Tu peux lire le guide, la carte, les evenements et le reglement sans compte. Connecte Discord seulement si
-              tu veux utiliser l espace joueur ou envoyer une candidature.
+              tu veux utiliser l espace joueur, ouvrir un ticket reconnu ou envoyer une candidature staff.
             </p>
             <DiscordLoginButton className="button button-primary" disabled={!authStatus.oauthReady} />
           </article>
@@ -75,8 +75,8 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
             </span>
             <h2>Discord Last Survivors</h2>
             <p>
-              La connexion sert a retrouver ton pseudo Discord et a garder les candidatures au bon endroit.
-              {!authStatus.guildCheckReady ? ' Si la candidature ne passe pas, ouvre un ticket Discord.' : ''}
+              La connexion sert a retrouver ton pseudo Discord et a garder les demandes au bon endroit.
+              {!authStatus.guildCheckReady ? ' Si la candidature staff ne passe pas, ouvre un ticket support.' : ''}
             </p>
           </article>
         </section>
@@ -116,14 +116,14 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
           ) : (
             <span className="alert-panel inline-alert">
               <AlertTriangle size={18} />
-              Discord connecte. Candidature a verifier depuis le dashboard.
+              Discord connecte. Candidature staff a verifier depuis le dashboard.
             </span>
           )}
           <div className="profile-actions">
             <CopyConnectButton />
             <Link className={`button button-secondary${session.user.guildVerified ? '' : ' disabled-button'}`} href="/candidature">
               <ClipboardList size={17} />
-              Candidature
+              Candidature staff
             </Link>
             <DiscordLogoutButton />
           </div>
@@ -137,6 +137,7 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
           <p>Prepare ton arrivee avant de te connecter: guide, carte publique, evenements et reglement.</p>
           <div className="link-stack">
             <Link href="/guide">Guide de survie</Link>
+            <Link href="/support">Support ticket</Link>
             <Link href="/carte">Carte publique</Link>
             <Link href="/evenements">Evenements RP</Link>
             <Link href="/reglement">Reglement</Link>

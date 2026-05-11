@@ -1,6 +1,7 @@
-import { CloudLightning, PackageOpen, Radio, Skull, Zap } from 'lucide-react';
+import { CalendarDays, CloudLightning, ExternalLink, MapPin, PackageOpen, Radio, Skull, Users, Zap } from 'lucide-react';
 import { LiveEventsPanel } from '@/components/live-events-panel';
 import { getLiveEvents } from '@/lib/live-events';
+import { getScheduledEvents } from '@/lib/scheduled-events';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,7 +33,7 @@ const eventTypes = [
 ];
 
 export default async function EvenementsPage() {
-  const initialFeed = await getLiveEvents();
+  const [initialFeed, scheduledEvents] = await Promise.all([getLiveEvents(), getScheduledEvents()]);
 
   return (
     <>
@@ -58,6 +59,66 @@ export default async function EvenementsPage() {
       </section>
 
       <LiveEventsPanel initialFeed={initialFeed} />
+
+      <section className="section scheduled-events-section">
+        <div className="section-header">
+          <div>
+            <span className="section-kicker">Planning RP</span>
+            <h2>Events organises a venir</h2>
+          </div>
+          <p>
+            Les events planifies apparaissent ici. Si Discord ne renvoie rien, le site garde les prochains formats RP
+            prevus comme repere.
+          </p>
+        </div>
+
+        <div className="scheduled-events-grid">
+          {scheduledEvents.map((event) =>
+            event.url ? (
+              <a className="scheduled-event-card" href={event.url} key={event.id} target="_blank" rel="noreferrer">
+                <span className="scheduled-event-type">{event.type}</span>
+                <h3>{event.title}</h3>
+                <p>{event.text}</p>
+                <div className="scheduled-event-meta">
+                  <span>
+                    <CalendarDays size={15} />
+                    {event.schedule}
+                  </span>
+                  <span>
+                    <MapPin size={15} />
+                    {event.location}
+                  </span>
+                  {event.playersInterested ? (
+                    <span>
+                      <Users size={15} />
+                      {event.playersInterested} interesse(s)
+                    </span>
+                  ) : null}
+                  <span>
+                    Discord <ExternalLink size={15} />
+                  </span>
+                </div>
+              </a>
+            ) : (
+              <article className="scheduled-event-card" key={event.id}>
+                <span className="scheduled-event-type">{event.type}</span>
+                <h3>{event.title}</h3>
+                <p>{event.text}</p>
+                <div className="scheduled-event-meta">
+                  <span>
+                    <CalendarDays size={15} />
+                    {event.schedule}
+                  </span>
+                  <span>
+                    <MapPin size={15} />
+                    {event.location}
+                  </span>
+                </div>
+              </article>
+            ),
+          )}
+        </div>
+      </section>
 
       <section className="event-type-grid section">
         <div className="section-header">

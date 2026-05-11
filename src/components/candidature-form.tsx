@@ -49,12 +49,12 @@ export function CandidatureForm() {
 
       const data = (await response.json()) as { error?: string };
       if (!response.ok) {
-        setMessage({ type: 'error', text: data.error ?? 'Candidature refusee.' });
+        setMessage({ type: 'error', text: data.error ?? 'Candidature staff refusee.' });
         return;
       }
 
       setForm(initialForm);
-      setMessage({ type: 'success', text: 'Candidature envoyee au staff. Surveille Discord pour la suite.' });
+      setMessage({ type: 'success', text: 'Candidature staff envoyee. Surveille Discord pour la suite.' });
     } catch {
       setMessage({ type: 'error', text: 'Impossible de contacter le portail pour le moment.' });
     } finally {
@@ -75,12 +75,12 @@ export function CandidatureForm() {
 
       <div className="form-grid">
         <label>
-          <span>Pseudo RP</span>
+          <span>Pseudo en jeu</span>
           <input
             value={form.pseudoRp}
             onChange={(event) => updateField('pseudoRp', event.target.value)}
             maxLength={40}
-            placeholder="Ex: Karim Belkacem"
+            placeholder="Ex: Jhonny Lacuent..."
             required
           />
         </label>
@@ -97,25 +97,25 @@ export function CandidatureForm() {
       </div>
 
       <label>
-        <span>Experience RP</span>
+        <span>Experience staff / RP</span>
         <textarea
           value={form.experienceRp}
           onChange={(event) => updateField('experienceRp', event.target.value)}
           maxLength={900}
           rows={4}
-          placeholder="Tes anciens serveurs, ton style de RP, ce que tu sais jouer proprement."
+          placeholder="Tes anciens serveurs, roles staff deja faits, moderation, events, support joueur, outils connus."
           required
         />
       </label>
 
       <label>
-        <span>Histoire du personnage</span>
+        <span>Presentation staff</span>
         <textarea
           value={form.characterStory}
           onChange={(event) => updateField('characterStory', event.target.value)}
           maxLength={1800}
           rows={6}
-          placeholder="Qui est ton personnage, ce qu'il a perdu, pourquoi il survit encore."
+          placeholder="Qui tu es, ton rapport au serveur, tes qualites, tes limites et ta facon de gerer un conflit joueur."
           required
         />
       </label>
@@ -127,7 +127,7 @@ export function CandidatureForm() {
           onChange={(event) => updateField('motivation', event.target.value)}
           maxLength={1200}
           rows={4}
-          placeholder="Pourquoi Last Survivors, ce que tu veux apporter au serveur."
+          placeholder="Pourquoi tu veux aider Last Survivors, ce que tu peux apporter au staff et a la communaute."
           required
         />
       </label>
@@ -139,7 +139,7 @@ export function CandidatureForm() {
           onChange={(event) => updateField('availability', event.target.value)}
           maxLength={500}
           rows={3}
-          placeholder="Tes horaires habituels, semaine/week-end, vocal possible ou non."
+          placeholder="Tes horaires habituels, jours forts, vocal possible, moments ou tu peux gerer support/events."
           required
         />
       </label>
@@ -151,7 +151,7 @@ export function CandidatureForm() {
           onChange={(event) => updateField('rulesAccepted', event.target.checked)}
           required
         />
-        <span>J'ai lu le reglement et j'accepte de jouer un RP fair-play.</span>
+        <span>Je comprends qu une candidature staff demande calme, discretion et respect des joueurs.</span>
       </label>
 
       {message ? (
@@ -163,7 +163,7 @@ export function CandidatureForm() {
 
       <button type="submit" className="button button-primary form-submit" disabled={pending}>
         <Send size={17} />
-        {pending ? 'Envoi...' : 'Envoyer la candidature'}
+        {pending ? 'Envoi...' : 'Envoyer la candidature staff'}
       </button>
     </form>
   );

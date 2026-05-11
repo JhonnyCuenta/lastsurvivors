@@ -12,6 +12,7 @@ import {
   Hammer,
   HeartPulse,
   Images,
+  LifeBuoy,
   Map,
   Radio,
   Shield,
@@ -38,6 +39,7 @@ export const siteConfig = {
     { href: '/photos', label: 'Photos' },
     { href: '/boutique', label: 'Boutique' },
     { href: '/top-vote', label: 'Vote' },
+    { href: '/support', label: 'Support' },
     { href: '/reglement', label: 'Regles' },
     { href: '/communaute', label: 'Communaute' },
   ],
@@ -47,7 +49,7 @@ export const quickLinks = [
   {
     href: '/jouer',
     title: 'Rejoindre le serveur',
-    text: 'Connexion, Discord, whitelist et premiers reflexes avant ton arrivee.',
+    text: 'Connexion, Discord, reglement et premiers reflexes avant ton arrivee.',
     icon: Radio,
   },
   {
@@ -87,9 +89,15 @@ export const quickLinks = [
     icon: Trophy,
   },
   {
+    href: '/support',
+    title: 'Support ticket',
+    text: 'Ouvre une demande claire pour bug, boutique, joueur ou question serveur.',
+    icon: LifeBuoy,
+  },
+  {
     href: '/dashboard',
     title: 'Compte joueur',
-    text: 'Discord, candidature, support et raccourcis utiles au meme endroit.',
+    text: 'Discord, candidature staff, support et raccourcis utiles au meme endroit.',
     icon: UserRound,
   },
 ];
@@ -144,10 +152,10 @@ export const factionPreviews = [
   },
 ];
 
-export const whitelistSteps = [
+export const joinSteps = [
   'Rejoins le Discord Last Survivors.',
   'Lis le reglement et le guide de depart.',
-  'Connecte ton Discord si tu veux envoyer une candidature.',
+  'Le serveur est ouvert: aucune whitelist joueur n est active pour le moment.',
   'Prepare un personnage simple, credible et jouable.',
 ];
 
@@ -158,19 +166,43 @@ export const roadmapItems = [
     text: 'Statut serveur, guide, carte, boutique, photos, votes et events live.',
   },
   {
-    status: 'En cours',
+    status: 'En ligne',
     title: 'Dashboard joueur',
-    text: 'Compte Discord, candidature, support, whitelist et raccourcis personnels.',
+    text: 'Compte Discord, candidature staff, support et raccourcis personnels.',
   },
   {
-    status: 'Prochaine etape',
+    status: 'En ligne',
     title: 'Calendrier RP',
-    text: 'Planning clair pour soirees faction, operations, hordes et evenements staff.',
+    text: 'Events organises a venir, lus depuis Discord quand le bot a acces aux evenements planifies.',
   },
   {
-    status: 'A venir',
+    status: 'En ligne',
     title: 'Support & tickets',
-    text: 'Un acces plus simple aux demandes joueur, relie au Discord ou a un systeme dedie.',
+    text: 'Formulaire support cote site pour bugs, boutique, joueurs et questions serveur.',
+  },
+];
+
+export const organizedEvents = [
+  {
+    title: 'Convoi Nord',
+    type: 'Operation RP',
+    schedule: 'Date annoncee sur Discord',
+    location: 'Depart Merryweather',
+    text: 'Sortie encadree vers les routes du nord avec escorte, carburant et risques de horde.',
+  },
+  {
+    title: 'Nettoyage Observatoire',
+    type: 'Event medical',
+    schedule: 'Date annoncee sur Discord',
+    location: 'Observatoire EMS',
+    text: 'Intervention autour du point medical: secours, protection de zone et evacuation RP.',
+  },
+  {
+    title: 'Marche des survivants',
+    type: 'Commerce & rencontres',
+    schedule: 'Date annoncee sur Discord',
+    location: 'Zone sud',
+    text: 'Moment plus calme pour troc, recrutements, rumeurs et accords entre groupes.',
   },
 ];
 
@@ -192,7 +224,7 @@ export const playerQuotes = [
 export const faqItems = [
   {
     question: 'Faut-il un compte sur le site ?',
-    answer: 'Non. Le site reste lisible par tous. La connexion Discord sert seulement aux candidatures et a l espace joueur.',
+    answer: 'Non. Le site reste lisible par tous. La connexion Discord sert surtout a l espace joueur, au support et a la candidature staff.',
   },
   {
     question: 'Comment rejoindre rapidement ?',
@@ -204,7 +236,7 @@ export const faqItems = [
   },
   {
     question: 'Ou demander de l aide ?',
-    answer: 'Le Discord reste le meilleur endroit pour les tickets, questions, signalements et annonces importantes.',
+    answer: 'Tu peux ouvrir un ticket depuis la page Support. Discord reste utile pour suivre la reponse du staff.',
   },
 ];
 
@@ -390,7 +422,7 @@ export const communityLinks = [
   {
     href: discordUrl,
     label: 'Discord',
-    text: 'Support, annonces, candidatures et organisation RP.',
+    text: 'Support, annonces, candidature staff et organisation RP.',
     icon: Users,
   },
   {
@@ -420,8 +452,8 @@ export const accountBenefits = [
     icon: UserRound,
   },
   {
-    title: 'Candidature propre',
-    text: 'Un formulaire simple pour presenter ton personnage ou ton projet.',
+    title: 'Candidature staff',
+    text: 'Un formulaire simple pour rejoindre l equipe si tu veux aider le serveur.',
     icon: ClipboardList,
   },
   {

@@ -159,7 +159,7 @@ export default async function HomePage() {
             <span className="section-kicker">Acces rapide</span>
             <h2>Les pages utiles aux joueurs</h2>
           </div>
-          <p>Une navigation simple: preparer une session, suivre les events, voter, candidater ou retrouver une info.</p>
+          <p>Une navigation simple: preparer une session, suivre les events, voter, ouvrir un ticket ou retrouver une info.</p>
         </div>
         <div className="quicklink-grid">
           {quickLinks.map((item) => (
@@ -177,7 +177,7 @@ export default async function HomePage() {
           <span className="section-kicker">Communaute</span>
           <h2>Un portail fait pour ramener les joueurs en jeu</h2>
           <p>
-            Screenshots, votes, candidatures, Discord et calendrier RP doivent servir la meme chose: donner envie de se
+            Screenshots, votes, support, Discord et calendrier RP doivent servir la meme chose: donner envie de se
             connecter et de creer une scene propre.
           </p>
           <div className="showcase-actions">
@@ -207,7 +207,7 @@ export default async function HomePage() {
             <span className="section-kicker">Compte optionnel</span>
             <h2>{session?.user ? `Content de te revoir, ${session.user.name ?? 'survivant'}` : 'Discord seulement quand c est utile'}</h2>
           </div>
-          <p>Le site reste ouvert. Le compte sert aux candidatures, au profil joueur et aux futurs outils communautaires.</p>
+          <p>Le site reste ouvert. Le compte sert au support, a la candidature staff et aux futurs outils communautaires.</p>
         </div>
 
         <div className="account-cta premium-account-cta">
@@ -216,8 +216,8 @@ export default async function HomePage() {
             <h3>{session?.user ? 'Espace joueur actif' : 'Pas besoin de compte pour lire le site'}</h3>
             <p>
               {session?.user
-                ? 'Ton espace rassemble les raccourcis utiles, la candidature et les prochaines fonctions joueur.'
-                : 'Connecte Discord uniquement si tu veux candidater ou suivre ton profil joueur.'}
+                ? 'Ton espace rassemble les raccourcis utiles, le support et les prochaines fonctions joueur.'
+                : 'Connecte Discord uniquement si tu veux ouvrir un ticket reconnu ou postuler staff.'}
             </p>
           </div>
           <div className="hero-actions">
@@ -229,7 +229,7 @@ export default async function HomePage() {
               <DiscordLoginButton className="button button-primary" />
             )}
             <Link className="button button-secondary" href="/candidature">
-              Candidature <ArrowRight size={18} />
+              Candidature staff <ArrowRight size={18} />
             </Link>
           </div>
         </div>

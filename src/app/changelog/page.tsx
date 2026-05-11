@@ -28,21 +28,21 @@ export default function ChangelogPage() {
             <CheckCircle2 size={22} />
           </span>
           <h3>Deja actif</h3>
-          <p>Statut serveur, events live, votes, galerie Discord, boutique, profil et candidature.</p>
+          <p>Statut serveur, events live, votes, galerie Discord, boutique, profil, support et candidature staff.</p>
         </article>
         <article className="premium-feature-card">
           <span className="card-icon">
             <Hammer size={22} />
           </span>
           <h3>En construction</h3>
-          <p>Dashboard plus complet, support plus fluide et meilleure presentation des factions.</p>
+          <p>Dashboard connecte, support par ticket et raccourcis utiles pour les joueurs.</p>
         </article>
         <article className="premium-feature-card">
           <span className="card-icon">
             <CalendarDays size={22} />
           </span>
           <h3>A planifier</h3>
-          <p>Calendrier RP, annonces plus propres et suivi des grosses mises a jour.</p>
+          <p>Events organises a venir, lus depuis Discord quand les evenements sont planifies.</p>
         </article>
         <article className="premium-feature-card">
           <span className="card-icon">

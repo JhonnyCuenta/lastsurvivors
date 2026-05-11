@@ -23,10 +23,10 @@ const cooldowns = new Map<string, number>();
 const COOLDOWN_MS = 60_000;
 
 const fieldRules: FieldRule[] = [
-  { key: 'pseudoRp', label: 'Pseudo RP', min: 3, max: 40 },
+  { key: 'pseudoRp', label: 'Pseudo en jeu', min: 3, max: 40 },
   { key: 'age', label: 'Age', min: 2, max: 32 },
-  { key: 'experienceRp', label: 'Experience RP', min: 20, max: 900 },
-  { key: 'characterStory', label: 'Histoire du personnage', min: 80, max: 1800 },
+  { key: 'experienceRp', label: 'Experience staff / RP', min: 20, max: 900 },
+  { key: 'characterStory', label: 'Presentation staff', min: 80, max: 1800 },
   { key: 'motivation', label: 'Motivation', min: 40, max: 1200 },
   { key: 'availability', label: 'Disponibilites', min: 8, max: 500 },
 ];
@@ -63,7 +63,7 @@ function validatePayload(payload: CandidatePayload) {
   }
 
   if (payload.rulesAccepted !== true) {
-    errors.push('Le reglement doit etre accepte.');
+    errors.push('Les conditions staff doivent etre acceptees.');
   }
 
   return { errors, values };
@@ -77,19 +77,19 @@ function buildWebhookPayload(values: Map<keyof CandidatePayload, string>, discor
   });
 
   return {
-    username: 'Last Survivors - Candidatures',
+    username: 'Last Survivors - Candidatures Staff',
     embeds: [
       {
-        title: 'Nouvelle candidature joueur',
+        title: 'Nouvelle candidature staff',
         color: 14784821,
         timestamp: new Date().toISOString(),
         fields: [
           field('Discord', `${discordName}${discordId ? ` (${discordId})` : ''}`),
-          field('Pseudo RP', values.get('pseudoRp') ?? '', true),
+          field('Pseudo en jeu', values.get('pseudoRp') ?? '', true),
           field('Age', values.get('age') ?? '', true),
           field('Disponibilites', values.get('availability') ?? ''),
-          field('Experience RP', values.get('experienceRp') ?? ''),
-          field('Histoire du personnage', values.get('characterStory') ?? ''),
+          field('Experience staff / RP', values.get('experienceRp') ?? ''),
+          field('Presentation staff', values.get('characterStory') ?? ''),
           field('Motivation', values.get('motivation') ?? ''),
         ],
         footer: {
@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
   const lastAttempt = cooldowns.get(clientKey) ?? 0;
 
   if (now - lastAttempt < COOLDOWN_MS) {
-    return NextResponse.json({ error: 'Patiente une minute avant de renvoyer une candidature.' }, { status: 429 });
+    return NextResponse.json({ error: 'Patiente une minute avant de renvoyer une candidature staff.' }, { status: 429 });
   }
 
   let payload: CandidatePayload;
@@ -133,7 +133,7 @@ export async function POST(request: NextRequest) {
 
   const webhookUrl = process.env.DISCORD_APPLICATION_WEBHOOK_URL?.trim();
   if (!webhookUrl) {
-    return NextResponse.json({ error: 'Webhook candidature non configure cote serveur.' }, { status: 503 });
+    return NextResponse.json({ error: 'Webhook candidature staff non configure cote serveur.' }, { status: 503 });
   }
 
   cooldowns.set(clientKey, now);

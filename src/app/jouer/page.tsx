@@ -4,7 +4,7 @@ import { auth } from '@/auth';
 import { DiscordLoginButton } from '@/components/auth-actions';
 import { CopyConnectButton } from '@/components/copy-connect-button';
 import { ServerStatusPanel } from '@/components/server-status-panel';
-import { publicLinks, whitelistSteps } from '@/config/site';
+import { joinSteps, publicLinks } from '@/config/site';
 
 export const dynamic = 'force-dynamic';
 
@@ -49,18 +49,18 @@ export default async function JouerPage() {
           <span className="card-icon">
             <ClipboardList size={22} />
           </span>
-          <h2>Whitelist & candidature</h2>
+          <h2>Acces serveur</h2>
           <p>
-            Tu peux decouvrir le site sans compte. Pour envoyer une candidature, connecte ton Discord et prends le temps
-            de poser un personnage simple, jouable et coherent avec l apocalypse.
+            Le serveur n est pas whitelist pour le moment. Tu peux rejoindre, lire les infos importantes et venir avec
+            un personnage simple, jouable et coherent avec l apocalypse.
           </p>
           <ol className="premium-step-list">
-            {whitelistSteps.map((step) => (
+            {joinSteps.map((step) => (
               <li key={step}>{step}</li>
             ))}
           </ol>
           <Link className="button button-primary" href="/candidature">
-            Candidature <ArrowRight size={18} />
+            Candidature staff <ArrowRight size={18} />
           </Link>
         </article>
 
@@ -87,7 +87,7 @@ export default async function JouerPage() {
           <h2>{session?.user ? 'Compte connecte' : 'Compte optionnel'}</h2>
           <p>
             {session?.user
-              ? 'Ton Discord est connecte. Tu peux ouvrir ton dashboard pour retrouver candidature, support et raccourcis.'
+              ? 'Ton Discord est connecte. Tu peux ouvrir ton dashboard pour retrouver support, candidature staff et raccourcis.'
               : 'La connexion Discord sert uniquement aux fonctions joueur. Tu peux jouer et lire le site sans creer de compte.'}
           </p>
           {session?.user ? (

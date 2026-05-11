@@ -164,7 +164,7 @@ textarea {
   flex: 1 1 auto;
   gap: 3px;
   min-width: 0;
-  max-width: 790px;
+  max-width: 870px;
   border: 1px solid rgb(240 162 75 / 0.08);
   border-radius: 10px;
   background: rgb(8 4 2 / 0.28);
@@ -177,10 +177,10 @@ textarea {
   min-height: 38px;
   border-radius: 8px;
   color: rgb(243 234 219 / 0.66);
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0;
-  padding: 0 8px;
+  padding: 0 6px;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -2955,6 +2955,81 @@ textarea {
   gap: 16px;
 }
 
+.scheduled-events-section {
+  display: grid;
+  gap: 18px;
+}
+
+.scheduled-events-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.scheduled-event-card {
+  position: relative;
+  display: grid;
+  min-height: 285px;
+  overflow: hidden;
+  border: 1px solid rgb(240 162 75 / 0.12);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 80% 0%, rgb(213 87 33 / 0.16), transparent 34%),
+    linear-gradient(180deg, rgb(18 13 10 / 0.88), rgb(8 6 5 / 0.92));
+  align-content: start;
+  padding: 22px;
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.scheduled-event-card:hover {
+  border-color: rgb(240 162 75 / 0.28);
+  transform: translateY(-2px);
+}
+
+.scheduled-event-type {
+  width: fit-content;
+  border: 1px solid rgb(240 162 75 / 0.18);
+  border-radius: 999px;
+  background: rgb(240 162 75 / 0.08);
+  color: var(--ember);
+  font-size: 0.76rem;
+  font-weight: 950;
+  padding: 7px 10px;
+  text-transform: uppercase;
+}
+
+.scheduled-event-card h3 {
+  margin: 18px 0 10px;
+  color: #fff3df;
+  font-size: 1.35rem;
+  text-transform: uppercase;
+}
+
+.scheduled-event-card p {
+  color: rgb(236 230 216 / 0.72);
+  line-height: 1.55;
+}
+
+.scheduled-event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: auto;
+  gap: 8px;
+}
+
+.scheduled-event-meta span {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgb(236 230 216 / 0.08);
+  border-radius: 999px;
+  background: rgb(8 5 4 / 0.4);
+  color: rgb(236 230 216 / 0.76);
+  font-size: 0.82rem;
+  font-weight: 850;
+  gap: 6px;
+  padding: 8px 10px;
+}
+
 .event-type-list {
   display: grid;
   gap: 14px;
@@ -3483,7 +3558,8 @@ textarea {
 }
 
 .application-form input,
-.application-form textarea {
+.application-form textarea,
+.application-form select {
   width: 100%;
   border: 1px solid rgb(236 230 216 / 0.14);
   border-radius: 8px;
@@ -3499,9 +3575,15 @@ textarea {
 }
 
 .application-form input:focus,
-.application-form textarea:focus {
+.application-form textarea:focus,
+.application-form select:focus {
   border-color: rgb(94 185 186 / 0.52);
   box-shadow: 0 0 0 3px rgb(94 185 186 / 0.1);
+}
+
+.application-form select option {
+  background: #120906;
+  color: var(--text);
 }
 
 .checkbox-line {
@@ -3546,6 +3628,18 @@ textarea {
 .form-submit:disabled {
   cursor: wait;
   opacity: 0.72;
+}
+
+.support-login-note {
+  display: grid;
+  margin-top: 20px;
+  gap: 12px;
+}
+
+.support-login-note p {
+  margin: 0;
+  color: rgb(236 230 216 / 0.66);
+  line-height: 1.5;
 }
 
 .honeypot {
@@ -4108,7 +4202,7 @@ textarea {
   }
 }
 
-@media (max-width: 1120px) {
+@media (max-width: 1260px) {
   .desktop-nav {
     display: none;
   }
@@ -4208,6 +4302,7 @@ textarea {
   .shop-grid,
   .vote-form-row,
   .event-type-list,
+  .scheduled-events-grid,
   .premium-card-grid,
   .play-grid,
   .quicklink-grid,

@@ -199,7 +199,7 @@ const ruleSections: RuleSection[] = [
     items: [
       'Le vocal RP est obligatoire pour les scenes. Le chat HRP doit rester rare, court et utile.',
       'Les radios, frequences, codes et appels de renfort doivent etre obtenus et utilises en RP.',
-      'Discord sert aux annonces, tickets, candidatures et organisation. Il ne remplace pas une scene en jeu.',
+      'Discord sert aux annonces, tickets, candidatures staff et organisation. Il ne remplace pas une scene en jeu.',
       'Insultes HRP, menaces, harcelement, spam, provocations personnelles et drama public sont interdits.',
     ],
   },
@@ -218,14 +218,14 @@ const ruleSections: RuleSection[] = [
   },
   {
     number: '15',
-    title: 'Candidatures et compte Discord',
+    title: 'Candidature staff et compte Discord',
     icon: Users,
     summary: 'Le site reste public, mais certaines actions demandent un Discord verifie.',
     items: [
       'La lecture du site, du guide, du lore, de la carte et du reglement reste accessible sans compte.',
-      'La candidature demande une connexion Discord pour limiter les abus et transmettre une fiche propre au staff.',
-      'Un faux pseudo, une candidature troll, du copier-coller vide ou une tentative de contournement peut etre refuse sans debat.',
-      'Le staff peut demander un entretien vocal si la candidature manque de details ou si le RP propose est sensible.',
+      'Le serveur n est pas whitelist pour le moment: la candidature du site sert uniquement a postuler staff.',
+      'Un faux pseudo, une candidature staff troll, du copier-coller vide ou une tentative de contournement peut etre refuse sans debat.',
+      'Le staff peut demander un entretien vocal si la candidature manque de details ou si le role propose demande confiance.',
     ],
   },
   {
@@ -285,7 +285,8 @@ export default function ReglementPage() {
           <div className="rules-hero-actions" aria-label="Acces rapides du reglement">
             <Link href="/guide">Guide de survie</Link>
             <Link href="/lore">Lore serveur</Link>
-            <Link href="/candidature">Candidature</Link>
+            <Link href="/support">Support</Link>
+            <Link href="/candidature">Candidature staff</Link>
           </div>
         </div>
 

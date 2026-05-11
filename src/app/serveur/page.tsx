@@ -69,7 +69,7 @@ export default function ServeurPage() {
             par ses alliances, ses dettes, ses services ou ses erreurs.
           </p>
           <div className="showcase-actions">
-            <Link className="button button-primary" href="/candidature">
+            <Link className="button button-primary" href="/support">
               Proposer un projet <ArrowRight size={18} />
             </Link>
             <Link className="button button-secondary" href="/reglement">

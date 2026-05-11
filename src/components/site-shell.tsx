@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CalendarDays, MessageCircle } from 'lucide-react';
+import { CalendarDays, LifeBuoy, MessageCircle } from 'lucide-react';
 import { auth } from '@/auth';
 import { HeaderAuth } from '@/components/auth-actions';
 import { siteConfig } from '@/config/site';
@@ -36,6 +36,9 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
           <span className="footer-links">
             <Link href="/changelog">
               <CalendarDays size={16} /> Roadmap
+            </Link>
+            <Link href="/support">
+              <LifeBuoy size={16} /> Support
             </Link>
             <Link href="/communaute">
               <MessageCircle size={16} /> Communaute

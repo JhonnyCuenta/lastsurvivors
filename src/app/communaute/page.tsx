@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ClipboardList, ExternalLink, MessageCircle, Quote, Radio } from 'lucide-react';
+import { ClipboardList, ExternalLink, LifeBuoy, MessageCircle, Quote, Radio } from 'lucide-react';
 import { communityLinks, defaultCommunityAction, faqItems, playerQuotes } from '@/config/site';
 
 export default function CommunautePage() {
@@ -18,8 +18,18 @@ export default function CommunautePage() {
             <span className="card-icon">
               <ClipboardList size={22} />
             </span>
-            <h3>Candidature</h3>
-            <p>Presente ton personnage ou ton projet de groupe avec quelques lignes propres.</p>
+            <h3>Candidature staff</h3>
+            <p>Propose ton aide pour rejoindre l equipe et soutenir le serveur.</p>
+            <span className="community-action">
+              Ouvrir <ExternalLink size={15} />
+            </span>
+          </Link>
+          <Link className="community-card" href="/support">
+            <span className="card-icon">
+              <LifeBuoy size={22} />
+            </span>
+            <h3>Support</h3>
+            <p>Ouvre un ticket propre pour bug, boutique, joueur ou question serveur.</p>
             <span className="community-action">
               Ouvrir <ExternalLink size={15} />
             </span>
@@ -43,8 +53,15 @@ export default function CommunautePage() {
             <span className="card-icon">
               <ClipboardList size={22} />
             </span>
-            <h3>Candidature</h3>
-            <p>Connecte Discord uniquement si tu veux envoyer une demande.</p>
+            <h3>Candidature staff</h3>
+            <p>Connecte Discord uniquement si tu veux postuler staff.</p>
+          </Link>
+          <Link className="community-card" href="/support">
+            <span className="card-icon">
+              <LifeBuoy size={22} />
+            </span>
+            <h3>Support</h3>
+            <p>Ouvre un ticket depuis le site, avec ou sans connexion Discord.</p>
           </Link>
           <article className="community-card">
             <span className="card-icon">
