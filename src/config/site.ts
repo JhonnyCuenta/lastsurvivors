@@ -4,6 +4,7 @@ import {
   BookOpen,
   CalendarDays,
   Car,
+  Clapperboard,
   CircleDot,
   ClipboardList,
   Crosshair,
@@ -411,6 +412,12 @@ const voteUrl = process.env.NEXT_PUBLIC_VOTE_URL || 'https://top-serveurs.net/gt
 const storeUrl = process.env.NEXT_PUBLIC_STORE_URL || '';
 const discordMediaChannelUrl = process.env.NEXT_PUBLIC_DISCORD_MEDIA_CHANNEL_URL || 'https://discord.gg/KaWEEehr';
 
+export const featuredTikTok = {
+  url: 'https://www.tiktok.com/@lastsurvivorsofficiel/video/7639071565279137056',
+  embedUrl: 'https://www.tiktok.com/embed/v3/7639071565279137056',
+  author: '@lastsurvivorsofficiel',
+};
+
 export const publicLinks = {
   discordUrl,
   voteUrl,
@@ -430,6 +437,12 @@ export const communityLinks = [
     label: 'Vote serveur',
     text: 'Soutiens la visibilite de Last Survivors.',
     icon: Vote,
+  },
+  {
+    href: featuredTikTok.url,
+    label: 'TikTok',
+    text: 'La video officielle pour montrer l ambiance du serveur.',
+    icon: Clapperboard,
   },
   {
     href: storeUrl,

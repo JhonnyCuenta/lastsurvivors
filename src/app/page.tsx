@@ -15,6 +15,7 @@ import { auth } from '@/auth';
 import { DiscordLoginButton } from '@/components/auth-actions';
 import { CopyConnectButton } from '@/components/copy-connect-button';
 import { ServerStatusPanel } from '@/components/server-status-panel';
+import { TikTokFeature } from '@/components/tiktok-feature';
 import {
   factionPreviews,
   homeHighlights,
@@ -152,6 +153,8 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      <TikTokFeature />
 
       <section className="section">
         <div className="section-header">

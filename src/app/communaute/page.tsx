@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ClipboardList, ExternalLink, LifeBuoy, MessageCircle, Quote, Radio } from 'lucide-react';
+import { TikTokFeature } from '@/components/tiktok-feature';
 import { communityLinks, defaultCommunityAction, faqItems, playerQuotes } from '@/config/site';
 
 export default function CommunautePage() {
@@ -95,6 +96,8 @@ export default function CommunautePage() {
           ))}
         </div>
       </section>
+
+      <TikTokFeature compact />
 
       <section className="premium-section split-showcase">
         <div>
