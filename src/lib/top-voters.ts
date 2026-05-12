@@ -45,6 +45,12 @@ function asSafeVotes(value: unknown) {
   return Math.min(Math.round(votes), 100000);
 }
 
+function asSafeDate(value: unknown) {
+  if (typeof value !== 'string') return new Date().toISOString();
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? new Date().toISOString() : date.toISOString();
+}
+
 function normalizeFeed(payload: unknown): PublicTopVotersFeed {
   const data = payload && typeof payload === 'object' ? (payload as Record<string, unknown>) : {};
   const rows = Array.isArray(data.voters) ? data.voters : [];
@@ -59,7 +65,7 @@ function normalizeFeed(payload: unknown): PublicTopVotersFeed {
         lastVoteAt: typeof voter.lastVoteAt === 'string' ? voter.lastVoteAt : undefined,
       };
     }),
-    lastCheckedAt: new Date().toISOString(),
+    lastCheckedAt: asSafeDate(data.updatedAt ?? data.lastCheckedAt),
     source: 'fivem-resource',
   };
 }

@@ -3255,6 +3255,38 @@ textarea {
   padding: 22px;
 }
 
+.vote-terminal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.vote-live-badge {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgb(236 230 216 / 0.12);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 950;
+  padding: 7px 10px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.vote-live-badge.is-live {
+  border-color: rgb(104 213 138 / 0.28);
+  background: rgb(104 213 138 / 0.1);
+  color: #c7f4d1;
+}
+
+.vote-live-badge.is-fallback {
+  border-color: rgb(240 162 75 / 0.28);
+  background: rgb(240 162 75 / 0.1);
+  color: var(--ember);
+}
+
 .vote-terminal strong {
   display: block;
   margin-top: 18px;
@@ -3308,6 +3340,63 @@ textarea {
 .vote-section-header {
   align-items: flex-start;
   margin-bottom: 18px;
+}
+
+.vote-refresh-box {
+  display: flex;
+  align-items: flex-start;
+  max-width: 540px;
+  gap: 14px;
+}
+
+.vote-refresh-box p {
+  margin: 0;
+  color: rgb(236 230 216 / 0.62);
+  line-height: 1.5;
+}
+
+.vote-refresh-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  border: 1px solid rgb(240 162 75 / 0.24);
+  border-radius: 8px;
+  background: rgb(240 162 75 / 0.1);
+  color: var(--ember);
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-weight: 950;
+  gap: 8px;
+  padding: 0 13px;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.vote-refresh-button:hover:not(:disabled) {
+  border-color: rgb(240 162 75 / 0.46);
+  background: rgb(240 162 75 / 0.16);
+  transform: translateY(-1px);
+}
+
+.vote-refresh-button:disabled {
+  cursor: wait;
+  opacity: 0.68;
+}
+
+.vote-inline-error {
+  border: 1px solid rgb(213 87 33 / 0.22);
+  border-radius: 8px;
+  background: rgb(213 87 33 / 0.08);
+  color: #ffc9b5;
+  font-weight: 800;
+  margin: 0 0 14px;
+  padding: 11px 13px;
+}
+
+.is-spinning {
+  animation: voteSpin 900ms linear infinite;
 }
 
 .vote-rank-list,
@@ -4202,6 +4291,12 @@ textarea {
   }
 }
 
+@keyframes voteSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 1260px) {
   .desktop-nav {
     display: none;
@@ -4342,6 +4437,16 @@ textarea {
   .section-header {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .vote-refresh-box {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .vote-refresh-button {
+    width: 100%;
+    justify-content: center;
   }
 
   .event-row {
