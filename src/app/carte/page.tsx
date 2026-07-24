@@ -4,10 +4,11 @@ export default function CartePage() {
   return (
     <>
       <header className="page-heading">
-        <h1>Carte utile</h1>
+        <span className="section-kicker">Renseignement terrain</span>
+        <h1>Carte officielle</h1>
         <p>
-          Les grands repères pour préparer une sortie : point de départ, observatoire, nord dangereux et sud plus calme.
-          Prends la carte comme une aide de route, pas comme une garantie de survie.
+          Cette carte remplace entièrement l’ancienne version du portail. Elle provient de la ressource active
+          ml_custommap et présente les zones ainsi que les repères réellement prévus pour le serveur.
         </p>
       </header>
 

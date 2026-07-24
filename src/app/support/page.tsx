@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Bug, HelpCircle, LifeBuoy, MessageCircle, ShoppingBag, UserRound } from 'lucide-react';
+import { ArrowRight, Bug, HelpCircle, LifeBuoy, LockKeyhole, MessageCircle, ShoppingBag, UserRound } from 'lucide-react';
 import { auth } from '@/auth';
 import { DiscordLoginButton } from '@/components/auth-actions';
 import { SupportTicketForm } from '@/components/support-ticket-form';
@@ -32,16 +32,17 @@ const supportTypes = [
 
 export default async function SupportPage() {
   const session = await auth();
+  const canCreateTicket = Boolean(session?.user?.discordId);
 
   return (
     <>
       <section className="server-hero support-hero">
         <div>
           <span className="section-kicker">Support Last Survivors</span>
-          <h1>Ouvre un ticket propre.</h1>
+          <h1>Ouvre un vrai ticket Discord.</h1>
           <p>
-            Un problème en jeu, une question boutique ou une situation à signaler ? Décris les faits clairement et le
-            staff reprendra la suite sur Discord.
+            Ta demande crée directement un salon dans le système de tickets actuel du serveur. Le staff répond au même
+            endroit, sans double envoi ni formulaire perdu.
           </p>
           <div className="premium-actions">
             <a className="button button-secondary" href={publicLinks.discordUrl} target="_blank" rel="noreferrer">
@@ -81,15 +82,23 @@ export default async function SupportPage() {
             <Link href="/guide">Voir le guide</Link>
             <Link href="/evenements">Voir les événements</Link>
           </div>
-          {!session?.user ? (
-            <div className="support-login-note">
-              <p>Connexion Discord optionnelle, mais conseillée pour être reconnu automatiquement.</p>
-              <DiscordLoginButton className="button button-secondary" />
-            </div>
-          ) : null}
         </article>
 
-        <SupportTicketForm isLoggedIn={Boolean(session?.user)} discordName={session?.user?.name} />
+        {canCreateTicket ? (
+          <SupportTicketForm discordName={session?.user?.name} />
+        ) : (
+          <article className="application-form support-auth-required">
+            <span className="card-icon">
+              <LockKeyhole size={22} />
+            </span>
+            <h2>Connexion Discord requise</h2>
+            <p>
+              La connexion permet au bot de vérifier ton identité et de t’ajouter automatiquement au salon privé de ton
+              ticket.
+            </p>
+            <DiscordLoginButton className="button button-primary" />
+          </article>
+        )}
       </section>
     </>
   );

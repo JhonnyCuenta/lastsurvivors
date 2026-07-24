@@ -107,7 +107,7 @@ try {
     headers: { 'content-type': 'application/json' },
     body: '{}',
   });
-  assert.equal(invalidSupport.status, 400, 'Le support invalide doit être refusé sans webhook');
+  assert.equal(invalidSupport.status, 401, 'Le support sans connexion doit être refusé');
 
   const invalidApplication = await fetch(`${baseUrl}/api/candidature`, {
     method: 'POST',

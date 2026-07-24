@@ -3,6 +3,7 @@ import type {
   PortalEnvelope,
   PortalEvent,
   PortalStatus,
+  PortalTicketResult,
   PortalTransmission,
   TransmissionFeed,
 } from '@/types/portal';
@@ -28,7 +29,10 @@ function isHttpsUrl(value: string) {
   }
 }
 
-export async function fetchBotPortal<T>(path: string): Promise<BotPortalResult<T>> {
+async function requestBotPortal<T>(
+  path: string,
+  init?: { method?: 'GET' | 'POST'; body?: unknown; timeoutMs?: number },
+): Promise<BotPortalResult<T>> {
   const { baseUrl, token } = portalConfig();
 
   if (!baseUrl || !token || !isHttpsUrl(baseUrl)) {
@@ -37,12 +41,15 @@ export async function fetchBotPortal<T>(path: string): Promise<BotPortalResult<T
 
   try {
     const response = await fetch(`${baseUrl}${path}`, {
+      method: init?.method ?? 'GET',
       cache: 'no-store',
       headers: {
         accept: 'application/json',
         authorization: `Bearer ${token}`,
+        ...(init?.body === undefined ? {} : { 'content-type': 'application/json' }),
       },
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      body: init?.body === undefined ? undefined : JSON.stringify(init.body),
+      signal: AbortSignal.timeout(init?.timeoutMs ?? REQUEST_TIMEOUT_MS),
     });
 
     if (!response.ok) {
@@ -63,6 +70,10 @@ export async function fetchBotPortal<T>(path: string): Promise<BotPortalResult<T
   } catch {
     return { ok: false, reason: 'unavailable' };
   }
+}
+
+export async function fetchBotPortal<T>(path: string): Promise<BotPortalResult<T>> {
+  return requestBotPortal<T>(path);
 }
 
 export async function getPortalStatus() {
@@ -102,4 +113,17 @@ export async function getTransmissionFeed(limit = 20): Promise<TransmissionFeed>
     lastCheckedAt: result.generatedAt,
     source: 'bot-api',
   };
+}
+
+export async function createPortalSupportTicket(input: {
+  userDiscordId: string;
+  categoryKey: 'support' | 'bug' | 'report_player' | 'shop' | 'other';
+  subject: string;
+  description: string;
+}) {
+  return requestBotPortal<PortalTicketResult>('/api/portal/v1/tickets', {
+    method: 'POST',
+    body: input,
+    timeoutMs: 14_000,
+  });
 }

@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
+import { createPortalSupportTicket } from '@/lib/bot-portal';
 
 type SupportTicketPayload = {
   category?: unknown;
   priority?: unknown;
   subject?: unknown;
   message?: unknown;
-  contact?: unknown;
   confirm?: unknown;
   website?: unknown;
 };
@@ -14,56 +14,42 @@ type SupportTicketPayload = {
 const cooldowns = new Map<string, number>();
 const COOLDOWN_MS = 45_000;
 
-const categories: Record<string, string> = {
-  bug: 'Bug / probleme technique',
-  joueur: 'Signalement joueur',
-  boutique: 'Boutique / achat',
-  question: 'Question serveur',
-  autre: 'Autre demande',
-};
+const categoryKeys = {
+  bug: 'bug',
+  joueur: 'report_player',
+  boutique: 'shop',
+  question: 'support',
+  autre: 'other',
+} as const;
 
-const priorities: Record<string, string> = {
+const priorities = {
   low: 'Simple question',
-  normal: 'Normal',
-  high: 'Important',
-};
+  normal: 'Normale',
+  high: 'Importante',
+} as const;
 
 function cleanText(value: unknown, max = 1800) {
   if (typeof value !== 'string') return '';
   return value.replace(/\s+/g, ' ').trim().slice(0, max);
 }
 
-function cleanDiscordValue(value: string) {
-  return value.replace(/@/g, '@\u200b').replace(/[<>]/g, '').slice(0, 1000);
-}
-
-function getClientKey(request: NextRequest, discordId?: string) {
-  const forwardedFor = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
-  return discordId || forwardedFor || 'unknown';
-}
-
-function validatePayload(payload: SupportTicketPayload, hasSession: boolean) {
+function validatePayload(payload: SupportTicketPayload) {
   const errors: string[] = [];
   const category = cleanText(payload.category, 20);
   const priority = cleanText(payload.priority, 20);
   const subject = cleanText(payload.subject, 120);
   const message = cleanText(payload.message, 1800);
-  const contact = cleanText(payload.contact, 80);
 
   if (cleanText(payload.website, 120).length > 0) {
-    errors.push('Ticket refuse.');
+    errors.push('Ticket refusé.');
   }
 
-  if (!categories[category]) {
-    errors.push('Categorie invalide.');
+  if (!(category in categoryKeys)) {
+    errors.push('Catégorie invalide.');
   }
 
-  if (!priorities[priority]) {
-    errors.push('Priorite invalide.');
-  }
-
-  if (!hasSession && contact.length < 3) {
-    errors.push('Indique ton Discord pour que le staff puisse te repondre.');
+  if (!(priority in priorities)) {
+    errors.push('Priorité invalide.');
   }
 
   if (subject.length < 5) {
@@ -75,109 +61,75 @@ function validatePayload(payload: SupportTicketPayload, hasSession: boolean) {
   }
 
   if (payload.confirm !== true) {
-    errors.push('Confirme que ta demande est complete.');
+    errors.push('Confirme que ta demande est complète.');
   }
 
   return {
     errors,
-    values: {
-      category,
-      priority,
-      subject,
-      message,
-      contact,
-    },
-  };
-}
-
-function buildTicketId() {
-  return `LS-${Date.now().toString(36).toUpperCase()}`;
-}
-
-function buildWebhookPayload(
-  ticketId: string,
-  values: ReturnType<typeof validatePayload>['values'],
-  discordName?: string | null,
-  discordId?: string,
-) {
-  const field = (name: string, value: string, inline = false) => ({
-    name,
-    value: cleanDiscordValue(value) || 'Non renseigne',
-    inline,
-  });
-
-  const contact = discordName ? `${discordName}${discordId ? ` (${discordId})` : ''}` : values.contact;
-
-  return {
-    username: 'Last Survivors - Support',
-    embeds: [
-      {
-        title: `Nouveau ticket support ${ticketId}`,
-        color: 16032331,
-        timestamp: new Date().toISOString(),
-        fields: [
-          field('Contact Discord', contact),
-          field('Categorie', categories[values.category] ?? values.category, true),
-          field('Priorite', priorities[values.priority] ?? values.priority, true),
-          field('Sujet', values.subject),
-          field('Message', values.message),
-        ],
-        footer: {
-          text: 'Portail Last Survivors',
-        },
-      },
-    ],
+    values: { category, priority, subject, message },
   };
 }
 
 export async function POST(request: NextRequest) {
   const session = await auth();
-  const clientKey = getClientKey(request, session?.user?.discordId);
+  const discordId = session?.user?.discordId;
+
+  if (!discordId) {
+    return NextResponse.json(
+      { error: 'Connecte-toi avec Discord pour ouvrir un ticket.' },
+      { status: 401 },
+    );
+  }
+
   const now = Date.now();
-  const lastAttempt = cooldowns.get(clientKey) ?? 0;
+  const lastAttempt = cooldowns.get(discordId) ?? 0;
 
   if (now - lastAttempt < COOLDOWN_MS) {
-    return NextResponse.json({ error: 'Patiente quelques secondes avant de renvoyer un ticket.' }, { status: 429 });
+    return NextResponse.json(
+      { error: 'Patiente quelques secondes avant de renvoyer un ticket.' },
+      { status: 429 },
+    );
   }
 
   let payload: SupportTicketPayload;
   try {
     payload = (await request.json()) as SupportTicketPayload;
   } catch {
-    return NextResponse.json({ error: 'Requete invalide.' }, { status: 400 });
+    return NextResponse.json({ error: 'Requête invalide.' }, { status: 400 });
   }
 
-  const { errors, values } = validatePayload(payload, Boolean(session?.user));
+  const { errors, values } = validatePayload(payload);
   if (errors.length > 0) {
     return NextResponse.json({ error: errors[0], errors }, { status: 400 });
   }
 
-  const webhookUrl = (
-    process.env.DISCORD_SUPPORT_WEBHOOK_URL ||
-    process.env.DISCORD_APPLICATION_WEBHOOK_URL ||
-    ''
-  ).trim();
+  const categoryKey = categoryKeys[values.category as keyof typeof categoryKeys];
+  const priorityLabel = priorities[values.priority as keyof typeof priorities];
+  cooldowns.set(discordId, now);
 
-  if (!webhookUrl) {
-    return NextResponse.json({ error: 'Webhook support non configure cote serveur.' }, { status: 503 });
-  }
-
-  cooldowns.set(clientKey, now);
-  const ticketId = buildTicketId();
-
-  const response = await fetch(webhookUrl, {
-    method: 'POST',
-    cache: 'no-store',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(buildWebhookPayload(ticketId, values, session?.user?.name, session?.user?.discordId)),
+  const result = await createPortalSupportTicket({
+    userDiscordId: discordId,
+    categoryKey,
+    subject: values.subject,
+    description: `Priorité déclarée : ${priorityLabel}\n\n${values.message}`,
   });
 
-  if (!response.ok) {
-    cooldowns.delete(clientKey);
-    return NextResponse.json({ error: 'Envoi Discord impossible pour le moment.' }, { status: 502 });
+  if (!result.ok) {
+    cooldowns.delete(discordId);
+    return NextResponse.json(
+      {
+        error:
+          result.reason === 'unconfigured'
+            ? 'La liaison sécurisée avec le bot doit encore être configurée.'
+            : 'Le bot Discord ne peut pas créer le ticket pour le moment.',
+      },
+      { status: 503 },
+    );
   }
 
-  return NextResponse.json({ ok: true, ticketId });
+  return NextResponse.json({
+    ok: true,
+    ticketId: result.data.publicId,
+    status: result.data.status,
+  });
 }

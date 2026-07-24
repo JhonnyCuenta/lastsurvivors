@@ -60,6 +60,11 @@ export type PortalStatus = {
   message: string | null;
 };
 
+export type PortalTicketResult = {
+  publicId: string;
+  status: string;
+};
+
 export type TransmissionFeed = {
   transmissions: PortalTransmission[];
   lastCheckedAt: string;

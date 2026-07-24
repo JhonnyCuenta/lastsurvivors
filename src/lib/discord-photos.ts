@@ -53,7 +53,17 @@ type DiscordMessage = {
 };
 
 const DISCORD_API_BASE = 'https://discord.com/api/v10';
+const DEFAULT_DISCORD_MEDIA_CHANNEL_ID = '1518644775761350777';
+const DEFAULT_DISCORD_GUILD_ID = '1427655279352484065';
 const IMAGE_EXTENSION_RE = /\.(png|jpe?g|webp|gif)(\?.*)?$/i;
+
+function discordBotToken() {
+  return process.env.DISCORD_MEDIA_BOT_TOKEN?.trim().replace(/^Bot\s+/i, '').trim();
+}
+
+function discordMediaChannelId() {
+  return process.env.DISCORD_MEDIA_CHANNEL_ID?.trim() || DEFAULT_DISCORD_MEDIA_CHANNEL_ID;
+}
 
 function cleanText(value: unknown, fallback: string, maxLength = 80) {
   if (typeof value !== 'string') return fallback;
@@ -72,14 +82,14 @@ function isImageAttachment(attachment: DiscordAttachment) {
 }
 
 function messageUrl(channelId: string, messageId?: string) {
-  const guildId = process.env.DISCORD_GUILD_ID?.trim();
+  const guildId = process.env.DISCORD_GUILD_ID?.trim() || DEFAULT_DISCORD_GUILD_ID;
   if (!guildId || !messageId) return undefined;
   return `https://discord.com/channels/${guildId}/${channelId}/${messageId}`;
 }
 
 function fallback(error?: string): DiscordPhotoFeed {
   return {
-    configured: Boolean(process.env.DISCORD_MEDIA_BOT_TOKEN && process.env.DISCORD_MEDIA_CHANNEL_ID),
+    configured: Boolean(discordBotToken()),
     photos: [],
     lastCheckedAt: new Date().toISOString(),
     source: 'fallback',
@@ -95,8 +105,8 @@ function fallback(error?: string): DiscordPhotoFeed {
 }
 
 export async function getDiscordPhotos(): Promise<DiscordPhotoFeed> {
-  const token = process.env.DISCORD_MEDIA_BOT_TOKEN?.trim();
-  const channelId = process.env.DISCORD_MEDIA_CHANNEL_ID?.trim();
+  const token = discordBotToken();
+  const channelId = discordMediaChannelId();
 
   if (!token || !channelId) {
     return fallback('Flux Discord non configure.');

@@ -48,7 +48,8 @@ export const publicLinks = {
   voteUrl,
   storeUrl,
   discordMediaChannelUrl:
-    process.env.NEXT_PUBLIC_DISCORD_MEDIA_CHANNEL_URL?.trim() || discordUrl,
+    process.env.NEXT_PUBLIC_DISCORD_MEDIA_CHANNEL_URL?.trim() ||
+    'https://discord.com/channels/1427655279352484065/1518644775761350777',
 };
 
 export const quickLinks = [

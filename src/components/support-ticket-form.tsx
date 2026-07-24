@@ -9,7 +9,6 @@ type SupportTicketFormState = {
   priority: string;
   subject: string;
   message: string;
-  contact: string;
   website: string;
   confirm: boolean;
 };
@@ -19,12 +18,11 @@ const initialForm: SupportTicketFormState = {
   priority: 'normal',
   subject: '',
   message: '',
-  contact: '',
   website: '',
   confirm: false,
 };
 
-export function SupportTicketForm({ isLoggedIn, discordName }: { isLoggedIn: boolean; discordName?: string | null }) {
+export function SupportTicketForm({ discordName }: { discordName?: string | null }) {
   const [form, setForm] = useState<SupportTicketFormState>(initialForm);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -47,14 +45,14 @@ export function SupportTicketForm({ isLoggedIn, discordName }: { isLoggedIn: boo
 
       const data = (await response.json()) as { error?: string; ticketId?: string };
       if (!response.ok) {
-        setMessage({ type: 'error', text: data.error ?? 'Ticket refuse.' });
+        setMessage({ type: 'error', text: data.error ?? 'Ticket refusé.' });
         return;
       }
 
       setForm(initialForm);
       setMessage({
         type: 'success',
-        text: `Ticket envoye au staff${data.ticketId ? ` (${data.ticketId})` : ''}. Surveille Discord pour la suite.`,
+        text: `Ticket créé dans le système Discord${data.ticketId ? ` (${data.ticketId})` : ''}. Le staff te répondra dans le salon dédié.`,
       });
     } catch {
       setMessage({ type: 'error', text: 'Impossible de contacter le support pour le moment.' });
@@ -74,11 +72,16 @@ export function SupportTicketForm({ isLoggedIn, discordName }: { isLoggedIn: boo
         aria-hidden="true"
       />
 
+      <div className="form-message success">
+        <CheckCircle2 size={18} />
+        Connecté avec Discord : {discordName ?? 'survivant'}
+      </div>
+
       <div className="form-grid">
         <label>
-          <span>Categorie</span>
+          <span>Catégorie</span>
           <select value={form.category} onChange={(event) => updateField('category', event.target.value)} required>
-            <option value="bug">Bug / probleme technique</option>
+            <option value="bug">Bug / problème technique</option>
             <option value="joueur">Signalement joueur</option>
             <option value="boutique">Boutique / achat</option>
             <option value="question">Question serveur</option>
@@ -86,32 +89,14 @@ export function SupportTicketForm({ isLoggedIn, discordName }: { isLoggedIn: boo
           </select>
         </label>
         <label>
-          <span>Priorite</span>
+          <span>Priorité déclarée</span>
           <select value={form.priority} onChange={(event) => updateField('priority', event.target.value)} required>
-            <option value="normal">Normal</option>
-            <option value="high">Important</option>
+            <option value="normal">Normale</option>
+            <option value="high">Importante</option>
             <option value="low">Simple question</option>
           </select>
         </label>
       </div>
-
-      {!isLoggedIn ? (
-        <label>
-          <span>Discord pour te repondre</span>
-          <input
-            value={form.contact}
-            onChange={(event) => updateField('contact', event.target.value)}
-            maxLength={80}
-            placeholder="Ex: JhonnyCuenta"
-            required
-          />
-        </label>
-      ) : (
-        <div className="form-message success">
-          <CheckCircle2 size={18} />
-          Connecte avec Discord: {discordName ?? 'survivant'}
-        </div>
-      )}
 
       <label>
         <span>Sujet</span>
@@ -131,7 +116,7 @@ export function SupportTicketForm({ isLoggedIn, discordName }: { isLoggedIn: boo
           onChange={(event) => updateField('message', event.target.value)}
           maxLength={1800}
           rows={7}
-          placeholder="Explique ce qui s est passe, le lieu, l heure approximative, les joueurs concernes et ce que tu attends du staff."
+          placeholder="Explique les faits, le lieu, l’heure approximative, les joueurs concernés et ce que tu attends du staff."
           required
         />
       </label>
@@ -143,7 +128,7 @@ export function SupportTicketForm({ isLoggedIn, discordName }: { isLoggedIn: boo
           onChange={(event) => updateField('confirm', event.target.checked)}
           required
         />
-        <span>J envoie une vraie demande et je reste disponible pour repondre au staff.</span>
+        <span>J’envoie une vraie demande et je reste disponible pour répondre au staff.</span>
       </label>
 
       {message ? (
@@ -155,7 +140,7 @@ export function SupportTicketForm({ isLoggedIn, discordName }: { isLoggedIn: boo
 
       <button type="submit" className="button button-primary form-submit" disabled={pending}>
         <Send size={17} />
-        {pending ? 'Envoi...' : 'Envoyer le ticket'}
+        {pending ? 'Création...' : 'Créer le ticket Discord'}
       </button>
     </form>
   );
