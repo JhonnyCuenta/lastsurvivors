@@ -22,7 +22,7 @@ function authErrorMessage(error?: string) {
   }
 
   if (error === 'Configuration') {
-    return 'Connexion Discord en preparation. Il reste des variables a ajouter sur Vercel.';
+    return 'Connexion Discord en préparation. Il reste des variables à ajouter sur Vercel.';
   }
 
   return null;
@@ -30,7 +30,7 @@ function authErrorMessage(error?: string) {
 
 function oauthSetupMessage(missingOAuthEnv: string[]) {
   if (missingOAuthEnv.length === 0) return null;
-  return `Connexion Discord en preparation: ${missingOAuthEnv.join(', ')} a ajouter dans Vercel.`;
+  return `Connexion Discord en préparation : ${missingOAuthEnv.join(', ')} à ajouter dans Vercel.`;
 }
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
@@ -108,7 +108,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         <Link className="dashboard-action-card" href="/candidature">
           <ClipboardList size={24} />
           <h3>Candidature staff</h3>
-          <p>Postuler pour aider l equipe: support, events, moderation ou organisation serveur.</p>
+          <p>Postuler pour aider l’équipe : support, événements, modération ou organisation du serveur.</p>
           <span>Ouvrir <ArrowRight size={15} /></span>
         </Link>
 

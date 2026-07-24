@@ -25,7 +25,7 @@ export function CopyConnectButton({ className = 'button button-primary', compact
   return (
     <button type="button" className={className} onClick={copyCommand}>
       {copied ? <Check size={18} /> : <Copy size={18} />}
-      {copied ? 'Copie' : compact ? 'Connect' : 'Copier la commande'}
+      {copied ? 'Copié' : compact ? 'Connexion' : 'Copier la commande'}
     </button>
   );
 }

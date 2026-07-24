@@ -1,3 +1,5 @@
+import { getPortalStatus } from '@/lib/bot-portal';
+
 export type PublicServerStatus = {
   online: boolean;
   playersOnline: number;
@@ -5,7 +7,7 @@ export type PublicServerStatus = {
   hostname: string;
   connectCommand: string;
   lastCheckedAt: string;
-  source: 'fivem-dynamic' | 'fallback';
+  source: 'bot-api' | 'fivem-dynamic' | 'fallback';
 };
 
 const DEFAULT_ENDPOINT = 'http://49.12.121.140:30175';
@@ -49,6 +51,20 @@ function fallbackStatus(): PublicServerStatus {
 }
 
 export async function getPublicServerStatus(): Promise<PublicServerStatus> {
+  const portalStatus = await getPortalStatus();
+
+  if (portalStatus.ok) {
+    return {
+      online: portalStatus.data.online,
+      playersOnline: portalStatus.data.playersOnline,
+      maxPlayers: portalStatus.data.maxPlayers ?? DEFAULT_MAX_PLAYERS,
+      hostname: asSafeString(portalStatus.data.hostname, DEFAULT_HOSTNAME),
+      connectCommand: getConnectCommand(),
+      lastCheckedAt: portalStatus.generatedAt,
+      source: 'bot-api',
+    };
+  }
+
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 2500);
 

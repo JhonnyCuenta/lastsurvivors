@@ -1,318 +1,198 @@
 import {
-  AlertTriangle,
-  Backpack,
   BookOpen,
   CalendarDays,
-  Car,
   Clapperboard,
-  CircleDot,
   ClipboardList,
-  Crosshair,
-  Droplets,
   ExternalLink,
-  Hammer,
-  HeartPulse,
   Images,
   LifeBuoy,
   Map,
   Radio,
-  Shield,
-  Skull,
   Store,
   Trophy,
   UserRound,
   Users,
   Vote,
-  Zap,
 } from 'lucide-react';
+
+const discordUrl =
+  process.env.NEXT_PUBLIC_DISCORD_URL?.trim() || 'https://discord.gg/lastsurvivors';
+const voteUrl =
+  process.env.NEXT_PUBLIC_VOTE_URL?.trim() ||
+  'https://top-serveurs.net/gta/vote/last-survivors';
+const storeUrl = process.env.NEXT_PUBLIC_STORE_URL?.trim() || '';
 
 export const siteConfig = {
   name: 'LAST SURVIVORS',
-  description: 'Portail joueurs du serveur FiveM RP post-apo.',
-  connectCommand: process.env.NEXT_PUBLIC_CONNECT_COMMAND || 'connect 49.12.121.140:30175',
+  description: 'Réseau de transmission des survivants — serveur FiveM RP post-apocalyptique.',
+  connectCommand:
+    process.env.NEXT_PUBLIC_CONNECT_COMMAND?.trim() || 'connect 49.12.121.140:30175',
   nav: [
     { href: '/', label: 'Accueil' },
     { href: '/jouer', label: 'Jouer' },
     { href: '/lore', label: 'Lore' },
     { href: '/guide', label: 'Guide' },
     { href: '/carte', label: 'Carte' },
-    { href: '/evenements', label: 'Events' },
-    { href: '/photos', label: 'Photos' },
+    { href: '/evenements', label: 'Opérations' },
+    { href: '/photos', label: 'Médias' },
     { href: '/boutique', label: 'Boutique' },
-    { href: '/top-vote', label: 'Vote' },
+    { href: '/top-vote', label: 'Votes' },
     { href: '/support', label: 'Support' },
-    { href: '/reglement', label: 'Regles' },
-    { href: '/communaute', label: 'Communaute' },
+    { href: '/reglement', label: 'Règlement' },
+    { href: '/communaute', label: 'Communauté' },
   ],
+};
+
+export const publicLinks = {
+  discordUrl,
+  voteUrl,
+  storeUrl,
+  discordMediaChannelUrl:
+    process.env.NEXT_PUBLIC_DISCORD_MEDIA_CHANNEL_URL?.trim() || discordUrl,
 };
 
 export const quickLinks = [
   {
     href: '/jouer',
     title: 'Rejoindre le serveur',
-    text: 'Connexion, Discord, reglement et premiers reflexes avant ton arrivee.',
+    text: 'Commande FiveM, Discord et contrôles avant le départ.',
     icon: Radio,
-  },
-  {
-    href: '/serveur',
-    title: 'Univers & factions',
-    text: 'Les groupes, les metiers et les tensions qui font vivre la Zone.',
-    icon: Skull,
   },
   {
     href: '/guide',
     title: 'Guide de survie',
-    text: 'Les bases pour arriver vivant: eau, loot, zombies, craft et vehicules.',
+    text: 'Eau, soins, loot, zombies, craft et véhicules.',
     icon: BookOpen,
   },
   {
     href: '/carte',
-    title: 'Carte utile',
-    text: 'Les grands reperes pour preparer une sortie sans partir au hasard.',
+    title: 'Carte des zones',
+    text: 'Repères publics pour préparer une sortie.',
     icon: Map,
   },
   {
     href: '/evenements',
-    title: 'Events live',
-    text: 'Airdrops, hordes, alertes terrain et rendez-vous RP a surveiller.',
+    title: 'Opérations',
+    text: 'Alertes terrain et événements confirmés.',
     icon: CalendarDays,
   },
   {
     href: '/photos',
-    title: 'Galerie RP',
-    text: 'Screenshots et moments de serveur postes par la communaute.',
+    title: 'Archives visuelles',
+    text: 'Captures publiées par la communauté.',
     icon: Images,
   },
   {
     href: '/top-vote',
-    title: 'Top vote',
-    text: 'Soutiens le serveur et suis les meilleurs voteurs.',
+    title: 'Fréquence vote',
+    text: 'Soutenir le serveur et consulter le classement.',
     icon: Trophy,
   },
   {
     href: '/support',
-    title: 'Support ticket',
-    text: 'Ouvre une demande claire pour bug, boutique, joueur ou question serveur.',
+    title: 'Canal support',
+    text: 'Signaler un bug ou demander de l’aide.',
     icon: LifeBuoy,
   },
   {
     href: '/dashboard',
-    title: 'Compte joueur',
-    text: 'Discord, candidature staff, support et raccourcis utiles au meme endroit.',
+    title: 'Dossier joueur',
+    text: 'Profil, candidature et outils personnels.',
     icon: UserRound,
-  },
-];
-
-export const premiumStats = [
-  { label: 'Style', value: 'RP post-apo' },
-  { label: 'Connexion', value: 'FiveM PC' },
-  { label: 'Compte', value: 'Optionnel' },
-];
-
-export const homeHighlights = [
-  {
-    href: '/serveur',
-    title: 'Un monde qui tient debout',
-    text: 'Factions, medecins, groupes de route, commerce, conflits et survie lente. Rien n oblige a jouer le chaos permanent.',
-    icon: Users,
-  },
-  {
-    href: '/evenements',
-    title: 'Des signaux qui bougent',
-    text: 'Airdrops, hordes et rendez-vous RP donnent des raisons de sortir, negocier ou prendre des risques.',
-    icon: Radio,
-  },
-  {
-    href: '/boutique',
-    title: 'Boutique lisible',
-    text: 'Coins, vehicules et objets presentes clairement, avec un acces propre aux offres disponibles.',
-    icon: Store,
   },
 ];
 
 export const factionPreviews = [
   {
     name: 'Merryweather',
-    role: 'Point de depart',
-    text: 'Zone d arrivee et de regroupement pour les survivants qui cherchent une route, un contact ou un plan.',
+    role: 'Relais d’arrivée',
+    text: 'Regroupement, premiers contacts et départ des convois.',
   },
   {
     name: 'EMS Observatoire',
-    role: 'Medical',
-    text: 'Repere de soins et d informations, ideal pour les scenes de secours, escorte et evacuation.',
+    role: 'Station médicale',
+    text: 'Soins, évacuations et renseignements de terrain.',
   },
   {
     name: 'Nomades',
     role: 'Transport & troc',
-    text: 'Groupes mobiles, convois, carburant, pieces et routes secondaires. Pratique, mais jamais gratuit.',
+    text: 'Carburant, pièces, routes secondaires et services mobiles.',
   },
   {
-    name: 'Independants',
+    name: 'Indépendants',
     role: 'Survie libre',
-    text: 'Joueurs solo ou petits groupes qui construisent leur reputation par leurs choix en jeu.',
+    text: 'Petits groupes dont la réputation se construit en jeu.',
   },
 ];
 
 export const joinSteps = [
-  'Rejoins le Discord Last Survivors.',
-  'Lis le reglement et le guide de depart.',
-  'Le serveur est ouvert: aucune whitelist joueur n est active pour le moment.',
-  'Prepare un personnage simple, credible et jouable.',
+  'Rejoins le Discord officiel Last Survivors.',
+  'Lis le règlement et le guide de départ.',
+  'Le serveur est ouvert : aucune whitelist joueur n’est active actuellement.',
+  'Prépare un personnage simple, crédible et jouable.',
 ];
 
 export const roadmapItems = [
   {
     status: 'En ligne',
-    title: 'Portail joueur',
-    text: 'Statut serveur, guide, carte, boutique, photos, votes et events live.',
+    title: 'Réseau de transmission',
+    text: 'Statut serveur, opérations, carte, médias et services joueur.',
   },
   {
     status: 'En ligne',
-    title: 'Dashboard joueur',
-    text: 'Compte Discord, candidature staff, support et raccourcis personnels.',
+    title: 'Dossier joueur',
+    text: 'Connexion Discord, candidature, support et profil.',
   },
   {
-    status: 'En ligne',
+    status: 'Connecté au bot',
     title: 'Calendrier RP',
-    text: 'Events organises a venir, lus depuis Discord quand le bot a acces aux evenements planifies.',
+    text: 'Les événements publics confirmés deviennent la source principale.',
   },
   {
-    status: 'En ligne',
-    title: 'Support & tickets',
-    text: 'Formulaire support cote site pour bugs, boutique, joueurs et questions serveur.',
-  },
-];
-
-export const organizedEvents = [
-  {
-    title: 'Convoi Nord',
-    type: 'Operation RP',
-    schedule: 'Date annoncee sur Discord',
-    location: 'Depart Merryweather',
-    text: 'Sortie encadree vers les routes du nord avec escorte, carburant et risques de horde.',
-  },
-  {
-    title: 'Nettoyage Observatoire',
-    type: 'Event medical',
-    schedule: 'Date annoncee sur Discord',
-    location: 'Observatoire EMS',
-    text: 'Intervention autour du point medical: secours, protection de zone et evacuation RP.',
-  },
-  {
-    title: 'Marche des survivants',
-    type: 'Commerce & rencontres',
-    schedule: 'Date annoncee sur Discord',
-    location: 'Zone sud',
-    text: 'Moment plus calme pour troc, recrutements, rumeurs et accords entre groupes.',
-  },
-];
-
-export const playerQuotes = [
-  {
-    quote: 'On vient pour survivre, pas juste pour tirer. Les meilleures scenes arrivent souvent quand tout part mal.',
-    author: 'Survivant nomade',
-  },
-  {
-    quote: 'Le serveur est meilleur quand les groupes prennent le temps de discuter avant de sortir les armes.',
-    author: 'Joueur faction',
-  },
-  {
-    quote: 'La carte, les events et le guide aident vraiment les nouveaux a comprendre ou ils mettent les pieds.',
-    author: 'Nouveau arrivant',
+    status: 'Sous surveillance',
+    title: 'Support & sécurité',
+    text: 'Contrats existants conservés et données sensibles exclues du portail.',
   },
 ];
 
 export const faqItems = [
   {
     question: 'Faut-il un compte sur le site ?',
-    answer: 'Non. Le site reste lisible par tous. La connexion Discord sert surtout a l espace joueur, au support et a la candidature staff.',
+    answer:
+      'Non. Le site reste public. La connexion Discord sert au dossier joueur, au support et à la candidature staff.',
   },
   {
     question: 'Comment rejoindre rapidement ?',
-    answer: 'Copie la commande connect depuis l accueil ou la page Jouer, puis colle-la dans F8 sur FiveM.',
+    answer:
+      'Copie la commande connect depuis l’accueil ou la page Jouer, puis colle-la dans la console F8 de FiveM.',
   },
   {
     question: 'La boutique est-elle obligatoire ?',
-    answer: 'Non. Elle sert a soutenir le serveur et a acheter des offres visibles, sans remplacer le RP en jeu.',
+    answer:
+      'Non. Elle soutient le serveur et ne remplace pas la progression ni les scènes RP.',
   },
   {
-    question: 'Ou demander de l aide ?',
-    answer: 'Tu peux ouvrir un ticket depuis la page Support. Discord reste utile pour suivre la reponse du staff.',
-  },
-];
-
-export const survivalChapters = [
-  {
-    title: 'Premiers pas',
-    icon: Backpack,
-    points: [
-      'Recupere une gourde, un sac et de quoi soigner les blessures legeres.',
-      'Evite les coups de feu inutiles: le bruit attire les morts et les vivants.',
-      'Garde toujours une sortie avant de fouiller un batiment.',
-    ],
-  },
-  {
-    title: 'Eau et faim',
-    icon: Droplets,
-    points: [
-      'Priorite a l eau potable: filtre, bouteille vide, purificateur ou point d eau controle.',
-      'Ne gaspille pas les consommables rares avant une expedition longue.',
-      'Partage les ressources avec ton groupe pour eviter les pertes en route.',
-    ],
-  },
-  {
-    title: 'Zombies',
-    icon: Skull,
-    points: [
-      'Un zombie seul est gerable; une horde peut bloquer un quartier entier.',
-      'Le corps a corps economise les munitions, mais demande de l espace.',
-      'Si une zone devient trop bruyante, decroche et contourne.',
-    ],
-  },
-  {
-    title: 'Loot',
-    icon: CircleDot,
-    points: [
-      'Les zones riches sont souvent surveillees par d autres survivants.',
-      'Classe ton inventaire avant de partir pour garder de la place.',
-      'Signale les gros spots a ton groupe plutot que de tout porter seul.',
-    ],
-  },
-  {
-    title: 'Craft',
-    icon: Hammer,
-    points: [
-      'Transforme les pieces faibles en outils utiles: reparation, stockage, defenses.',
-      'Garde les composants rares pour les vehicules ou les bases.',
-      'Un craft rentable est un craft qui te ramene vivant.',
-    ],
-  },
-  {
-    title: 'Vehicules',
-    icon: Car,
-    points: [
-      'Controle carburant, pneus et moteur avant chaque depart.',
-      'Les routes principales sont rapides mais predecibles.',
-      'Un vehicule bruyant doit bouger vite ou rester cache.',
-    ],
+    question: 'Où demander de l’aide ?',
+    answer:
+      'Ouvre un ticket depuis la page Support. Le Discord officiel permet ensuite de suivre la réponse du staff.',
   },
 ];
 
 export const mapZones = [
   {
-    name: 'Spawn Merryweather',
-    type: 'Point de depart',
-    detail: 'Point de depart / zone importante pour les survivants.',
+    name: 'Relais Merryweather',
+    type: 'Point de départ',
+    detail: 'Zone d’arrivée et de regroupement des survivants.',
     x: 58,
     y: 91,
     tone: 'strategic',
     kind: 'point',
-    shortLabel: 'Spawn',
+    shortLabel: 'Relais',
   },
   {
     name: 'Observatoire EMS',
-    type: 'Point medical',
-    detail: 'Point medical / repere strategique.',
+    type: 'Point médical',
+    detail: 'Repère de soins et zone d’évacuation.',
     x: 47,
     y: 58,
     tone: 'medical',
@@ -320,9 +200,9 @@ export const mapZones = [
     shortLabel: 'EMS',
   },
   {
-    name: 'Nord',
-    type: 'Zone infestee',
-    detail: 'Zone fortement infestee de morts-vivants, vigilance maximale.',
+    name: 'Secteur Nord',
+    type: 'Zone infestée',
+    detail: 'Présence élevée de morts-vivants, vigilance maximale.',
     x: 50,
     y: 18,
     tone: 'danger',
@@ -330,9 +210,9 @@ export const mapZones = [
     shortLabel: 'Nord',
   },
   {
-    name: 'Sud',
+    name: 'Secteur Sud',
     type: 'Zone plus calme',
-    detail: 'Zone plus calme, recommandee pour les deplacements plus surs.',
+    detail: 'Risque modéré, sans garantie de sécurité.',
     x: 51,
     y: 76,
     tone: 'calm',
@@ -341,171 +221,59 @@ export const mapZones = [
   },
 ];
 
-export const eventCards = [
-  {
-    title: 'Airdrops',
-    icon: Radio,
-    schedule: 'Annonce staff ou evenement dynamique',
-    text: 'Des caisses tombent en zone ouverte. Arrive equipe, repars vite.',
-  },
-  {
-    title: 'Blackouts',
-    icon: Zap,
-    schedule: 'Soirees RP et phases tension',
-    text: 'La visibilite baisse, les deplacements deviennent plus dangereux.',
-  },
-  {
-    title: 'Tempetes',
-    icon: AlertTriangle,
-    schedule: 'Selon meteo et scripts actifs',
-    text: 'Les survivants doivent s abriter, limiter les trajets et surveiller les vehicules.',
-  },
-  {
-    title: 'Operations de faction',
-    icon: Crosshair,
-    schedule: 'Planning Discord',
-    text: 'Escortes, recuperations, prises de zone et interventions RP.',
-  },
-];
-
-export const rules = [
-  {
-    title: 'Respect RP',
-    icon: Users,
-    items: [
-      'Joue la peur, la douleur, la fatigue et les consequences de tes actes.',
-      'Le fair-play passe avant le gain d inventaire.',
-      'Pas de HRP vocal en scene active.',
-    ],
-  },
-  {
-    title: 'Safezones',
-    icon: Shield,
-    items: [
-      'Pas de provocation artificielle pour forcer un conflit.',
-      'Respecte les zones staff, medicales ou communautaires.',
-      'Une safezone n efface pas les consequences RP deja engagees.',
-    ],
-  },
-  {
-    title: 'Conflits',
-    icon: Crosshair,
-    items: [
-      'Un conflit doit avoir une raison RP comprehensible.',
-      'Le tir a vue gratuit casse l experience serveur.',
-      'L enlevement, la fouille et la prise d otage doivent rester jouables.',
-    ],
-  },
-  {
-    title: 'Triche et abus',
-    icon: AlertTriangle,
-    items: [
-      'Aucun cheat, macro abusive, duplication ou exploitation de bug.',
-      'Signale les bugs au staff au lieu d en profiter.',
-      'Les rewards, items et permissions sont controles cote serveur.',
-    ],
-  },
-];
-
-const discordUrl = process.env.NEXT_PUBLIC_DISCORD_URL || 'https://discord.gg/lastsurvivors';
-const voteUrl = process.env.NEXT_PUBLIC_VOTE_URL || 'https://top-serveurs.net/gta/vote/last-survivors';
-const storeUrl = process.env.NEXT_PUBLIC_STORE_URL || '';
-const discordMediaChannelUrl = process.env.NEXT_PUBLIC_DISCORD_MEDIA_CHANNEL_URL || 'https://discord.gg/KaWEEehr';
-
 export const featuredTikTok = {
   url: 'https://www.tiktok.com/@lastsurvivorsofficiel/video/7639071565279137056',
   embedUrl: 'https://www.tiktok.com/embed/v3/7639071565279137056',
   author: '@lastsurvivorsofficiel',
 };
 
-export const publicLinks = {
-  discordUrl,
-  voteUrl,
-  storeUrl,
-  discordMediaChannelUrl,
-};
-
 export const communityLinks = [
   {
     href: discordUrl,
-    label: 'Discord',
-    text: 'Support, annonces, candidature staff et organisation RP.',
+    label: 'Discord officiel',
+    text: 'Annonces, support et organisation RP.',
     icon: Users,
   },
   {
     href: voteUrl,
     label: 'Vote serveur',
-    text: 'Soutiens la visibilite de Last Survivors.',
+    text: 'Soutiens la visibilité de Last Survivors.',
     icon: Vote,
   },
   {
     href: featuredTikTok.url,
-    label: 'TikTok',
-    text: 'La video officielle pour montrer l ambiance du serveur.',
+    label: 'TikTok officiel',
+    text: 'Séquences publiques du serveur.',
     icon: Clapperboard,
   },
   {
     href: storeUrl,
     label: 'Boutique',
-    text: 'Accede aux contenus boutique si le lien est configure.',
+    text: 'Accède aux offres si la boutique est configurée.',
     icon: Store,
   },
-].filter((link) => link.href.trim().length > 0);
+].filter((link) => link.href.length > 0);
 
 export const defaultCommunityAction = {
   icon: ExternalLink,
-  title: 'Liens en preparation',
-  text: 'Discord, vote et boutique apparaitront ici des que les liens seront prets.',
+  title: 'Canaux en préparation',
+  text: 'Les liens vérifiés apparaîtront ici dès leur configuration.',
 };
 
 export const accountBenefits = [
   {
     title: 'Profil survivant',
-    text: 'Avatar, pseudo Discord et raccourcis utiles sans compte obligatoire.',
+    text: 'Avatar, identité Discord et raccourcis utiles.',
     icon: UserRound,
   },
   {
     title: 'Candidature staff',
-    text: 'Un formulaire simple pour rejoindre l equipe si tu veux aider le serveur.',
+    text: 'Un formulaire dédié pour proposer ton aide.',
     icon: ClipboardList,
   },
   {
-    title: 'Discord utile',
-    text: 'Un seul compte pour retrouver candidature, support et prochains outils joueur.',
+    title: 'Discord officiel',
+    text: 'Un seul canal vérifié pour le support et les annonces.',
     icon: Radio,
-  },
-];
-
-export const staffSignals = [
-  'Connexion rapide',
-  'Guide clair',
-  'Events visibles',
-  'Discord central',
-];
-
-export const healthSignals = [
-  { label: 'Blessures', value: 'Soins avant depart', icon: HeartPulse },
-  { label: 'Menaces', value: 'Zones rouges a eviter', icon: AlertTriangle },
-  { label: 'Radio', value: 'Discord pour les annonces', icon: Radio },
-];
-
-export const shopCards = [
-  {
-    title: 'Soutien survivant',
-    price: 'Libre',
-    text: 'Aide au financement serveur, hebergement, scripts et evenements.',
-    items: ['Role Discord soutien', 'Remerciement communautaire', 'Aucun avantage pay-to-win'],
-  },
-  {
-    title: 'Cosmetiques RP',
-    price: 'Selon boutique',
-    text: 'Contenus visuels ou RP sans casser l equilibre de survie.',
-    items: ['Tenues autorisees', 'Accessoires RP', 'Validation staff si necessaire'],
-  },
-  {
-    title: 'Evenements',
-    price: 'Annonce Discord',
-    text: 'Participation ou soutien aux grosses operations communautaires.',
-    items: ['Operations RP', 'Lots non abusifs', 'Tracabilite staff'],
   },
 ];

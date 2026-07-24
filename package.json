@@ -6,7 +6,9 @@
     "dev": "next dev -p 30176",
     "build": "next build",
     "start": "next start -p 30176",
-    "lint": "next lint"
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test:smoke": "node scripts/smoke-routes.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

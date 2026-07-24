@@ -10,22 +10,22 @@ export const dynamic = 'force-dynamic';
 const supportTypes = [
   {
     title: 'Bug serveur',
-    text: 'Erreur script, recompense manquante, souci inventaire, vehicule bloque ou comportement anormal.',
+    text: 'Erreur script, récompense manquante, souci d’inventaire, véhicule bloqué ou comportement anormal.',
     icon: Bug,
   },
   {
     title: 'Signalement joueur',
-    text: 'Scene abusive, HRP, comportement lourd ou situation a revoir calmement avec le staff.',
+    text: 'Scène abusive, HRP, comportement lourd ou situation à revoir calmement avec le staff.',
     icon: UserRound,
   },
   {
     title: 'Boutique',
-    text: 'Question achat, pack, coins, lien boutique ou suivi d une commande.',
+    text: 'Question sur un achat, un pack, des coins, le lien boutique ou le suivi d’une commande.',
     icon: ShoppingBag,
   },
   {
     title: 'Question rapide',
-    text: 'Reglement, events, connexion, vote ou information utile avant de jouer.',
+    text: 'Règlement, événements, connexion, vote ou information utile avant de jouer.',
     icon: HelpCircle,
   },
 ];
@@ -40,7 +40,7 @@ export default async function SupportPage() {
           <span className="section-kicker">Support Last Survivors</span>
           <h1>Ouvre un ticket propre.</h1>
           <p>
-            Un probleme en jeu, une question boutique ou une situation a signaler ? Decris les faits clairement et le
+            Un problème en jeu, une question boutique ou une situation à signaler ? Décris les faits clairement et le
             staff reprendra la suite sur Discord.
           </p>
           <div className="premium-actions">
@@ -48,7 +48,7 @@ export default async function SupportPage() {
               Discord <MessageCircle size={18} />
             </a>
             <Link className="button button-ghost" href="/reglement">
-              Reglement <ArrowRight size={18} />
+              Règlement <ArrowRight size={18} />
             </Link>
           </div>
         </div>
@@ -71,19 +71,19 @@ export default async function SupportPage() {
           <span className="card-icon">
             <LifeBuoy size={22} />
           </span>
-          <h2>Avant d envoyer</h2>
+          <h2>Avant d’envoyer</h2>
           <p>
-            Donne un sujet clair, l heure approximative, le lieu, les pseudos si tu les connais et ce que tu attends du
-            staff. Plus c est precis, plus la reponse sera rapide.
+            Donne un sujet clair, l’heure approximative, le lieu, les pseudos si tu les connais et ce que tu attends du
+            staff. Plus c’est précis, plus la réponse sera rapide.
           </p>
           <div className="link-stack">
-            <Link href="/reglement">Relire le reglement</Link>
+            <Link href="/reglement">Relire le règlement</Link>
             <Link href="/guide">Voir le guide</Link>
             <Link href="/evenements">Voir les events</Link>
           </div>
           {!session?.user ? (
             <div className="support-login-note">
-              <p>Connexion Discord optionnelle, mais conseillee pour etre reconnu automatiquement.</p>
+              <p>Connexion Discord optionnelle, mais conseillée pour être reconnu automatiquement.</p>
               <DiscordLoginButton className="button button-secondary" />
             </div>
           ) : null}

@@ -101,7 +101,7 @@ export default function LorePage() {
           <span className="lore-file-label">Dossier public / Archives 2035</span>
           <h1>LORE LAST SURVIVORS</h1>
           <p>
-            San Andreas n'est plus qu'un enfer. Les morts marchent, les vivants se cachent, et dans l'ombre quelqu'un
+            San Andreas n’est plus qu’un enfer. Les morts marchent, les vivants se cachent, et dans l’ombre quelqu’un
             observe encore.
           </p>
           <div className="lore-hero-actions" aria-label="Informations principales du lore">
@@ -121,8 +121,8 @@ export default function LorePage() {
         </div>
         <aside className="lore-status-card" aria-label="Statut narratif">
           <span className="lore-redline" />
-          <strong>San Andreas n'est plus un territoire.</strong>
-          <p>C est un test.</p>
+          <strong>San Andreas n’est plus un territoire.</strong>
+          <p>C’est un test.</p>
           <div className="lore-signal-row">
             <Zap size={18} />
             Frequences surveillees
@@ -138,7 +138,7 @@ export default function LorePage() {
           <h2>Human Labs, point zero</h2>
           <p>
             Tout commence sous couvert de recherche medicale. Face aux epidemies mondiales, Human Labs and Research
-            devient le visage officiel de l'espoir. Derriere les portes fermees, Nexus transforme cet espoir en protocole
+            devient le visage officiel de l’espoir. Derrière les portes fermées, Nexus transforme cet espoir en protocole
             de controle.
           </p>
         </article>
@@ -154,10 +154,10 @@ export default function LorePage() {
         <div className="section-header">
           <div>
             <span className="section-kicker">Chronologie officielle</span>
-            <h2>De l'espoir au laboratoire a ciel ouvert</h2>
+            <h2>De l’espoir au laboratoire à ciel ouvert</h2>
           </div>
           <p>
-            Ce dossier sert de base RP pour comprendre la Chute, le Projet OMEGA, l'arrivee des infectes et la survie en
+            Ce dossier sert de base RP pour comprendre la Chute, le Projet OMEGA, l’arrivée des infectés et la survie en
             2035.
           </p>
         </div>
@@ -190,12 +190,12 @@ export default function LorePage() {
           <h2>Le remede qui a tue le monde</h2>
           <p>
             Les volontaires pensaient participer a une solution. Ils ont ete injectes, isoles, observes, puis abandonnes
-            a une mutation qui efface l'humain avant de relever le corps.
+            à une mutation qui efface l’humain avant de relever le corps.
           </p>
         </div>
         <div className="lore-omega-metrics" aria-label="Effets observes du Projet OMEGA">
           <span>Mutations violentes</span>
-          <span>Perte d'emotions</span>
+          <span>Perte d’émotions</span>
           <span>Perte de reperes</span>
           <span>Reanimation</span>
         </div>
@@ -207,7 +207,7 @@ export default function LorePage() {
             <span className="section-kicker">Survivants</span>
             <h2>Ceux qui restent debout</h2>
           </div>
-          <p>Apres la liberation des infectes, les vivants s'adaptent. Les roles naissent du besoin, pas des lois.</p>
+          <p>Après la libération des infectés, les vivants s’adaptent. Les rôles naissent du besoin, pas des lois.</p>
         </div>
         <div className="lore-survivor-grid">
           {survivorGroups.map((group) => (
@@ -225,7 +225,7 @@ export default function LorePage() {
       <section className="lore-threat-panel">
         <div>
           <span className="section-kicker">Ceux qui sombrent</span>
-          <h2>La horde n'est pas la seule menace</h2>
+          <h2>La horde n’est pas la seule menace</h2>
           <p>
             Quand la nourriture manque et que la radio ment, certains groupes cessent de survivre avec les autres. Ils
             survivent contre eux.

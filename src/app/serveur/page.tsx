@@ -11,17 +11,17 @@ const pillars = [
   },
   {
     title: 'RP de groupe',
-    text: 'Les factions, convois, medecins et independants donnent des raisons de parler avant de tirer.',
+    text: 'Les factions, convois, médecins et indépendants donnent des raisons de parler avant de tirer.',
     icon: Users,
   },
   {
     title: 'Events terrain',
-    text: 'Airdrops, hordes, alertes et operations creent des points chauds sans forcer tous les joueurs au meme style.',
+    text: 'Airdrops, hordes, alertes et opérations créent des points chauds sans forcer tous les joueurs au même style.',
     icon: Radio,
   },
   {
     title: 'Progression propre',
-    text: 'La boutique, les votes et les recompenses doivent soutenir le jeu, pas remplacer les scenes.',
+    text: 'La boutique, les votes et les récompenses doivent soutenir le jeu, pas remplacer les scènes.',
     icon: Store,
   },
 ];
@@ -31,10 +31,10 @@ export default function ServeurPage() {
     <>
       <section className="server-hero">
         <div>
-          <span className="section-kicker">Identite du serveur</span>
-          <h1>Un GTA RP post-apo plus credible, moins brouillon</h1>
+          <span className="section-kicker">Identité du serveur</span>
+          <h1>Un GTA RP post-apo plus crédible, moins brouillon</h1>
           <p>
-            Last Survivors mise sur une ambiance sombre, des decisions simples a comprendre et des scenes qui laissent
+            Last Survivors mise sur une ambiance sombre, des décisions simples à comprendre et des scènes qui laissent
             une trace. Ici, survivre vaut mieux que gagner vite.
           </p>
           <div className="premium-actions">
@@ -62,10 +62,10 @@ export default function ServeurPage() {
 
       <section className="section split-showcase">
         <div>
-          <span className="section-kicker">Metiers & factions</span>
-          <h2>Des roles pour creer du jeu</h2>
+          <span className="section-kicker">Métiers & factions</span>
+          <h2>Des rôles pour créer du jeu</h2>
           <p>
-            Les groupes ci-dessous donnent une direction, pas une prison. Chaque joueur peut construire sa reputation
+            Les groupes ci-dessous donnent une direction, pas une prison. Chaque joueur peut construire sa réputation
             par ses alliances, ses dettes, ses services ou ses erreurs.
           </p>
           <div className="showcase-actions">
@@ -93,14 +93,14 @@ export default function ServeurPage() {
         <div className="section-header">
           <div>
             <span className="section-kicker">Carte</span>
-            <h2>Les grands reperes</h2>
+            <h2>Les grands repères</h2>
           </div>
-          <p>Une lecture rapide des zones utiles avant une sortie, un convoi ou une premiere arrivee.</p>
+          <p>Une lecture rapide des zones utiles avant une sortie, un convoi ou une première arrivée.</p>
         </div>
         <MapOverview compact />
         <div className="showcase-actions section-actions">
           <Link className="button button-secondary" href="/carte">
-            Ouvrir la carte complete <Map size={18} />
+            Ouvrir la carte complète <Map size={18} />
           </Link>
         </div>
       </section>

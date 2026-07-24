@@ -6,7 +6,7 @@ export default function CartePage() {
       <header className="page-heading">
         <h1>Carte utile</h1>
         <p>
-          Les grands reperes pour preparer une sortie: point de depart, observatoire, nord dangereux et sud plus calme.
+          Les grands repères pour préparer une sortie : point de départ, observatoire, nord dangereux et sud plus calme.
           Prends la carte comme une aide de route, pas comme une garantie de survie.
         </p>
       </header>

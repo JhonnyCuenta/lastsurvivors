@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   ArrowRight,
   Car,
@@ -22,15 +23,15 @@ const storeUrl = publicLinks.storeUrl.trim() || boutiqueChannelUrl;
 const coinPacks = [
   { label: '1.000 Coins', price: '10$', detail: 'Pack starter pour tester la boutique.' },
   { label: '2.000 Coins', price: '15$', detail: 'Pack leger pour une arme ou une reserve.' },
-  { label: '5.000 Coins', price: '30$', detail: 'Pack expedition pour vehicule ou plusieurs achats.' },
-  { label: '10.000 Coins', price: '55$', detail: 'Pack groupe pour preparer une grosse session.' },
+  { label: '5.000 Coins', price: '30$', detail: 'Pack expédition pour un véhicule ou plusieurs achats.' },
+  { label: '10.000 Coins', price: '55$', detail: 'Pack groupe pour préparer une grosse session.' },
   { label: '20.000 Coins', price: '100$', detail: 'Pack soutien majeur pour les gros projets RP.' },
 ];
 
 const shopSignals = [
   { label: 'Nom public', value: 'LAST SURVIVORS', icon: Store },
   { label: 'Commande en jeu', value: '/boutique2', icon: Command },
-  { label: 'Coins offerts', value: '500 a la premiere connexion', icon: Gift },
+  { label: 'Coins offerts', value: '500 à la première connexion', icon: Gift },
   { label: 'Categories actives', value: 'Vehicules, armes, gestion coins', icon: ShieldCheck },
 ];
 
@@ -38,7 +39,7 @@ const categories = [
   {
     title: 'Vehicules',
     state: 'Active',
-    text: '12 modeles boutique configures avec test vehicule et achat par coins.',
+    text: '12 modèles boutique configurés avec test de véhicule et achat par coins.',
   },
   {
     title: 'Armes',
@@ -105,7 +106,7 @@ export default function BoutiquePage() {
           <span className="shop-kicker">Catalogue public / Last Survivors</span>
           <h1>Boutique Last Survivors</h1>
           <p>
-            Une boutique claire pour soutenir le serveur: coins, vehicules et armes de survie visibles avant de passer
+            Une boutique claire pour soutenir le serveur : coins, véhicules et armes de survie visibles avant de passer
             en jeu.
           </p>
           <div className="shop-hero-actions">
@@ -167,7 +168,7 @@ export default function BoutiquePage() {
         <div className="shop-credit-grid">
           {coinPacks.map((pack) => (
             <a className="shop-credit-pack" href={storeUrl} target="_blank" rel="noreferrer" key={pack.label}>
-              <img src="/shop/creditImg.png" alt="" loading="lazy" />
+              <Image src="/shop/creditImg.png" alt="" width={280} height={160} />
               <span>{pack.label}</span>
               <strong>{pack.price}</strong>
               <p>{pack.detail}</p>
@@ -180,16 +181,16 @@ export default function BoutiquePage() {
         <div className="section-header">
           <div>
             <span className="section-kicker">Vehicules boutique</span>
-            <h2 id="vehicle-title">12 modeles disponibles</h2>
+            <h2 id="vehicle-title">12 modèles disponibles</h2>
           </div>
-          <p>Chaque vehicule est configure avec test en jeu, prix en coins, vitesse et nombre de places.</p>
+          <p>Chaque véhicule est configuré avec test en jeu, prix en coins, vitesse et nombre de places.</p>
         </div>
 
         <div className="shop-vehicle-grid">
           {vehicles.map((vehicle) => (
             <article className="shop-vehicle-card" key={vehicle.model}>
               <div className="shop-product-media">
-                <img src={vehicle.image} alt={vehicle.label} loading="lazy" />
+                <Image src={vehicle.image} alt={vehicle.label} width={520} height={300} />
               </div>
               <div className="shop-product-body">
                 <span>{vehicle.model}</span>
@@ -226,7 +227,7 @@ export default function BoutiquePage() {
         <div className="shop-weapon-grid">
           {weapons.map((weapon) => (
             <article className="shop-weapon-card" key={weapon.code}>
-              <img src={weapon.image} alt={weapon.label} loading="lazy" />
+              <Image src={weapon.image} alt={weapon.label} width={220} height={220} />
               <div>
                 <span>{weapon.code}</span>
                 <h3>{weapon.label}</h3>
@@ -245,8 +246,8 @@ export default function BoutiquePage() {
           <Shield size={26} />
           <h2>Important pour le RP</h2>
           <p>
-            La boutique doit soutenir le serveur sans remplacer les scenes. Les vehicules et armes doivent rester
-            justifies en RP: provenance, stockage, risques, pertes et consequences.
+            La boutique doit soutenir le serveur sans remplacer les scènes. Les véhicules et armes doivent rester
+            justifiés en RP : provenance, stockage, risques, pertes et conséquences.
           </p>
         </div>
 
@@ -256,7 +257,7 @@ export default function BoutiquePage() {
           <ul>
             <li>
               <Store size={15} />
-              Boutique active: vehicules, armes, gestion coins
+              Boutique active : véhicules, armes, gestion des coins
             </li>
             <li>
               <Crosshair size={15} />

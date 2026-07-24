@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import {
   Activity,
   AlertTriangle,
@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type { PublicLiveEvent, PublicLiveEventsFeed, PublicLiveEventType } from '@/lib/live-events';
+import { useSmartPolling } from '@/hooks/use-smart-polling';
 
 type Props = {
   initialFeed: PublicLiveEventsFeed;
@@ -23,12 +24,12 @@ const typeMeta: Record<PublicLiveEventType, { label: string; icon: LucideIcon }>
   airdrop: { label: 'Airdrop', icon: PackageOpen },
   horde: { label: 'Horde', icon: Skull },
   blackout: { label: 'Blackout', icon: Zap },
-  storm: { label: 'Tempete', icon: CloudLightning },
+  storm: { label: 'Tempête', icon: CloudLightning },
   announcement: { label: 'Annonce', icon: Radio },
 };
 
 function formatDate(value?: string) {
-  if (!value) return 'signal recent';
+  if (!value) return 'signal récent';
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return 'signal recent';
 
@@ -37,28 +38,16 @@ function formatDate(value?: string) {
     minute: '2-digit',
     day: '2-digit',
     month: '2-digit',
+    timeZone: 'Europe/Paris',
   }).format(date);
-}
-
-function formatCountdown(value?: string) {
-  if (!value) return 'duree inconnue';
-  const time = new Date(value).getTime();
-  if (Number.isNaN(time)) return 'duree inconnue';
-
-  const diff = time - Date.now();
-  if (diff <= 0) return 'fin proche';
-
-  const minutes = Math.ceil(diff / 60000);
-  if (minutes < 60) return `${minutes} min restantes`;
-  return `${Math.floor(minutes / 60)}h${String(minutes % 60).padStart(2, '0')} restantes`;
 }
 
 function eventStatusText(event: PublicLiveEvent) {
   if (event.status === 'announcing') return 'Annonce en cours';
-  if (event.status === 'scheduled') return 'Programme';
-  if (event.status === 'success' || event.status === 'completed') return 'Termine';
-  if (event.status === 'cancelled') return 'Annule';
-  if (event.status === 'failed') return 'Echec';
+  if (event.status === 'scheduled') return 'Programmé';
+  if (event.status === 'success' || event.status === 'completed') return 'Terminé';
+  if (event.status === 'cancelled') return 'Annulé';
+  if (event.status === 'failed') return 'Échec';
   return event.statusLabel || 'En cours';
 }
 
@@ -96,7 +85,7 @@ function LiveEventCard({ event }: { event: PublicLiveEvent }) {
         </span>
         <span>
           <Activity size={15} />
-          {waveText ?? formatCountdown(event.endsAt)}
+          {waveText ?? (event.endsAt ? `Fin prévue ${formatDate(event.endsAt)}` : 'Durée inconnue')}
         </span>
       </div>
     </article>
@@ -121,31 +110,24 @@ function RecentEventRow({ event }: { event: PublicLiveEvent }) {
 }
 
 export function LiveEventsPanel({ initialFeed }: Props) {
-  const [feed, setFeed] = useState(initialFeed);
-  const [loading, setLoading] = useState(false);
-  const [lastError, setLastError] = useState(false);
-
-  const refresh = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/live-events', { cache: 'no-store' });
-      if (!response.ok) throw new Error('live feed unavailable');
-      const nextFeed = (await response.json()) as PublicLiveEventsFeed;
-      setFeed(nextFeed);
-      setLastError(false);
-    } catch {
-      setLastError(true);
-    } finally {
-      setLoading(false);
-    }
+  const fetchFeed = useCallback(async () => {
+    const response = await fetch('/api/live-events', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Flux indisponible');
+    const payload = (await response.json()) as PublicLiveEventsFeed;
+    if (payload.source === 'fallback') throw new Error('Ressource FiveM indisponible');
+    return payload;
   }, []);
-
-  useEffect(() => {
-    const timer = window.setInterval(refresh, 15000);
-    return () => window.clearInterval(timer);
-  }, [refresh]);
-
-  const sourceLabel = feed.source === 'fivem-resource' ? 'Ressource FiveM connectee' : 'Flux en attente';
+  const polling = useSmartPolling({
+    initialData: initialFeed,
+    fetcher: fetchFeed,
+    intervalMs: Number(process.env.NEXT_PUBLIC_POLL_TRANSMISSIONS_MS) || 60_000,
+  });
+  const feed = polling.data;
+  const sourceLabel = polling.isOffline
+    ? 'Flux hors ligne'
+    : feed.source === 'fivem-resource'
+      ? 'Ressource FiveM connectée'
+      : 'Flux en attente';
 
   return (
     <section className="live-events-panel">
@@ -153,11 +135,11 @@ export function LiveEventsPanel({ initialFeed }: Props) {
         <div>
           <span className={`live-dot${feed.active.length > 0 ? ' active' : ''}`} />
           <strong>{sourceLabel}</strong>
-          <small>{lastError ? 'Derniere lecture echouee' : `Maj ${formatDate(feed.lastCheckedAt)}`}</small>
+          <small>{polling.isStale ? 'Dernière donnée conservée' : `Màj ${formatDate(feed.lastCheckedAt)}`}</small>
         </div>
-        <button className="live-refresh-button" type="button" onClick={refresh} disabled={loading}>
-          <RefreshCw size={17} />
-          {loading ? 'Scan...' : 'Rafraichir'}
+        <button className="live-refresh-button" type="button" onClick={() => void polling.refresh()} disabled={polling.isRefreshing}>
+          <RefreshCw size={17} className={polling.isRefreshing ? 'is-spinning' : undefined} />
+          {polling.isRefreshing ? 'Scan…' : 'Rafraîchir'}
         </button>
       </div>
 
@@ -166,9 +148,9 @@ export function LiveEventsPanel({ initialFeed }: Props) {
           <div className="section-header compact-section-header">
             <div>
               <span className="section-kicker">Terrain</span>
-              <h2>Events actifs</h2>
+              <h2>Signaux actifs</h2>
             </div>
-            <p>{feed.active.length} signal(s) a surveiller pendant ta session.</p>
+            <p>{feed.active.length} signal(aux) à surveiller pendant ta session.</p>
           </div>
 
           {feed.active.length > 0 ? (
@@ -182,10 +164,10 @@ export function LiveEventsPanel({ initialFeed }: Props) {
               <span className="card-icon">
                 <AlertTriangle size={22} />
               </span>
-              <h3>Aucun event actif</h3>
+              <h3>Aucun signal actif</h3>
               <p>
-                Aucun signal important pour le moment. Reviens avant de partir en expedition ou garde un oeil sur le
-                Discord pendant les grosses soirees.
+                Aucun signal important pour le moment. Reviens avant de partir en expédition ou garde
+                un œil sur le Discord officiel.
               </p>
             </article>
           )}
@@ -206,7 +188,7 @@ export function LiveEventsPanel({ initialFeed }: Props) {
               ))}
             </ul>
           ) : (
-            <p className="live-log-empty">Aucun event termine depuis le dernier redemarrage du flux.</p>
+            <p className="live-log-empty">Aucun signal terminé depuis le dernier redémarrage du flux.</p>
           )}
         </aside>
       </div>

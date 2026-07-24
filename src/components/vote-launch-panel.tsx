@@ -25,8 +25,11 @@ export function VoteLaunchPanel({ voteUrl }: Props) {
   const [pseudo, setPseudo] = useState('');
 
   useEffect(() => {
-    const savedPseudo = window.localStorage.getItem('last-survivors-vote-pseudo');
-    if (savedPseudo) setPseudo(savedPseudo);
+    const timer = window.setTimeout(() => {
+      const savedPseudo = window.localStorage.getItem('last-survivors-vote-pseudo');
+      if (savedPseudo) setPseudo(savedPseudo);
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   const href = useMemo(() => buildVoteUrl(voteUrl, pseudo), [pseudo, voteUrl]);

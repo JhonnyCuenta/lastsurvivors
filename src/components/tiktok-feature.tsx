@@ -10,10 +10,10 @@ export function TikTokFeature({ compact = false }: Props) {
     <section className={`section tiktok-feature${compact ? ' tiktok-feature-compact' : ''}`}>
       <div className="tiktok-copy">
         <span className="section-kicker">Spot officiel</span>
-        <h2>La vibe Last Survivors en video</h2>
+        <h2>L’ambiance Last Survivors en vidéo</h2>
         <p>
-          Un apercu court et direct de l ambiance serveur: routes mortes, groupes qui se forment, tension RP et survie
-          francophone.
+          Un aperçu court et direct de l’ambiance serveur : routes mortes, groupes qui se
+          forment, tension RP et survie francophone.
         </p>
         <div className="showcase-actions">
           <a className="button button-primary" href={featuredTikTok.url} target="_blank" rel="noreferrer">
@@ -28,7 +28,7 @@ export function TikTokFeature({ compact = false }: Props) {
 
       <div className="tiktok-frame-shell">
         <iframe
-          title="Video TikTok officielle Last Survivors"
+          title="Vidéo TikTok officielle Last Survivors"
           src={featuredTikTok.embedUrl}
           loading="lazy"
           allow="encrypted-media; clipboard-write; web-share"

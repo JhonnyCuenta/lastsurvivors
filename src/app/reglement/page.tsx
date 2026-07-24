@@ -30,11 +30,11 @@ type RuleSection = {
 const principles = [
   {
     title: 'Immersion avant tout',
-    text: 'Chaque action doit pouvoir exister dans un monde detruit: peur, fatigue, blessures, faim, perte et consequences.',
+    text: 'Chaque action doit pouvoir exister dans un monde détruit : peur, fatigue, blessures, faim, perte et conséquences.',
   },
   {
     title: 'Fair-play survivant',
-    text: 'Le but est de creer une histoire forte, pas de gagner chaque scene, chaque loot ou chaque conflit.',
+    text: 'Le but est de créer une histoire forte, pas de gagner chaque scène, chaque loot ou chaque conflit.',
   },
   {
     title: 'Respect HRP',
@@ -277,12 +277,12 @@ export default function ReglementPage() {
       <header className="rules-hero">
         <div className="rules-hero-copy">
           <span className="rules-kicker">Dossier public / Code survivant</span>
-          <h1>Reglement Last Survivors</h1>
+          <h1>Règlement Last Survivors</h1>
           <p>
-            Ce reglement pose le cadre du serveur: un RP post-apo dur, lisible et fair-play. Chaque joueur doit pouvoir
-            survivre, perdre, negocier, fuir, construire une histoire et comprendre les consequences de ses actes.
+            Ce règlement pose le cadre du serveur : un RP post-apo dur, lisible et fair-play. Chaque joueur doit pouvoir
+            survivre, perdre, négocier, fuir, construire une histoire et comprendre les conséquences de ses actes.
           </p>
-          <div className="rules-hero-actions" aria-label="Acces rapides du reglement">
+          <div className="rules-hero-actions" aria-label="Accès rapides du règlement">
             <Link href="/guide">Guide de survie</Link>
             <Link href="/lore">Lore serveur</Link>
             <Link href="/support">Support</Link>
@@ -290,10 +290,10 @@ export default function ReglementPage() {
           </div>
         </div>
 
-        <aside className="rules-hero-card" aria-label="Priorite staff">
+        <aside className="rules-hero-card" aria-label="Priorité staff">
           <Shield size={30} />
-          <strong>Regle principale</strong>
-          <p>Si ton action detruit l immersion, bloque le RP ou cherche juste a gagner HRP, elle n a pas sa place ici.</p>
+          <strong>Règle principale</strong>
+          <p>Si ton action détruit l’immersion, bloque le RP ou cherche juste à gagner HRP, elle n’a pas sa place ici.</p>
         </aside>
       </header>
 
@@ -309,12 +309,12 @@ export default function ReglementPage() {
       <section className="rules-index" aria-labelledby="rules-index-title">
         <div className="section-header">
           <div>
-            <span className="section-kicker">Reference complete</span>
-            <h2 id="rules-index-title">A connaitre avant de jouer</h2>
+            <span className="section-kicker">Référence complète</span>
+            <h2 id="rules-index-title">À connaître avant de jouer</h2>
           </div>
           <p>
-            Le staff garde le dernier mot en cas de zone floue. Une bonne scene sera toujours preferee a une victoire
-            forcee.
+            Le staff garde le dernier mot en cas de zone floue. Une bonne scène sera toujours préférée à une victoire
+            forcée.
           </p>
         </div>
 
@@ -343,7 +343,7 @@ export default function ReglementPage() {
           <span className="section-kicker">Sanctions</span>
           <h2 id="rules-sanctions-title">Progressives, mais pas automatiques</h2>
           <p>
-            Le staff juge le contexte, la gravite, les preuves et l attitude du joueur. Une erreur honnete se corrige;
+            Le staff juge le contexte, la gravité, les preuves et l’attitude du joueur. Une erreur honnête se corrige ;
             un abus volontaire se sanctionne vite.
           </p>
         </div>
@@ -362,7 +362,7 @@ export default function ReglementPage() {
       <section className="rules-final-panel">
         <div>
           <AlertTriangle size={26} />
-          <h2>Ce serveur n est pas fait pour</h2>
+          <h2>Ce serveur n’est pas fait pour</h2>
           <div className="rules-not-list">
             {notAllowed.map((item) => (
               <span key={item}>{item}</span>
@@ -374,7 +374,7 @@ export default function ReglementPage() {
           <Skull size={28} />
           <strong>Esprit Last Survivors</strong>
           <p>
-            Joue la survie, accepte les pertes, construis des relations, respecte les scenes et laisse toujours une porte
+            Joue la survie, accepte les pertes, construis des relations, respecte les scènes et laisse toujours une porte
             ouverte au RP des autres joueurs.
           </p>
         </aside>

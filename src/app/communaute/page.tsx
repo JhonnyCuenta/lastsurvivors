@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { ClipboardList, ExternalLink, LifeBuoy, MessageCircle, Quote, Radio } from 'lucide-react';
+import { ClipboardList, Database, ExternalLink, LifeBuoy, MessageCircle, Radio, ShieldCheck } from 'lucide-react';
 import { TikTokFeature } from '@/components/tiktok-feature';
-import { communityLinks, defaultCommunityAction, faqItems, playerQuotes } from '@/config/site';
+import { communityLinks, defaultCommunityAction, faqItems } from '@/config/site';
 
 export default function CommunautePage() {
   const EmptyIcon = defaultCommunityAction.icon;
@@ -9,8 +9,8 @@ export default function CommunautePage() {
   return (
     <>
       <header className="page-heading">
-        <h1>Communaute</h1>
-        <p>Discord, votes, photos, support et prochains rendez-vous. C est ici que le serveur continue entre deux sessions.</p>
+        <h1>Communauté</h1>
+        <p>Discord, votes, photos et support : les canaux vérifiés entre deux sessions.</p>
       </header>
 
       {communityLinks.length > 0 ? (
@@ -20,7 +20,7 @@ export default function CommunautePage() {
               <ClipboardList size={22} />
             </span>
             <h3>Candidature staff</h3>
-            <p>Propose ton aide pour rejoindre l equipe et soutenir le serveur.</p>
+            <p>Propose ton aide pour rejoindre l’équipe et soutenir le serveur.</p>
             <span className="community-action">
               Ouvrir <ExternalLink size={15} />
             </span>
@@ -55,7 +55,7 @@ export default function CommunautePage() {
               <ClipboardList size={22} />
             </span>
             <h3>Candidature staff</h3>
-            <p>Connecte Discord uniquement si tu veux postuler staff.</p>
+            <p>Connecte Discord uniquement si tu veux postuler dans l’équipe.</p>
           </Link>
           <Link className="community-card" href="/support">
             <span className="card-icon">
@@ -80,20 +80,28 @@ export default function CommunautePage() {
             <MessageCircle size={16} />
             Vie du serveur
           </span>
-          <h2>Une communaute qui joue le RP.</h2>
+          <h2>Des sources clairement identifiées</h2>
           <p>
-            Last Survivors marche quand les joueurs prennent le temps de construire des scenes, des alliances,
-            des tensions et des vraies consequences en jeu.
+            Le portail distingue les données du bot, les informations FiveM et les publications
+            Discord. Aucun témoignage anonyme n’est utilisé comme preuve sociale.
           </p>
         </div>
-        <div className="quote-stack">
-          {playerQuotes.map((quote) => (
-            <blockquote key={quote.author}>
-              <Quote size={18} />
-              <p>{quote.quote}</p>
-              <cite>{quote.author}</cite>
-            </blockquote>
-          ))}
+        <div className="quote-stack tn-source-stack">
+          <article>
+            <ShieldCheck size={18} />
+            <strong>Discord officiel</strong>
+            <p>Annonces et événements planifiés vérifiés.</p>
+          </article>
+          <article>
+            <Database size={18} />
+            <strong>Bot Last Survivors</strong>
+            <p>Transmissions publiques filtrées, sans données sensibles.</p>
+          </article>
+          <article>
+            <Radio size={18} />
+            <strong>FiveM</strong>
+            <p>Statut et signaux terrain, conservés comme obsolètes en cas de coupure.</p>
+          </article>
         </div>
       </section>
 
@@ -107,7 +115,7 @@ export default function CommunautePage() {
           </span>
           <h2>FAQ joueur</h2>
           <p>
-            Les reponses simples avant de rejoindre le serveur. Pour un cas precis, passe par le Discord.
+            Les réponses simples avant de rejoindre le serveur. Pour un cas précis, passe par le Discord officiel.
           </p>
         </div>
         <div className="faq-list">

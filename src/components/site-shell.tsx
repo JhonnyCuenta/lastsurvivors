@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CalendarDays, LifeBuoy, MessageCircle } from 'lucide-react';
+import { CalendarDays, LifeBuoy, MessageCircle, Radio } from 'lucide-react';
 import { auth } from '@/auth';
 import { HeaderAuth } from '@/components/auth-actions';
 import { siteConfig } from '@/config/site';
@@ -13,13 +13,23 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="page-shell">
+      <a className="tn-skip-link" href="#contenu-principal">
+        Aller au contenu
+      </a>
+      <div className="tn-atmosphere" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
       <header className="site-header">
         <div className="site-header-inner">
           <Link href="/" className="brand" aria-label="Accueil Last Survivors">
-            <span className="brand-mark">LS</span>
+            <span className="brand-mark" aria-hidden="true">
+              <b>L</b><b>S</b>
+            </span>
             <span className="brand-copy">
               <span className="brand-title">{siteConfig.name}</span>
-              <small>Portail survivants</small>
+              <small>Réseau de transmission</small>
             </span>
           </Link>
           <SiteNav />
@@ -29,19 +39,21 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </header>
-      <main className="main-content">{children}</main>
+      <main className="main-content" id="contenu-principal">{children}</main>
       <footer className="footer">
         <div className="footer-inner">
-          <span>LAST SURVIVORS - Portail joueurs</span>
+          <span className="tn-footer-signal">
+            <Radio size={15} aria-hidden="true" /> LS · Relais public
+          </span>
           <span className="footer-links">
             <Link href="/changelog">
-              <CalendarDays size={16} /> Roadmap
+              <CalendarDays size={16} /> Journal
             </Link>
             <Link href="/support">
               <LifeBuoy size={16} /> Support
             </Link>
             <Link href="/communaute">
-              <MessageCircle size={16} /> Communaute
+              <MessageCircle size={16} /> Communauté
             </Link>
           </span>
         </div>

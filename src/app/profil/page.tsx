@@ -13,15 +13,15 @@ type ProfilePageProps = {
 
 function authErrorMessage(error?: string) {
   if (error === 'discord-guild' || error === 'AccessDenied') {
-    return "Connexion refusee: ton compte Discord doit etre membre du serveur Last Survivors.";
+    return "Connexion refusée : ton compte Discord doit être membre du serveur Last Survivors.";
   }
 
   if (error === 'discord-auth') {
-    return 'Discord n a pas confirme ton identite. Reessaie dans quelques secondes.';
+    return 'Discord n’a pas confirmé ton identité. Réessaie dans quelques secondes.';
   }
 
   if (error === 'Configuration') {
-    return 'Connexion Discord non configuree: il manque le client ID ou le secret Discord cote Vercel.';
+    return 'Connexion Discord non configurée : il manque le client ID ou le secret Discord côté Vercel.';
   }
 
   return null;
@@ -29,9 +29,9 @@ function authErrorMessage(error?: string) {
 
 function oauthSetupMessage(missingOAuthEnv: string[]) {
   if (missingOAuthEnv.length === 0) return null;
-  return `Connexion Discord en preparation: variable${missingOAuthEnv.length > 1 ? 's' : ''} ${missingOAuthEnv.join(
+  return `Connexion Discord en préparation : variable${missingOAuthEnv.length > 1 ? 's' : ''} ${missingOAuthEnv.join(
     ', ',
-  )} a ajouter dans Vercel.`;
+  )} à ajouter dans Vercel.`;
 }
 
 export default async function ProfilPage({ searchParams }: ProfilePageProps) {
@@ -47,7 +47,7 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
       <>
         <header className="page-heading">
           <h1>Espace survivant</h1>
-          <p>Le compte est optionnel. Il sert a verifier ton Discord pour le profil, le support et la candidature staff.</p>
+          <p>Le compte est optionnel. Il sert à vérifier ton Discord pour le profil, le support et la candidature staff.</p>
         </header>
 
         {errorMessage ? (
@@ -64,8 +64,8 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
             </span>
             <h2>Connexion Discord optionnelle</h2>
             <p>
-              Tu peux lire le guide, la carte, les evenements et le reglement sans compte. Connecte Discord seulement si
-              tu veux utiliser l espace joueur, ouvrir un ticket reconnu ou envoyer une candidature staff.
+              Tu peux lire le guide, la carte, les événements et le règlement sans compte. Connecte Discord seulement si
+              tu veux utiliser l’espace joueur, ouvrir un ticket reconnu ou envoyer une candidature staff.
             </p>
             <DiscordLoginButton className="button button-primary" disabled={!authStatus.oauthReady} />
           </article>
@@ -75,7 +75,7 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
             </span>
             <h2>Discord Last Survivors</h2>
             <p>
-              La connexion sert a retrouver ton pseudo Discord et a garder les demandes au bon endroit.
+              La connexion sert à retrouver ton pseudo Discord et à garder les demandes au bon endroit.
               {!authStatus.guildCheckReady ? ' Si la candidature staff ne passe pas, ouvre un ticket support.' : ''}
             </p>
           </article>
@@ -88,7 +88,7 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
     <>
       <header className="page-heading">
         <h1>Profil survivant</h1>
-        <p>Bienvenue dans ton espace joueur. Ici, rien d obligatoire: juste les raccourcis utiles et ton statut Discord.</p>
+        <p>Bienvenue dans ton espace joueur. Ici, rien d’obligatoire : juste les raccourcis utiles et ton statut Discord.</p>
       </header>
 
       <section className="profile-grid">
@@ -111,12 +111,12 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
           {session.user.guildVerified ? (
             <span className="verified-line">
               <CheckCircle2 size={18} />
-              Membre Discord Last Survivors verifie
+              Membre Discord Last Survivors vérifié
             </span>
           ) : (
             <span className="alert-panel inline-alert">
               <AlertTriangle size={18} />
-              Discord connecte. Candidature staff a verifier depuis le dashboard.
+              Discord connecté. Candidature staff à vérifier depuis le dashboard.
             </span>
           )}
           <div className="profile-actions">
@@ -134,13 +134,13 @@ export default async function ProfilPage({ searchParams }: ProfilePageProps) {
             <Radio size={22} />
           </span>
           <h2>Raccourcis joueur</h2>
-          <p>Prepare ton arrivee avant de te connecter: guide, carte publique, evenements et reglement.</p>
+          <p>Prépare ton arrivée avant de te connecter : guide, carte publique, événements et règlement.</p>
           <div className="link-stack">
             <Link href="/guide">Guide de survie</Link>
             <Link href="/support">Support ticket</Link>
             <Link href="/carte">Carte publique</Link>
-            <Link href="/evenements">Evenements RP</Link>
-            <Link href="/reglement">Reglement</Link>
+            <Link href="/evenements">Événements RP</Link>
+            <Link href="/reglement">Règlement</Link>
           </div>
         </article>
       </section>

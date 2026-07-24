@@ -8,5 +8,6 @@ dist
 .env*.local
 .runtime
 *.log
+*.tsbuildinfo
 .vercel
 vercel.json.local

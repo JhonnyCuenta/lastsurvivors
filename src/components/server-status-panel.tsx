@@ -1,93 +1,116 @@
 'use client';
 
-import { RefreshCw, Server, Users } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { RefreshCw, Server, Signal, Users } from 'lucide-react';
+import { useCallback } from 'react';
 import { CopyConnectButton } from '@/components/copy-connect-button';
+import { useSmartPolling } from '@/hooks/use-smart-polling';
 import type { PublicServerStatus } from '@/lib/server-status';
 import { siteConfig } from '@/config/site';
+
+const POLL_INTERVAL_MS = Number(process.env.NEXT_PUBLIC_POLL_STATUS_MS) || 30_000;
 
 const initialStatus: PublicServerStatus = {
   online: false,
   playersOnline: 0,
-  maxPlayers: 64,
+  maxPlayers: 0,
   hostname: 'LAST SURVIVORS',
   connectCommand: siteConfig.connectCommand,
   lastCheckedAt: '',
   source: 'fallback',
 };
 
-function formatTime(value: string) {
-  if (!value) return '--';
+function formatTime(value: string | null) {
+  if (!value) return '—';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '—';
   return new Intl.DateTimeFormat('fr-FR', {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
-  }).format(new Date(value));
+    timeZone: 'Europe/Paris',
+  }).format(date);
 }
 
 export function ServerStatusPanel() {
-  const [status, setStatus] = useState<PublicServerStatus>(initialStatus);
-  const [loading, setLoading] = useState(true);
-
-  async function loadStatus() {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/server-status', { cache: 'no-store' });
-      if (response.ok) setStatus(await response.json());
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    loadStatus();
-    const interval = window.setInterval(loadStatus, 30000);
-    return () => window.clearInterval(interval);
+  const fetchStatus = useCallback(async () => {
+    const response = await fetch('/api/server-status', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Statut indisponible');
+    const payload = (await response.json()) as PublicServerStatus;
+    if (payload.source === 'fallback') throw new Error('Source FiveM indisponible');
+    return payload;
   }, []);
 
+  const polling = useSmartPolling({
+    initialData: initialStatus,
+    fetcher: fetchStatus,
+    intervalMs: POLL_INTERVAL_MS,
+  });
+  const status = polling.data;
+  const checkedAt = polling.lastSuccessAt ?? status.lastCheckedAt;
+  const reliableCapacity = status.online && status.source !== 'fallback';
+  const signalLabel = polling.isOffline
+    ? 'Hors ligne'
+    : polling.isStale
+      ? 'Donnée conservée'
+      : status.source === 'bot-api'
+        ? 'Bot sécurisé'
+        : status.source === 'fivem-dynamic'
+          ? 'FiveM direct'
+          : 'En attente';
+
   return (
-    <section className="status-panel" aria-label="Statut serveur">
-      <div className="status-top">
+    <section className="tn-status-panel" aria-label="État du serveur" aria-live="polite">
+      <div className="tn-status-heading">
         <div>
-          <span className={`status-dot${status.online ? ' online' : ''}`}>
-            {status.online ? 'Serveur en ligne' : 'Statut indisponible'}
+          <span className={`tn-status-badge ${status.online ? 'is-online' : 'is-quiet'}`}>
+            <span aria-hidden="true" />
+            {status.online ? 'Serveur en ligne' : 'Signal indisponible'}
           </span>
-          <h2 style={{ margin: '14px 0 0', fontSize: '1.55rem' }}>{status.hostname}</h2>
+          <h2>{status.hostname}</h2>
         </div>
-        <button type="button" className="button button-ghost" onClick={loadStatus} aria-label="Rafraichir">
-          <RefreshCw size={17} className={loading ? 'animate-spin' : ''} />
+        <button
+          type="button"
+          className="tn-icon-button"
+          onClick={() => void polling.refresh()}
+          aria-label="Rafraîchir le statut"
+          disabled={polling.isRefreshing}
+        >
+          <RefreshCw size={18} className={polling.isRefreshing ? 'is-spinning' : undefined} />
         </button>
       </div>
 
-      <div className="status-grid">
-        <div className="metric">
-          <span>Survivants en ligne</span>
-          <strong>
-            <Users size={20} style={{ display: 'inline', marginRight: 8 }} />
-            {status.playersOnline}
-          </strong>
+      <div className="tn-status-metrics">
+        <div>
+          <Users size={19} aria-hidden="true" />
+          <span>Survivants</span>
+          <strong>{status.online ? status.playersOnline : '—'}</strong>
         </div>
-        <div className="metric">
-          <span>Capacite</span>
-          <strong>
-            <Server size={20} style={{ display: 'inline', marginRight: 8 }} />
-            {status.maxPlayers}
-          </strong>
+        <div>
+          <Server size={19} aria-hidden="true" />
+          <span>Capacité</span>
+          <strong>{reliableCapacity ? status.maxPlayers : '—'}</strong>
         </div>
-        <div className="metric">
-          <span>Signal</span>
-          <strong style={{ fontSize: '1rem' }}>{status.source === 'fivem-dynamic' ? 'Live' : 'En attente'}</strong>
+        <div>
+          <Signal size={19} aria-hidden="true" />
+          <span>Source</span>
+          <strong>{signalLabel}</strong>
         </div>
-        <div className="metric">
-          <span>Actualise a</span>
-          <strong style={{ fontSize: '1rem' }}>{formatTime(status.lastCheckedAt)}</strong>
+        <div>
+          <RadioClock />
+          <span>Relevé</span>
+          <strong>{formatTime(checkedAt)}</strong>
         </div>
       </div>
 
-      <div className="connect-line">
+      <div className="tn-connect-command">
+        <span>Commande F8</span>
         <code>{status.connectCommand}</code>
-        <CopyConnectButton className="button button-secondary" compact={false} />
+        <CopyConnectButton className="button button-primary" />
       </div>
     </section>
   );
+}
+
+function RadioClock() {
+  return <span className="tn-clock-glyph" aria-hidden="true">UTC+2</span>;
 }

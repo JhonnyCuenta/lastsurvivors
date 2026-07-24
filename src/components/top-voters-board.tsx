@@ -1,16 +1,17 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { AlertTriangle, Clock3, Gift, Radio, RefreshCw, ShieldCheck, Trophy, Vote } from 'lucide-react';
 import { VoteLaunchPanel } from '@/components/vote-launch-panel';
 import type { PublicTopVotersFeed } from '@/lib/top-voters';
+import { useSmartPolling } from '@/hooks/use-smart-polling';
 
 type Props = {
   initialFeed: PublicTopVotersFeed;
   voteUrl: string;
 };
 
-const REFRESH_INTERVAL_MS = 30000;
+const REFRESH_INTERVAL_MS = Number(process.env.NEXT_PUBLIC_POLL_VOTES_MS) || 120_000;
 
 const rewardPreview = [
   { label: 'Eau', amount: '3x', type: 'Survie' },
@@ -34,6 +35,7 @@ function formatDate(value: string) {
   return new Intl.DateTimeFormat('fr-FR', {
     dateStyle: 'short',
     timeStyle: 'short',
+    timeZone: 'Europe/Paris',
   }).format(date);
 }
 
@@ -55,42 +57,25 @@ function safeFeed(payload: unknown, fallback: PublicTopVotersFeed): PublicTopVot
 }
 
 export function TopVotersBoard({ initialFeed, voteUrl }: Props) {
-  const [feed, setFeed] = useState(initialFeed);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [clientCheckedAt, setClientCheckedAt] = useState(initialFeed.lastCheckedAt);
-
+  const fetchFeed = useCallback(async () => {
+    const response = await fetch('/api/top-voters', {
+      cache: 'no-store',
+      headers: { accept: 'application/json' },
+    });
+    if (!response.ok) throw new Error('Classement indisponible');
+    const payload = safeFeed(await response.json(), initialFeed);
+    if (payload.source === 'fallback') throw new Error('Classement FiveM indisponible');
+    return payload;
+  }, [initialFeed]);
+  const polling = useSmartPolling({
+    initialData: initialFeed,
+    fetcher: fetchFeed,
+    intervalMs: REFRESH_INTERVAL_MS,
+  });
+  const feed = polling.data;
   const leader = feed.voters[0];
   const totalVotes = useMemo(() => feed.voters.reduce((sum, voter) => sum + voter.votes, 0), [feed.voters]);
-
-  const refresh = useCallback(async () => {
-    setIsRefreshing(true);
-    setError(null);
-
-    try {
-      const response = await fetch(`/api/top-voters?t=${Date.now()}`, {
-        cache: 'no-store',
-        headers: { accept: 'application/json' },
-      });
-
-      if (!response.ok) throw new Error('Classement indisponible');
-
-      const payload = await response.json();
-      setFeed((currentFeed) => safeFeed(payload, currentFeed));
-      setClientCheckedAt(new Date().toISOString());
-    } catch {
-      setError('Impossible de rafraichir le classement pour le moment.');
-    } finally {
-      setIsRefreshing(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    refresh();
-    const interval = window.setInterval(refresh, REFRESH_INTERVAL_MS);
-
-    return () => window.clearInterval(interval);
-  }, [refresh]);
+  const clientCheckedAt = polling.lastSuccessAt ?? feed.lastCheckedAt;
 
   return (
     <>
@@ -141,17 +126,23 @@ export function TopVotersBoard({ initialFeed, voteUrl }: Props) {
             </div>
             <div className="vote-refresh-box">
               <p>
-                Lecture live depuis le script recompense. Le site actualise le tableau automatiquement toutes les 30
-                secondes.
+                Lecture depuis le script récompense. Le site actualise le tableau toutes les deux minutes
+                et ralentit automatiquement en cas de panne.
               </p>
-              <button className="vote-refresh-button" type="button" onClick={refresh} disabled={isRefreshing}>
-                <RefreshCw size={16} className={isRefreshing ? 'is-spinning' : undefined} />
-                {isRefreshing ? 'Mise a jour...' : 'Rafraichir'}
+              <button className="vote-refresh-button" type="button" onClick={() => void polling.refresh()} disabled={polling.isRefreshing}>
+                <RefreshCw size={16} className={polling.isRefreshing ? 'is-spinning' : undefined} />
+                {polling.isRefreshing ? 'Mise à jour…' : 'Rafraîchir'}
               </button>
             </div>
           </div>
 
-          {error ? <p className="vote-inline-error">{error}</p> : null}
+          {polling.isStale ? (
+            <p className="vote-inline-error">
+              {polling.isOffline
+                ? 'Classement hors ligne après cinq tentatives.'
+                : 'Dernier classement valide conservé.'}
+            </p>
+          ) : null}
 
           {feed.voters.length > 0 ? (
             <ol className="vote-rank-list">

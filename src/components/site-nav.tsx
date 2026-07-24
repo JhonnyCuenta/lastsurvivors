@@ -37,12 +37,14 @@ export function SiteNav() {
         type="button"
         className="button button-ghost mobile-menu-button"
         aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
+        aria-expanded={open}
+        aria-controls="navigation-mobile"
         onClick={() => setOpen((value) => !value)}
       >
         {open ? <X size={18} /> : <Menu size={18} />}
       </button>
       {open ? (
-        <nav className="mobile-nav" aria-label="Navigation mobile">
+        <nav className="mobile-nav" id="navigation-mobile" aria-label="Navigation mobile">
           {nav}
         </nav>
       ) : null}

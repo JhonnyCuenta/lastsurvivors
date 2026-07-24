@@ -10,25 +10,25 @@ const eventTypes = [
     title: 'Airdrops',
     icon: PackageOpen,
     tone: 'high',
-    text: 'Caisses signalees en zone ouverte. Arrive equipe, reste mobile et repars avant que la situation se ferme.',
+    text: 'Caisses signalées en zone ouverte. Arrive équipé, reste mobile et repars avant que la situation se ferme.',
   },
   {
     title: 'Hordes',
     icon: Skull,
     tone: 'critical',
-    text: 'Vagues de morts-vivants, appels radio et zones a eviter si tu n es pas pret.',
+    text: 'Vagues de morts-vivants, appels radio et zones à éviter si tu n’es pas prêt.',
   },
   {
     title: 'Blackouts',
     icon: Zap,
     tone: 'medium',
-    text: 'Coupures, rues plus sombres et trajets plus tendus pour les scenes nocturnes.',
+    text: 'Coupures, rues plus sombres et trajets plus tendus pour les scènes nocturnes.',
   },
   {
-    title: 'Tempetes',
+    title: 'Tempêtes',
     icon: CloudLightning,
     tone: 'medium',
-    text: 'Conditions difficiles, visibilite reduite et bonnes raisons de se mettre a couvert.',
+    text: 'Conditions difficiles, visibilité réduite et bonnes raisons de se mettre à couvert.',
   },
 ];
 
@@ -39,17 +39,17 @@ export default async function EvenementsPage() {
     <>
       <section className="events-hero">
         <div className="events-hero-copy">
-          <h1>Events live</h1>
+          <h1>Opérations</h1>
           <p>
-            Airdrops, hordes et alertes terrain en temps reel. Consulte les signaux avant de sortir, rejoindre un convoi
-            ou prendre une route trop calme pour etre honnete.
+            Airdrops, hordes et alertes terrain en temps réel. Consulte les signaux avant de sortir,
+            rejoindre un convoi ou prendre une route trop calme pour être honnête.
           </p>
         </div>
         <aside className="events-signal-card">
           <span className="section-kicker">Radio Last Survivors</span>
-          <strong>{initialFeed.active.length > 0 ? `${initialFeed.active.length} event(s) actif(s)` : 'Canal en veille'}</strong>
+          <strong>{initialFeed.active.length > 0 ? `${initialFeed.active.length} signal(aux) actif(s)` : 'Canal en veille'}</strong>
           <p>
-            Les prochains mouvements importants apparaitront ici pendant les sessions.
+            Les prochains mouvements importants apparaîtront ici pendant les sessions.
           </p>
           <div>
             <Radio size={18} />
@@ -64,16 +64,17 @@ export default async function EvenementsPage() {
         <div className="section-header">
           <div>
             <span className="section-kicker">Planning RP</span>
-            <h2>Events organises a venir</h2>
+            <h2>Opérations confirmées à venir</h2>
           </div>
           <p>
-            Les events planifies apparaissent ici. Si Discord ne renvoie rien, le site garde les prochains formats RP
-            prevus comme repere.
+            Le bot constitue la source principale et Discord complète la liste. Aucun scénario manuel
+            n’est affiché comme événement réel.
           </p>
         </div>
 
-        <div className="scheduled-events-grid">
-          {scheduledEvents.map((event) =>
+        {scheduledEvents.length > 0 ? (
+          <div className="scheduled-events-grid">
+            {scheduledEvents.map((event) =>
             event.url ? (
               <a className="scheduled-event-card" href={event.url} key={event.id} target="_blank" rel="noreferrer">
                 <span className="scheduled-event-type">{event.type}</span>
@@ -91,7 +92,7 @@ export default async function EvenementsPage() {
                   {event.playersInterested ? (
                     <span>
                       <Users size={15} />
-                      {event.playersInterested} interesse(s)
+                      {event.playersInterested} intéressé(s)
                     </span>
                   ) : null}
                   <span>
@@ -116,8 +117,17 @@ export default async function EvenementsPage() {
                 </div>
               </article>
             ),
-          )}
-        </div>
+            )}
+          </div>
+        ) : (
+          <div className="tn-empty-state">
+            <CalendarDays size={24} aria-hidden="true" />
+            <div>
+              <h3>Aucune opération publique confirmée</h3>
+              <p>Le planning est vide. Consulte le Discord officiel pour les annonces de dernière minute.</p>
+            </div>
+          </div>
+        )}
       </section>
 
       <section className="event-type-grid section">
@@ -127,7 +137,7 @@ export default async function EvenementsPage() {
             <h2>Ce que les joueurs peuvent suivre</h2>
           </div>
           <p>
-            Les signaux restent courts et pratiques: assez d informations pour reagir, pas assez pour casser le RP.
+            Les formats ci-dessous décrivent les types de signal possibles, pas des événements actifs.
           </p>
         </div>
 
@@ -148,8 +158,8 @@ export default async function EvenementsPage() {
         <div>
           <h2>Conseil de survivant</h2>
           <p>
-            Un event n est pas juste un point sur une carte. Prends de l eau, un soin, du carburant, un plan de sortie
-            et quelqu un capable de parler si les choses tournent mal.
+            Une opération n’est pas juste un point sur une carte. Prends de l’eau, un soin, du
+            carburant, un plan de sortie et quelqu’un capable de parler si les choses tournent mal.
           </p>
         </div>
       </section>
