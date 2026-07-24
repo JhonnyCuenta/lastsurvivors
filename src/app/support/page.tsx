@@ -79,7 +79,7 @@ export default async function SupportPage() {
           <div className="link-stack">
             <Link href="/reglement">Relire le règlement</Link>
             <Link href="/guide">Voir le guide</Link>
-            <Link href="/evenements">Voir les events</Link>
+            <Link href="/evenements">Voir les événements</Link>
           </div>
           {!session?.user ? (
             <div className="support-login-note">

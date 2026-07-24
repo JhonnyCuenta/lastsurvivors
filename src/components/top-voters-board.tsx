@@ -91,7 +91,7 @@ export function TopVotersBoard({ initialFeed, voteUrl }: Props) {
 
         <aside className="vote-terminal" aria-label="Etat du classement vote">
           <div className="vote-terminal-head">
-            <span className="section-kicker">Signal recompense</span>
+            <span className="section-kicker">Signal récompense</span>
             <span className={`vote-live-badge ${feed.source === 'fivem-resource' ? 'is-live' : 'is-fallback'}`}>
               {feed.source === 'fivem-resource' ? 'Live FiveM' : 'Secours'}
             </span>

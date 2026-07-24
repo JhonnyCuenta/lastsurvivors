@@ -63,7 +63,7 @@ function validatePayload(payload: CandidatePayload) {
   }
 
   if (payload.rulesAccepted !== true) {
-    errors.push('Les conditions staff doivent etre acceptees.');
+    errors.push('Les conditions staff doivent être acceptées.');
   }
 
   return { errors, values };

@@ -63,7 +63,7 @@ export function VoteLaunchPanel({ voteUrl }: Props) {
         )}
       </div>
       <p>
-        Utilise le meme pseudo que sur FiveM. Le vote est recu par le script serveur, puis la recompense se
+        Utilise le même pseudo que sur FiveM. Le vote est reçu par le script serveur, puis la récompense se
         recupere en jeu aupres du PNJ de vote.
       </p>
       {!disabled ? (

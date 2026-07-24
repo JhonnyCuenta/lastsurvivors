@@ -119,7 +119,7 @@ export function SupportTicketForm({ isLoggedIn, discordName }: { isLoggedIn: boo
           value={form.subject}
           onChange={(event) => updateField('subject', event.target.value)}
           maxLength={120}
-          placeholder="Ex: Probleme recompense vote"
+          placeholder="Ex. : problème de récompense de vote"
           required
         />
       </label>

@@ -18,7 +18,7 @@ function authErrorMessage(error?: string) {
   }
 
   if (error === 'discord-auth') {
-    return 'Discord n a pas confirme ton identite. Reessaie dans quelques secondes.';
+    return 'Discord n’a pas confirmé ton identité. Réessaie dans quelques secondes.';
   }
 
   if (error === 'Configuration') {

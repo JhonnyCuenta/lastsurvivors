@@ -23,7 +23,7 @@ const chronicle = [
     lead:
       'Face a plusieurs epidemies mondiales, les scientifiques de Human Labs and Research lancent des recherches sur des virus anciens et inconnus.',
     official: "Officiellement, il s'agit de proteger l'humanite.",
-    hidden: "Officieusement, quelque chose d'autre se prepare dans les niveaux les plus fermes du laboratoire.",
+    hidden: "Officieusement, quelque chose d’autre se prépare dans les niveaux les plus fermés du laboratoire.",
     bullets: ["Naissance de Nexus dans l'ombre", 'Scientifiques, militaires et elites influentes', 'Objectif reel inconnu'],
   },
   {

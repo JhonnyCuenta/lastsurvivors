@@ -18,7 +18,7 @@ export default async function JouerPage() {
           <span className="section-kicker">Rejoindre Last Survivors</span>
           <h1>Entre dans la Zone</h1>
           <p>
-            Prepare ton arrivee simplement: commande de connexion, Discord, reglement et personnage credible. Le reste
+            Prépare ton arrivée simplement : commande de connexion, Discord, règlement et personnage crédible. Le reste
             se construit en jeu, avec les rencontres et les mauvais choix.
           </p>
           <div className="premium-actions">
@@ -52,7 +52,7 @@ export default async function JouerPage() {
           <h2>Acces serveur</h2>
           <p>
             Le serveur n est pas whitelist pour le moment. Tu peux rejoindre, lire les infos importantes et venir avec
-            un personnage simple, jouable et coherent avec l apocalypse.
+            un personnage simple, jouable et cohérent avec l’apocalypse.
           </p>
           <ol className="premium-step-list">
             {joinSteps.map((step) => (
@@ -68,13 +68,13 @@ export default async function JouerPage() {
           <span className="card-icon">
             <Skull size={22} />
           </span>
-          <h2>Avant ta premiere session</h2>
+          <h2>Avant ta première session</h2>
           <p>
             N arrive pas comme un heros invincible. Last Survivors fonctionne mieux avec des personnages capables de
-            douter, negocier, fuir, perdre du materiel et revenir plus intelligemment.
+            douter, négocier, fuir, perdre du matériel et revenir plus intelligemment.
           </p>
           <div className="link-stack">
-            <Link href="/reglement">Lire le reglement</Link>
+            <Link href="/reglement">Lire le règlement</Link>
             <Link href="/serveur">Comprendre le serveur</Link>
             <Link href="/carte">Voir les reperes</Link>
           </div>
@@ -88,7 +88,7 @@ export default async function JouerPage() {
           <p>
             {session?.user
               ? 'Ton Discord est connecte. Tu peux ouvrir ton dashboard pour retrouver support, candidature staff et raccourcis.'
-              : 'La connexion Discord sert uniquement aux fonctions joueur. Tu peux jouer et lire le site sans creer de compte.'}
+              : 'La connexion Discord sert uniquement aux fonctions joueur. Tu peux jouer et lire le site sans créer de compte.'}
           </p>
           {session?.user ? (
             <Link className="button button-secondary" href="/dashboard">
