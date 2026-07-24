@@ -58,7 +58,22 @@ const DEFAULT_DISCORD_GUILD_ID = '1427655279352484065';
 const IMAGE_EXTENSION_RE = /\.(png|jpe?g|webp|gif)(\?.*)?$/i;
 
 function discordBotToken() {
-  return process.env.DISCORD_MEDIA_BOT_TOKEN?.trim().replace(/^Bot\s+/i, '').trim();
+  const rawToken = process.env.DISCORD_MEDIA_BOT_TOKEN;
+  if (!rawToken) return undefined;
+
+  let token = rawToken
+    .trim()
+    .replace(/^DISCORD_MEDIA_BOT_TOKEN\s*=\s*/i, '')
+    .trim();
+
+  if (
+    (token.startsWith('"') && token.endsWith('"')) ||
+    (token.startsWith("'") && token.endsWith("'"))
+  ) {
+    token = token.slice(1, -1).trim();
+  }
+
+  return token.replace(/^Bot\s+/i, '').trim() || undefined;
 }
 
 function discordMediaChannelId() {
