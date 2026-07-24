@@ -1,3 +1,4 @@
+import { randomBytes } from 'node:crypto';
 import NextAuth, { type NextAuthConfig } from 'next-auth';
 import Discord from 'next-auth/providers/discord';
 import { getDiscordAuthStatus } from '@/lib/auth-config';
@@ -32,9 +33,20 @@ async function isMemberOfConfiguredGuild(accessToken: string) {
   }
 }
 
+const discordAuthStatus = getDiscordAuthStatus();
+const authSecret =
+  process.env.AUTH_SECRET ||
+  (process.env.NODE_ENV === 'development'
+    ? 'last-survivors-local-dev-secret'
+    : discordAuthStatus.oauthReady
+      ? undefined
+      : randomBytes(32).toString('hex'));
+
 const authConfig: NextAuthConfig = {
   trustHost: true,
-  secret: process.env.AUTH_SECRET || (process.env.NODE_ENV === 'development' ? 'last-survivors-local-dev-secret' : undefined),
+  // Quand OAuth est désactivé, un secret éphémère maintient les pages publiques
+  // silencieuses sans créer de session durable ni exposer une valeur prédictible.
+  secret: authSecret,
   session: {
     strategy: 'jwt',
   },
