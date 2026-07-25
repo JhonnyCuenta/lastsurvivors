@@ -17,12 +17,15 @@ export type DiscordPhotoFeed = {
   source: 'discord-channel' | 'fallback';
   error?: string;
   diagnostics?: {
+    pagesChecked: number;
     messagesChecked: number;
     attachmentsChecked: number;
     imageAttachmentsChecked: number;
     embedsChecked: number;
     imageEmbedsChecked: number;
     newestMessageAt?: string;
+    oldestMessageAt?: string;
+    hasMore: boolean;
   };
 };
 
@@ -56,6 +59,12 @@ const DISCORD_API_BASE = 'https://discord.com/api/v10';
 const DEFAULT_DISCORD_MEDIA_CHANNEL_ID = '1518644775761350777';
 const DEFAULT_DISCORD_GUILD_ID = '1427655279352484065';
 const IMAGE_EXTENSION_RE = /\.(png|jpe?g|webp|gif)(\?.*)?$/i;
+
+function boundedInteger(value: string | undefined, fallback: number, minimum: number, maximum: number) {
+  const parsed = Number.parseInt(value || '', 10);
+  if (!Number.isFinite(parsed)) return fallback;
+  return Math.min(Math.max(parsed, minimum), maximum);
+}
 
 function discordBotToken() {
   const rawToken = process.env.DISCORD_MEDIA_BOT_TOKEN;
@@ -110,11 +119,13 @@ function fallback(error?: string): DiscordPhotoFeed {
     source: 'fallback',
     error,
     diagnostics: {
+      pagesChecked: 0,
       messagesChecked: 0,
       attachmentsChecked: 0,
       imageAttachmentsChecked: 0,
       embedsChecked: 0,
       imageEmbedsChecked: 0,
+      hasMore: false,
     },
   };
 }
@@ -127,85 +138,120 @@ export async function getDiscordPhotos(): Promise<DiscordPhotoFeed> {
     return fallback('Flux Discord non configure.');
   }
 
-  const limit = Math.min(Math.max(Number(process.env.DISCORD_MEDIA_LIMIT || 100), 5), 100);
-  const endpoint = `${DISCORD_API_BASE}/channels/${encodeURIComponent(channelId)}/messages?limit=${limit}`;
+  const pageSize = boundedInteger(process.env.DISCORD_MEDIA_LIMIT, 100, 5, 100);
+  const maxPages = boundedInteger(process.env.DISCORD_MEDIA_SCAN_PAGES, 5, 1, 10);
+  const maxPhotos = boundedInteger(process.env.DISCORD_MEDIA_MAX_PHOTOS, 60, 18, 120);
 
   try {
-    const response = await fetch(endpoint, {
-      headers: {
-        accept: 'application/json',
-        authorization: `Bot ${token}`,
-      },
-      next: { revalidate: 60 },
-    });
-
-    if (!response.ok) {
-      return fallback(`Discord a repondu ${response.status}.`);
-    }
-
-    const messages = (await response.json()) as DiscordMessage[];
-    if (!Array.isArray(messages)) {
-      return fallback('Reponse Discord inattendue.');
-    }
-
     const photos: DiscordPhoto[] = [];
     const diagnostics = {
-      messagesChecked: messages.length,
+      pagesChecked: 0,
+      messagesChecked: 0,
       attachmentsChecked: 0,
       imageAttachmentsChecked: 0,
       embedsChecked: 0,
       imageEmbedsChecked: 0,
-      newestMessageAt: messages.find((message) => message.timestamp)?.timestamp,
+      newestMessageAt: undefined as string | undefined,
+      oldestMessageAt: undefined as string | undefined,
+      hasMore: false,
     };
+    let before: string | undefined;
 
-    for (const message of messages) {
-      const authorName = cleanText(message.author?.global_name || message.author?.username, 'Survivant Discord');
-      const postedAt = message.timestamp || new Date().toISOString();
+    for (let pageIndex = 0; pageIndex < maxPages && photos.length < maxPhotos; pageIndex += 1) {
+      const query = new URLSearchParams({ limit: String(pageSize) });
+      if (before) query.set('before', before);
 
-      for (const attachment of message.attachments || []) {
-        diagnostics.attachmentsChecked += 1;
-        const imageUrl = attachment.url || attachment.proxy_url;
-        if (!isImageAttachment(attachment) || !imageUrl) continue;
+      const endpoint = `${DISCORD_API_BASE}/channels/${encodeURIComponent(channelId)}/messages?${query}`;
+      const response = await fetch(endpoint, {
+        headers: {
+          accept: 'application/json',
+          authorization: `Bot ${token}`,
+        },
+        next: { revalidate: 300 },
+      });
 
-        diagnostics.imageAttachmentsChecked += 1;
-
-        photos.push({
-          id: attachment.id || `${message.id}-${photos.length}`,
-          messageId: message.id || '',
-          url: imageUrl,
-          filename: cleanText(attachment.filename, 'photo-discord', 120),
-          width: attachment.width,
-          height: attachment.height,
-          authorName,
-          postedAt,
-          messageUrl: messageUrl(channelId, message.id),
-        });
+      if (!response.ok) {
+        if (diagnostics.pagesChecked === 0) {
+          return fallback(`Discord a répondu ${response.status}.`);
+        }
+        break;
       }
 
-      for (const embed of message.embeds || []) {
-        diagnostics.embedsChecked += 1;
-        const image = embed.image || embed.thumbnail;
-        if (!image?.url || (!isLikelyImageUrl(image.url) && !(image.width && image.height))) continue;
-
-        diagnostics.imageEmbedsChecked += 1;
-
-        photos.push({
-          id: `${message.id}-embed-${photos.length}`,
-          messageId: message.id || '',
-          url: image.url,
-          filename: 'image-discord',
-          width: image.width,
-          height: image.height,
-          authorName,
-          postedAt,
-          messageUrl: messageUrl(channelId, message.id),
-        });
+      const messages = (await response.json()) as DiscordMessage[];
+      if (!Array.isArray(messages)) {
+        if (diagnostics.pagesChecked === 0) {
+          return fallback('Réponse Discord inattendue.');
+        }
+        break;
       }
+
+      diagnostics.pagesChecked += 1;
+      diagnostics.messagesChecked += messages.length;
+      diagnostics.newestMessageAt ||= messages.find((message) => message.timestamp)?.timestamp;
+      diagnostics.oldestMessageAt = [...messages].reverse().find((message) => message.timestamp)?.timestamp
+        || diagnostics.oldestMessageAt;
+
+      for (const message of messages) {
+        const authorName = cleanText(message.author?.global_name || message.author?.username, 'Survivant Discord');
+        const postedAt = message.timestamp || new Date().toISOString();
+
+        for (const attachment of message.attachments || []) {
+          diagnostics.attachmentsChecked += 1;
+          const imageUrl = attachment.url || attachment.proxy_url;
+          if (!isImageAttachment(attachment) || !imageUrl) continue;
+
+          diagnostics.imageAttachmentsChecked += 1;
+          photos.push({
+            id: attachment.id || `${message.id}-${photos.length}`,
+            messageId: message.id || '',
+            url: imageUrl,
+            filename: cleanText(attachment.filename, 'photo-discord', 120),
+            width: attachment.width,
+            height: attachment.height,
+            authorName,
+            postedAt,
+            messageUrl: messageUrl(channelId, message.id),
+          });
+
+          if (photos.length >= maxPhotos) break;
+        }
+
+        if (photos.length >= maxPhotos) break;
+
+        for (const embed of message.embeds || []) {
+          diagnostics.embedsChecked += 1;
+          const image = embed.image || embed.thumbnail;
+          if (!image?.url || (!isLikelyImageUrl(image.url) && !(image.width && image.height))) continue;
+
+          diagnostics.imageEmbedsChecked += 1;
+          photos.push({
+            id: `${message.id}-embed-${photos.length}`,
+            messageId: message.id || '',
+            url: image.url,
+            filename: 'image-discord',
+            width: image.width,
+            height: image.height,
+            authorName,
+            postedAt,
+            messageUrl: messageUrl(channelId, message.id),
+          });
+
+          if (photos.length >= maxPhotos) break;
+        }
+
+        if (photos.length >= maxPhotos) break;
+      }
+
+      const oldestMessageId = messages.at(-1)?.id;
+      const pageWasFull = messages.length === pageSize;
+      diagnostics.hasMore = Boolean(oldestMessageId && pageWasFull);
+      if (!diagnostics.hasMore || !oldestMessageId) break;
+      before = oldestMessageId;
     }
 
     return {
       configured: true,
-      photos: photos.slice(0, 18),
+      photos,
       lastCheckedAt: new Date().toISOString(),
       source: 'discord-channel',
       diagnostics,

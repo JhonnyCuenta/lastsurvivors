@@ -31,7 +31,9 @@ DISCORD_SUPPORT_WEBHOOK_URL=""
 DISCORD_EVENTS_BOT_TOKEN=""
 DISCORD_MEDIA_BOT_TOKEN=""
 DISCORD_MEDIA_CHANNEL_ID=""
-DISCORD_MEDIA_LIMIT="30"
+DISCORD_MEDIA_LIMIT="100"
+DISCORD_MEDIA_SCAN_PAGES="5"
+DISCORD_MEDIA_MAX_PHOTOS="60"
 FIVEM_SERVER_ENDPOINT="http://49.12.121.140:30175"
 VOTE_TOP_ENDPOINT="http://49.12.121.140:30175/voterecompense/top-voters"
 LIVE_EVENTS_ENDPOINT="http://49.12.121.140:30175/lsv_live_events/feed"
@@ -75,7 +77,7 @@ Retourne uniquement des donnees publiques: statut, nombre total de joueurs conne
 
 `POST /api/support-ticket` envoie un ticket support via `DISCORD_SUPPORT_WEBHOOK_URL`. Si ce webhook est vide, le portail utilise `DISCORD_APPLICATION_WEBHOOK_URL` en fallback. La connexion Discord est conseillee mais pas obligatoire pour ouvrir un ticket.
 
-`GET /api/discord-photos` lit les derniers messages du salon `DISCORD_MEDIA_CHANNEL_ID` via un bot Discord. Le bot doit avoir acces au salon avec les permissions `View Channel` et `Read Message History`. Seules les images jointes ou embeds image sont retournees au frontend; le token bot reste serveur.
+`GET /api/discord-photos` parcourt plusieurs lots de messages du salon `DISCORD_MEDIA_CHANNEL_ID` via un bot Discord afin d'inclure aussi les anciennes captures. `DISCORD_MEDIA_SCAN_PAGES` limite le nombre de lots Discord (5 par defaut) et `DISCORD_MEDIA_MAX_PHOTOS` limite le nombre d'images renvoyees (60 par defaut). Le bot doit avoir acces au salon avec les permissions `View Channel` et `Read Message History`. Seules les images jointes ou embeds image sont retournees au frontend; le token bot reste serveur.
 
 `GET /api/top-voters` lit le classement public expose par la ressource FiveM `voterecompense`. Il retourne seulement le pseudo public, le rang, le total de votes et la date du dernier vote. Il ne donne pas d item et n ouvre aucune route admin.
 

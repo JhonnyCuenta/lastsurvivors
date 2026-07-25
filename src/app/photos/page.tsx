@@ -19,7 +19,7 @@ export default async function PhotosPage() {
   const channelUrl = publicLinks.discordMediaChannelUrl || publicLinks.discordUrl;
   const diagnostics = feed.diagnostics;
   const checkedLabel = diagnostics
-    ? `${diagnostics.messagesChecked} messages lus, ${diagnostics.attachmentsChecked} fichiers trouvés`
+    ? `${diagnostics.messagesChecked} messages lus sur ${diagnostics.pagesChecked} lot${diagnostics.pagesChecked > 1 ? 's' : ''}, ${feed.photos.length} photo${feed.photos.length > 1 ? 's' : ''} affichée${feed.photos.length > 1 ? 's' : ''}`
     : null;
 
   return (
