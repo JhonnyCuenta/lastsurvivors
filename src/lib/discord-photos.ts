@@ -56,6 +56,7 @@ type DiscordMessage = {
 };
 
 const DISCORD_API_BASE = 'https://discord.com/api/v10';
+const DISCORD_USER_AGENT = 'DiscordBot (https://lastsurvivor.fr, 1.0)';
 const DEFAULT_DISCORD_MEDIA_CHANNEL_ID = '1518644775761350777';
 const DEFAULT_DISCORD_GUILD_ID = '1427655279352484065';
 const IMAGE_EXTENSION_RE = /\.(png|jpe?g|webp|gif)(\?.*)?$/i;
@@ -166,6 +167,7 @@ export async function getDiscordPhotos(): Promise<DiscordPhotoFeed> {
         headers: {
           accept: 'application/json',
           authorization: `Bot ${token}`,
+          'user-agent': DISCORD_USER_AGENT,
         },
         next: { revalidate: 300 },
       });

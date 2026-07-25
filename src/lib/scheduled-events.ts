@@ -1,5 +1,7 @@
 import { getPortalEvents } from '@/lib/bot-portal';
 
+const DISCORD_USER_AGENT = 'DiscordBot (https://lastsurvivor.fr, 1.0)';
+
 type DiscordScheduledEvent = {
   id: string;
   name?: string;
@@ -65,6 +67,7 @@ async function getDiscordScheduledEvents(): Promise<ScheduledPortalEvent[]> {
         headers: {
           accept: 'application/json',
           authorization: `Bot ${token}`,
+          'user-agent': DISCORD_USER_AGENT,
         },
         signal: AbortSignal.timeout(4_000),
       },

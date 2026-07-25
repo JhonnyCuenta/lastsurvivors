@@ -3,6 +3,8 @@ import NextAuth, { type NextAuthConfig } from 'next-auth';
 import Discord from 'next-auth/providers/discord';
 import { getDiscordAuthStatus } from '@/lib/auth-config';
 
+const DISCORD_USER_AGENT = 'DiscordBot (https://lastsurvivor.fr, 1.0)';
+
 type DiscordGuild = {
   id?: string;
 };
@@ -21,6 +23,7 @@ async function isMemberOfConfiguredGuild(accessToken: string) {
       headers: {
         accept: 'application/json',
         authorization: `Bearer ${accessToken}`,
+        'user-agent': DISCORD_USER_AGENT,
       },
     });
 
